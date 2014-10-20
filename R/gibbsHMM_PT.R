@@ -1,4 +1,4 @@
- #' gibbsHMM
+ #' gibbsHMM_PT
 #'
 #' density of dirichlet
 #' @param x, alpha, log=False
@@ -8,7 +8,7 @@
 
 
 
-gibbsHMM<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5,  p=1){
+gibbsHMM_PT<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5,  p=1){
     #____SET UP_________________________________________
     if (class(YZ)=='matrix')   Y<-YZ$O
     n=length(Y) # sample size
