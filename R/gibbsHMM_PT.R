@@ -47,7 +47,7 @@ gibbsHMM_PT<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5, J=10){
                         } else { nt<-CountTrans(Z[[j]][m-1,],K)}   # HERE ACCESS STATES
                           
                         # draw transition probs for state 1:K
-                         for (i in 1:K) qnew[i,]<-rdirichlet(par=  nt[i,]+AllAlphas[j, ])
+                        # for (i in 1:K) qnew[i,]<-rdirichlet(par=  nt[i,]+AllAlphas[j, ])
                      #    for (i in 1:K) print(rdirichlet(par=  nt[i,]+AllAlphas[j, ]))
 
                     qnew<- apply( nt,1, function(x) rdirichlet( par=x+AllAlphas[j, ]))
