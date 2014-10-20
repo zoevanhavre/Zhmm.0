@@ -84,8 +84,7 @@ gibbsHMM<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5,  p=1){
 
           # 2.1 Run Forward Filter to get P(St=j| yt, .) for j=1,...K and ti=1,...,T obs  (calling time var ti as t is used)
           #     Obtain P(Z(t)=l|Y(t-1),.) 1 step ahead pred of Z(ti)
-            #for t=1 
-              #compute P(Z(1)=l|t(0),.) using initial distribution of states
+            #for t=1               #compute P(Z(1)=l|t(0),.) using initial distribution of states
               #P(Z(1)=1|Y(0), .)
               for (i in 1:K) OneStep[1,i]<- sum(initS[1:K] * trans[i,])
               const[1]<-sum(dnorm(Y[1],mean=MU[1,1:K])*OneStep[1,])
