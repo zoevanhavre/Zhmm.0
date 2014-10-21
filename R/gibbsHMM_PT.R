@@ -37,8 +37,14 @@ gibbsHMM_PT<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5, J=10){
 
     # functions
     for (m in 1:M){ 
-           
-           for (j in 1:J){ # FOR EACH CHAIN           
+              
+                         if(m %% 100==0){      Sys.sleep(0.01)
+                  par(mfrow=c(1,3))
+                  plot(density( na.omit(q0[[J]]), main=' distribution of  q0', type='l'))
+                  ts.plot(q0[[J]], main='q0 from target posterior', col=rainbow(K))
+                  ts.plot(TrackParallelTemp, main='Track Parallel Tempering', col=rainbow(K))
+                             }
+      for (j in 1:J){ # FOR EACH CHAIN           
 # FOR EACH CHAIN...
 
                       # 1 Parameters given states Z(m-1)
@@ -50,16 +56,27 @@ gibbsHMM_PT<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5, J=10){
                         # for (i in 1:K) qnew[i,]<-rdirichlet(par=  nt[i,]+AllAlphas[j, ])
                      #    for (i in 1:K) print(rdirichlet(par=  nt[i,]+AllAlphas[j, ]))
 
-                    qnew<- apply( nt,1, function(x) rdirichlet( par=x+AllAlphas[j, ]))
-                    q0new<-getq0(qnew)  
+                    qnew<- t(apply( nt,1, function(x) rdirichlet( par=x+AllAlphas[j, ])))
+                    q0new<-getq0NEW(qnew)  
 
                         #METROPOLIS Hastings STEP     
-                        if (m==1){ A<-q0new[states0[1]]/startVal$q0[states0[1]]
-                              ifelse(A>runif(1,c(0,0.99)), qok<-qnew , qok<-qnew)        
-                        } else  { A<-q0new[Z[[j]][m-1,1]]/q0[[j]][m-1,Z[[j]][m-1,1]]
-                               U<-runif(1,c(0,0.99))
-                               if (A>U){ qok<-qnew}}
-                
+                  #      if (m==1){ A<-q0new[states0[1]]/startVal$q0[states0[1]]
+                   #           ifelse(A>runif(1,c(0,0.99)), qok<-qnew , qok<-qnew)        
+                   #     } else  { A<-q0new[Z[[j]][m-1,1]]/q0[[j]][m-1,Z[[j]][m-1,1]]
+                    #                 U<-runif(1,c(0,0.99))
+                         #         if (A>U){ qok<-qnew}
+                if (m>1){   
+                  A<-q0new[Z[[j]][m-1,1]]/q0[[j]][m-1,Z[[j]][m-1,1]]   ;  U<-runif(1,c(0,0.99))
+                  if(A>runif(1,c(0,0.99))){ 
+                     #    Accept new values
+                        Q[[j]][m,]<-as.vector(t(qnew))
+                        q0[[j]][m,]<-q0new
+                                } else {
+                       Q[[j]][m,]<-as.vector(t(Q[[j]][m-1,]))
+                       q0[[j]][m,]<-q0[[j]][m-1,]  
+                                }}else{ Q[[j]][m,]<-as.vector(t(qnew))
+                        q0[[j]][m,]<-q0new  }
+
                         # 1.2 Update mu's    
                         # compute needed values:  N(k) = number of times state k is visited in chain, and sum(y_k) = sum of y's in state k 
                         if (m==1) {sumNcount<-formu(states0[-(n+1)],Y,K)
@@ -68,14 +85,13 @@ gibbsHMM_PT<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5, J=10){
                       # new means          
                       mudraw<-apply(sumtot, 1,  function (x)     rnorm(1, mean= ((mu0/var0)+(x[1]/varknown)) / ((1/var0)+(x[2]/varknown)), sd= sqrt( 1/( (1/var0) + (x[2]/varknown)))  ))
 
-
                   #SAVE sampled parameters
-                  Q[[j]][m,]<-as.vector(t(qok))
-                  q0[[j]][m,]<-getq0(qok)  
+                  #Q[[j]][m,]<-as.vector(t(qok))
+                 # q0[[j]][m,]<-getq0NEW(qok)  
                   MU[[j]][m,]<-mudraw  
                         
                     # 2 Update States given parameters
-                  newZ<- UpdateStates( Y, qok, MU[[j]])
+                  newZ<- UpdateStates( Y, Q[[j]][m,], MU[[j]], initS= q0[[j]][m,], m)
                   Z[[j]][m,]<-newZ$Z
                   if(j==J) MAP[m]<-newZ$MAP
 

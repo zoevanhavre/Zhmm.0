@@ -7,11 +7,14 @@
 #' @examples dDirichlet(c(.1, .9), c(0.1,0.1))
 
 
-UpdateStates<-function( Y=Y, trans=qok, .mu){
+UpdateStates<-function( Y=Y, trans=qok, .mu, initS, m){
+
+  K<-sqrt(length(trans))
+  n<-length(Y)
                       T<-length(Y)+1  # since we want 0-T states estimated
                       sampleZ<-rep(0, T)
-                      initS<-getq0(trans)  
-                      
+                     # initS<-getq0(trans)  
+                      trans<- matrix(c(trans), ncol=K, byrow=TRUE)
                       const<-rep(0,n)
                       OneStep<-matrix(nrow=T, ncol=K)
                       FilterP<-matrix(nrow=T-1, ncol=K)
