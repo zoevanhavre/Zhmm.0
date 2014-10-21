@@ -32,15 +32,14 @@ gibbsHMM_PT<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5, J=10){
           alphaMAX<-(K-1)*(1+K-2+alphaMin)*(1+1/( (1/2) - alphaMin*(K-1))) -(K-1)*alphaMin+0.1
           AllAlphas<-matrix(nrow=J, ncol=K)
           AllAlphas[,1]<-alphaMAX
-          AllAlphas[,2:K]<-seq(alphaMAX, alphaMin, length=J)
-   
+         # AllAlphas[,2:K]<-seq(alphaMAX, alphaMin, length=J)
+          AllAlphas[,2:K]<-      c( alphaMin+(alphaMAX-alphaMin)/c(1:(J-1))^3, alphaMin)
 
     # functions
     for (m in 1:M){ 
               
                          if(m %% 100==0){      Sys.sleep(0.01)
-                  par(mfrow=c(1,3))
-                  plot(density( na.omit(q0[[J]]), main=' distribution of  q0', type='l'))
+                  par(mfrow=c(1,2))
                   ts.plot(q0[[J]], main='q0 from target posterior', col=rainbow(K))
                   ts.plot(TrackParallelTemp, main='Track Parallel Tempering', col=rainbow(K))
                              }
