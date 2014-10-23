@@ -10,7 +10,6 @@ Depends:
     gridExtra,
     mvtnorm,
     MCMCpack,
-    grid,
     gtools,
     Hmisc,
     nlme,

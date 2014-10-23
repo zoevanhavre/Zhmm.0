@@ -25,7 +25,8 @@ gibbsHMM_PT<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5, J=10){
     Q  <-replicate(J, matrix(nrow=M, ncol=K*K) , simplify=F)
     q0 <-replicate(J, matrix(nrow=M, ncol=K), simplify=F)
     Z  <-replicate(J, matrix(nrow=M, ncol=n+1)  ,  simplify=F)  #include 0 for initial state to be estimated too?
-    
+
+    K0Final<-matrix(nrow=M, ncol=J)
     MAP<-c(1:M)  # KEEP TARGET ONLY
     
     # ALPHA
@@ -137,7 +138,10 @@ gibbsHMM_PT<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5, J=10){
 
 
             }  # end of iteration loop
-            #output
-      return(list("Means"=MU[[J]], "Trans"=Q[[J]], "States"=Z[[J]], "q0"=q0[[J]], "YZ"=YZ, "MAP"=MAP, "trackPT"=TrackParallelTemp))
+            #output    
+          K0Final<-melt(K0Final)
+          K0Final[,3]<-factor(K0Final[,3], levels=c(1:K))
+
+      return(list("Means"=MU[[J]], "Trans"=Q[[J]], "States"=Z[[J]], "q0"=q0[[J]], "YZ"=YZ, "MAP"=MAP, "K0"=K0Final))
       }
 
