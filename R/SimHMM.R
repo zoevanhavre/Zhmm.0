@@ -47,7 +47,7 @@ FunkSim1<-function(n){  data.frame( "States"=1, "Observed"=rnorm(n, mean=3, sd=1
 #' @examples dDirichlet(c(.1, .9), c(0.1,0.1))
 
 
-FunkSim2<-function(n){   SimHMM( Q=Sim2_Q,  Mu= Sim2_mu, n)  }
+FunkSim2<-function(n){   SimHMM( Q=matrix( c(  0.2,0.3,0.5,    0.5,0.25,0.25,    0.25, 0.65, 0.1), nrow=3, byrow=T),  Mu= c(0,3,10), n)  }
 
  #' Function to compute stationary distribution of HMM
 #'
@@ -58,7 +58,7 @@ FunkSim2<-function(n){   SimHMM( Q=Sim2_Q,  Mu= Sim2_mu, n)  }
 #' @examples dDirichlet(c(.1, .9), c(0.1,0.1))
 
 
-FunkSim3<-function(n){   SimHMM( Q=Sim3_Q,  Mu= Sim3_mu, n)  }
+FunkSim3<-function(n){   SimHMM( Q=matrix( c(  0.2,0.3,0.5,    0.5,0.25,0.25,    0.25, 0.65, 0.1), nrow=3, byrow=T),  Mu= c(0,2,6), n)  }
 
  #' Function to compute stationary distribution of HMM
 #'
@@ -72,7 +72,7 @@ FunkSim4<-function(n){
         nrep<-n/100
         X_100<-c( rep(1, 20), rep(2, 15), rep(1, 5), rep(3, 3), rep( 1, 25), rep(2, 10), rep(1, 20), rep(3, 2))
          X<-rep(X_100, nrep)
-         Y<-sapply( X, function(x)   rnorm(1, Sim4_mu[x], 1) ) 
+         Y<-sapply( X, function(x)   rnorm(1, c(1,4,-10)[x], 1) ) 
      
        return(data.frame("States"=X, "Observed"=Y))
         }

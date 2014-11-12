@@ -25,6 +25,7 @@ gibbsHMM_PT<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5, J=10){
     Q  <-replicate(J, matrix(nrow=M, ncol=K*K) , simplify=F)
     q0 <-replicate(J, matrix(nrow=M, ncol=K), simplify=F)
     Z  <-replicate(J, matrix(nrow=M, ncol=n+1)  ,  simplify=F)  #include 0 for initial state to be estimated too?
+   SteadyScore<-data.frame("Iteration"=c(1:M), "K0"=K) ##### THIS IS NEW##
 
     K0Final<-matrix(nrow=M, ncol=J)
     MAP<-c(1:M)  # KEEP TARGET ONLY
@@ -39,11 +40,16 @@ gibbsHMM_PT<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5, J=10){
     # functions
     for (m in 1:M){ 
               
-                         if(m %% 100==0){      Sys.sleep(0.01)
-                  par(mfrow=c(1,2))
-                  ts.plot(q0[[J]], main='q0 from target posterior', col=rainbow(K))
-                  ts.plot(TrackParallelTemp, main='Track Parallel Tempering', col=rainbow(K))
-                             }
+          if(m %% 100==0){Sys.sleep(0.01)
+          par(mfrow=c(1,3))
+          plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l')
+          ts.plot(q0[[J]], main='q0 from target posterior', col=rainbow(K))
+          ts.plot(TrackParallelTemp[,c(J:1)], main='Track Parallel Tempering', col=rainbow(J))
+          #ts.plot(Bigmu[[nCh]], main='emptying Mu', col=rainbow(k))
+          #image(ZSaved[[nCh]][order(Y),], col=rainbow(K), main="Allocations")
+          Sys.sleep(0)}
+          
+                        
       for (j in 1:J){ # FOR EACH CHAIN           
 # FOR EACH CHAIN...
 
@@ -135,13 +141,13 @@ gibbsHMM_PT<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5, J=10){
           Z[[Chain2]][m,]<-.z1
           }   }   }
           
+   SteadyScore$K0[m]<-sum(table(Z[[J]][m,])>0)
 
+# for all chains 
+       K0Final[ m, ]<-sapply(   Z  ,  function(x)  sum(table(x[m,])>0))
 
             }  # end of iteration loop
-            #output    
-          K0Final<-melt(K0Final)
-          K0Final[,3]<-factor(K0Final[,3], levels=c(1:K))
-
-      return(list("Means"=MU[[J]], "Trans"=Q[[J]], "States"=Z[[J]], "q0"=q0[[J]], "YZ"=YZ, "MAP"=MAP, "K0"=K0Final))
+        
+      return(list("Means"=MU[[J]], "Trans"=Q[[J]], "States"=Z[[J]], "q0"=q0[[J]], "YZ"=YZ, "MAP"=MAP, "K0"=SteadyScore$K0))
       }
 
