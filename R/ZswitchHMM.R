@@ -1,6 +1,6 @@
 #' PostProcessing function univ
 #'
-#' This function draws samples from a Wishart dist
+#' This function draws samples from a Wishart distu
 #' @param v and s
 #' @keywords Wishart
 #' @export
