@@ -8,7 +8,7 @@
 
 
 
-gibbsHMM_PT<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5, J=10){
+gibbsHMM_PT<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.05, lab="sim"){
     #____SET UP_________________________________________
     ifelse(class(YZ)=='data.frame',    Y<-YZ$O, Y<-YZ)
     n=length(Y) # sample size
@@ -17,8 +17,9 @@ gibbsHMM_PT<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5, J=10){
      # INITIALIZE
     startVal<-makeStart(Y, K);  states0<-startVal$states0   #FUNK
      
-     
+      J=20
         TrackParallelTemp<-matrix(nrow=M, ncol=J)
+
          TrackParallelTemp[1,]<-c(1:J)
       # TO BE INCORPORATED INTO J LISTS
     MU<-replicate(J,  matrix(nrow=M, ncol=K),  simplify=F)
@@ -35,16 +36,18 @@ gibbsHMM_PT<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5, J=10){
           AllAlphas<-matrix(nrow=J, ncol=K)
           AllAlphas[,1]<-alphaMAX
          # AllAlphas[,2:K]<-seq(alphaMAX, alphaMin, length=J)
-          AllAlphas[,2:K]<-      c( alphaMin+(alphaMAX-alphaMin)/c(1:(J-1))^3, alphaMin)
-
+     #     AllAlphas[,2:K]<-      c( alphaMin+(alphaMAX-alphaMin)/c(1:(J-1))^2, alphaMin)
+          AllAlphas[,2:K]<-   c(seq(alphaMAX,25,length=4), seq(20,10,length=3) , seq(8,2,length=3), seq(1,alphaMin, length=10))
+       names(TrackParallelTemp)<-   AllAlphas[,2]
     # functions
     for (m in 1:M){ 
               
-          if(m %% 100==0){Sys.sleep(0.01)
+          if(m %% 20==0){Sys.sleep(0.01)
           par(mfrow=c(1,3))
           plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l')
           ts.plot(q0[[J]], main='q0 from target posterior', col=rainbow(K))
-          ts.plot(TrackParallelTemp[,c(J:1)], main='Track Parallel Tempering', col=rainbow(J))
+          ts.plot(TrackParallelTemp, main='Track Parallel Tempering', col=rainbow(J), gpars=list(yaxt="n") )
+          axis(2, at=1:J, tick=1:J, labels=round(AllAlphas[,2],4), las=2) 
           #ts.plot(Bigmu[[nCh]], main='emptying Mu', col=rainbow(k))
           #image(ZSaved[[nCh]][order(Y),], col=rainbow(K), main="Allocations")
           Sys.sleep(0)}
@@ -108,8 +111,18 @@ gibbsHMM_PT<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5, J=10){
 
           if(m>1) {TrackParallelTemp[m,]<-TrackParallelTemp[m-1,]}     
           if(m>20){
-          if( sample(c(1,0),1, 0.9)==1){   # FREQ OF TEMPERING! 
-          Chain1<-sample( 1:(J-1), 1)   
+        #  if( sample(c(1,0),1, 0.9)==1){   # FREQ OF TEMPERING! 
+          
+## NEW, try each chain each time
+    #Chain1<-sample( 1:(J-1), 1)   
+    #Chain2<-Chain1+1
+
+
+      if( m%%2==0){chainset<- c(1:(J-1))[c(1:(J-1))%%2==0]   #evens
+      } else {chainset<- c(1:(J-1))[c(1:(J-1))%%2!=0] }   #odds
+
+ for( eachChain in 1:length(chainset)){
+          Chain1<-chainset[eachChain]  
           Chain2<-Chain1+1
           MHratio<- parallelAccept(q0[[Chain1]][m,], q0[[Chain2]][m,], AllAlphas[ Chain1,] , AllAlphas[Chain2,] )
           if (MHratio==1){                                 # switch 
@@ -147,7 +160,18 @@ gibbsHMM_PT<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5, J=10){
        K0Final[ m, ]<-sapply(   Z  ,  function(x)  sum(table(x[m,])>0))
 
             }  # end of iteration loop
-        
+            if(m ==M){Sys.sleep(0.01)
+         pdf( file=paste("HmmTracker_",lab, '.pdf', sep="") , height=4, width=8)
+          par(mfrow=c(1,3))
+          plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l', ylab="K0")
+          ts.plot(q0[[J]], main='q0 from target posterior', col=rainbow(K))
+          ts.plot(TrackParallelTemp, main='Track Parallel Tempering', col=rainbow(J), gpars=list(yaxt="n") , ylab="alpha")
+          axis(2, at=1:J, tick=1:J, labels=round(AllAlphas[,2],4), las=2) 
+          #ts.plot(Bigmu[[nCh]], main='emptying Mu', col=rainbow(k))
+          #image(ZSaved[[nCh]][order(Y),], col=rainbow(K), main="Allocations")
+          dev.off()
+          Sys.sleep(0)}
+          
       return(list("Means"=MU[[J]], "Trans"=Q[[J]], "States"=Z[[J]], "q0"=q0[[J]], "YZ"=YZ, "MAP"=MAP, "K0"=SteadyScore$K0))
       }
 
