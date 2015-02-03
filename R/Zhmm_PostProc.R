@@ -10,7 +10,9 @@
 
 
 Zhmm_PostProc<-function( Grun, mydata, burn=1000, Thin=1, prep=1000, isSim=TRUE, simlabel="sim"){	
-	 Grun<-TrimThin(Grun, Keep)		
+		maxZ<-function (x)  as.numeric(names(which.max(table( x ))))
+	
+	 Grun<-TrimThin(Grun, burn, Thin)		
 	 #extract Y's from sim or data:
 	 ifelse(isSim==TRUE, Y<-mydata$O,  Y<-mydata)
 	 

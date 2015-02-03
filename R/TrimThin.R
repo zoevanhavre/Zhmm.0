@@ -7,7 +7,7 @@
 #' @examples
 #' #nope
 
- TrimThin<-function(out, burn){
+ TrimThin<-function(out, burn, Thin){
 	                ids<- burn:length(out$MAP)  # TRIM
 	              if(Thin>1){  ids<-seq(from=min(ids), to=max(ids), by=Thin)   } #THIN
 	                #save selected iterations

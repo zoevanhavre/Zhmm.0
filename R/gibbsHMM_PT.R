@@ -8,7 +8,7 @@
 
 
 
-gibbsHMM_PT<-function(YZ, M=2000, K=5, mu0=0, var0=100,alphaMAX=1, alphaMin=1e-05, J=20, lab="sim"){
+gibbsHMM_PT<-function(YZ, M=2000, K=10, mu0=0, var0=100,alphaMAX=1, alphaMin=1e-05, J=20, lab="sim", type="First"){
     #____SET UP_________________________________________
     ifelse(class(YZ)=='data.frame',    Y<-YZ$O, Y<-YZ)
     n=length(Y) # sample size
@@ -32,20 +32,10 @@ gibbsHMM_PT<-function(YZ, M=2000, K=5, mu0=0, var0=100,alphaMAX=1, alphaMin=1e-0
     MAP<-c(1:M)  # KEEP TARGET ONLY
     
     # ALPHA
-          #alphaMAX<-(K-1)*(1+K-2+alphaMin)*(1+1/( (1/2) - alphaMin*(K-1))) -(K-1)*alphaMin+0.1
-          AllAlphas<-matrix(nrow=J, ncol=K)
-          AllAlphas[,1]<-alphaMAX      
-          for(i in 2:K){AllAlphas[,i]<-    exp(seq(log(alphaMAX), log(alphaMin), length=J)) }
-          #for(i in 2:K){AllAlphas[,i]<-  c(alphaMAX,(alphaMAX/2)/(2^c(1:(J-1))) )}
-
-
-
-
-          #for(i in 2:K){AllAlphas[,i]<- c( alphaMin+(alphaMAX-alphaMin)/c(1:9)^2 ,.5/c(1:(J-10))^3, alphaMin)}
-          #for(i in 2:K){AllAlphas[,i]<-  c( alphaMin+(alphaMAX-alphaMin)/c(1:(J-1))^2, alphaMin)}
-      
-      #    AllAlphas[,2:K]<-   c(seq(alphaMAX,25,length=4), seq(20,10,length=3) , seq(8,1,length=3), 0.5,0.2,seq(.1,alphaMin, length=8))
-       names(TrackParallelTemp)<-   AllAlphas[,2]
+    #alphaMAX<-(K-1)*(1+K-2+alphaMin)*(1+1/( (1/2) - alphaMin*(K-1))) -(K-1)*alphaMin+0.1
+    Alpha_lows<-c(alphaMAX, exp(seq(log(alphaMAX), log(alphaMin), length=J))[-1])
+         
+      names(TrackParallelTemp)<-   AllAlphas[,2]
     # functions
     for (m in 1:M){ 
               
@@ -54,28 +44,49 @@ gibbsHMM_PT<-function(YZ, M=2000, K=5, mu0=0, var0=100,alphaMAX=1, alphaMin=1e-0
           plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l')
           ts.plot(q0[[J]], main='q0 from target posterior', col=rainbow(K))
           ts.plot(TrackParallelTemp, main='Track Parallel Tempering', col=rainbow(J), gpars=list(yaxt="n") )
-          axis(2, at=1:J, tick=1:J, labels=round(AllAlphas[,2],4), las=2) 
-        
-          #ts.plot(Bigmu[[nCh]], main='emptying Mu', col=rainbow(k))
+        #  axis(2, at=1:J, tick=1:J, labels=round(AllAlphas[,2],4), las=2) 
+          axis(2, at=1:J, tick=1:J, labels=round(c( Alpha_lows),4), las=2)
           image(Z[[J]][,order(Y)], col=rainbow(K), main="Allocations vs ordered Y")
           Sys.sleep(0)}
           
                         
       for (j in 1:J){ # FOR EACH CHAIN           
-# FOR EACH CHAIN...
-
-                      # 1 Parameters given states Z(m-1)
+          # FOR EACH CHAIN...
+             # make matrix of alphas
+                  AllAlphas<-matrix(Alpha_lows[j],ncol=K, nrow=K)
+                  if(type=="First"){ 
+                      AllAlphas[,1]<-alphaMAX      
+                  } else if(type=="Diagonal") {
+                      diag(AllAlphas)<-alphaMAX
+                  }
+                                # 1 Parameters given states Z(m-1)
                       # 1.1  Transition matrix Q from conditional posterior
-                        if (m==1) {nt<-CountTrans(states0, K)
+                      if (m==1) {nt<-CountTrans(states0, K)
                         } else { nt<-CountTrans(Z[[j]][m-1,],K)}   # HERE ACCESS STATES
                           
                         # draw transition probs for state 1:K
                         # for (i in 1:K) qnew[i,]<-rdirichlet(par=  nt[i,]+AllAlphas[j, ])
                      #    for (i in 1:K) print(rdirichlet(par=  nt[i,]+AllAlphas[j, ]))
 
-                    qnew<- t(apply( nt,1, function(x) rdirichlet( par=x+AllAlphas[j, ])))
-                    q0new<-getq0NEW(qnew)  
+                   # qnew<- t(apply( nt,1, function(x) rdirichlet( par=x+AllAlphas[j, ])))
+                    qnew<-matrix(ncol=K, nrow=K)
+                    for(k in 1:K){qnew[k,]<-rdirichlet(par=nt[k,]+AllAlphas[k,])}
 
+                   # q0new<-getq0NEW(qnew)  
+                    altq0<-function(qnew){ estq0<-round(qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew, 8)
+                      okid<-c(1:K)[apply((estq0 == 1), 1, sum)==0]  ;      return( estq0[okid[1], ])}
+          
+
+if(dim(getq0NEW(qnew))[1]>1){
+        q0new <-  altq0(qnew)   
+} else {                    
+        q0new<-getq0NEW(qnew)  
+}
+if(sum(q0new<0)>0){ 
+        q0new <-  altq0(qnew)   
+}
+  
+#q0new[q0new<0]<-0
                         #METROPOLIS Hastings STEP     
                   #      if (m==1){ A<-q0new[states0[1]]/startVal$q0[states0[1]]
                    #           ifelse(A>runif(1,c(0,0.99)), qok<-qnew , qok<-qnew)        
@@ -133,7 +144,13 @@ gibbsHMM_PT<-function(YZ, M=2000, K=5, mu0=0, var0=100,alphaMAX=1, alphaMin=1e-0
  for( eachChain in 1:length(chainset)){
           Chain1<-chainset[eachChain]  
           Chain2<-Chain1+1
-          MHratio<- parallelAccept(q0[[Chain1]][m,], q0[[Chain2]][m,], AllAlphas[ Chain1,] , AllAlphas[Chain2,] )
+        # DOUBLE CHECK THEORY HERE
+          # HOW TO DO DIAG PROPERLY??
+          a1<-c(Alpha_lows[1],rep(Alpha_lows[Chain1], K-1))
+          a2<-c(Alpha_lows[1],rep(Alpha_lows[Chain2], K-1))
+         # MHratio<- parallelAccept(q0[[Chain1]][m,], q0[[Chain2]][m,], AllAlphas[ Chain1,] , AllAlphas[Chain2,] )
+
+          MHratio<- parallelAccept(q0[[Chain1]][m,], q0[[Chain2]][m,], a1 ,a2 )
           if (MHratio==1){                                 # switch 
                    #new
                    .tpt1<-  TrackParallelTemp[m,Chain1 ]
@@ -175,7 +192,9 @@ gibbsHMM_PT<-function(YZ, M=2000, K=5, mu0=0, var0=100,alphaMAX=1, alphaMin=1e-0
           plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l', ylab="K0")
           ts.plot(q0[[J]], main='q0 from target posterior', col=rainbow(K))
           ts.plot(TrackParallelTemp, main='Track Parallel Tempering', col=rainbow(J), gpars=list(yaxt="n") , ylab="alpha")
-          axis(2, at=1:J, tick=1:J, labels=round(AllAlphas[,2],4), las=2) 
+         # axis(2, at=1:J, tick=1:J, labels=round(AllAlphas[,2],4), las=2) 
+          axis(2, at=1:J, tick=1:J, labels=round(c( Alpha_lows),4), las=2)
+          
           #ts.plot(Bigmu[[nCh]], main='emptying Mu', col=rainbow(k))
           image(Z[[J]][,order(Y)], col=rainbow(K), main="Allocations vs ordered Y")
           #image(ZSaved[[nCh]][order(Y),], col=rainbow(K), main="Allocations")
