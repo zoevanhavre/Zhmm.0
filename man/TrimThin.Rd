@@ -4,7 +4,7 @@
 \alias{TrimThin}
 \title{Trim n Thin}
 \usage{
-TrimThin(out, burn)
+TrimThin(out, burn, Thin)
 }
 \arguments{
 \item{v}{and s}

@@ -1,10 +1,9 @@
-#'  Most likely allocation
+ #' Compute median state from unswitched MCMC samples from Zmix
 #'
-#' This ...
+#' Compute median state
 #' @param x
-#' @keywords 
+#' @keywords states
 #' @export
-#' @examples
-#' #nope
+#' @examples #something
 
 maxZ<-function (x)  as.numeric(names(which.max(table( x ))))
