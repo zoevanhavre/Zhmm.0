@@ -35,7 +35,7 @@ gibbsHMM_PT<-function(YZ, M=2000, K=10, mu0=0, var0=100,alphaMAX=1, alphaMin=1e-
     #alphaMAX<-(K-1)*(1+K-2+alphaMin)*(1+1/( (1/2) - alphaMin*(K-1))) -(K-1)*alphaMin+0.1
     Alpha_lows<-c(alphaMAX, exp(seq(log(alphaMAX), log(alphaMin), length=J))[-1])
          
-      names(TrackParallelTemp)<-   AllAlphas[,2]
+      #names(TrackParallelTemp)<-   AllAlphas[,2]
     # functions
     for (m in 1:M){ 
               
@@ -72,10 +72,6 @@ gibbsHMM_PT<-function(YZ, M=2000, K=10, mu0=0, var0=100,alphaMAX=1, alphaMin=1e-
                     qnew<-matrix(ncol=K, nrow=K)
                     for(k in 1:K){qnew[k,]<-rdirichlet(par=nt[k,]+AllAlphas[k,])}
 
-                   # q0new<-getq0NEW(qnew)  
-                    altq0<-function(qnew){ estq0<-round(qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew, 8)
-                      okid<-c(1:K)[apply((estq0 == 1), 1, sum)==0]  ;      return( estq0[okid[1], ])}
-          
 
 if(dim(getq0NEW(qnew))[1]>1){
         q0new <-  altq0(qnew)   
@@ -86,7 +82,7 @@ if(sum(q0new<0)>0){
         q0new <-  altq0(qnew)   
 }
   
-#q0new[q0new<0]<-0
+                
                         #METROPOLIS Hastings STEP     
                   #      if (m==1){ A<-q0new[states0[1]]/startVal$q0[states0[1]]
                    #           ifelse(A>runif(1,c(0,0.99)), qok<-qnew , qok<-qnew)        
@@ -94,7 +90,8 @@ if(sum(q0new<0)>0){
                     #                 U<-runif(1,c(0,0.99))
                          #         if (A>U){ qok<-qnew}
                 if (m>1){   
-                  A<-q0new[Z[[j]][m-1,1]]/q0[[j]][m-1,Z[[j]][m-1,1]]   ;  U<-runif(1,c(0,0.99))
+                  A<-q0new[Z[[j]][m-1,1]]/q0[[j]][m-1,Z[[j]][m-1,1]]   
+                    U<-runif(1,c(0,0.99))
                   if(A>runif(1,c(0,0.99))){ 
                      #    Accept new values
                         Q[[j]][m,]<-as.vector(t(qnew))

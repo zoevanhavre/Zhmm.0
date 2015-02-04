@@ -36,7 +36,7 @@ SimHMM<-function(Q,Mu, q0=NA, n=100){
 
 
 
-FunkSim1<-function(n){  data.frame( "States"=1, "Observed"=rnorm(n, mean=3, sd=1)) }
+#FunkSim1<-function(n){  data.frame( "States"=1, "Observed"=rnorm(n, mean=3, sd=1)) }
 
  #' Function to compute stationary distribution of HMM
 #'
@@ -47,7 +47,7 @@ FunkSim1<-function(n){  data.frame( "States"=1, "Observed"=rnorm(n, mean=3, sd=1
 #' @examples dDirichlet(c(.1, .9), c(0.1,0.1))
 
 
-FunkSim2<-function(n){   SimHMM( Q=matrix( c(  0.2,0.3,0.5,    0.5,0.25,0.25,    0.25, 0.65, 0.1), nrow=3, byrow=T),  Mu= c(0,3,10),q0=NA, n)  }
+FunkSim1<-function(n){   SimHMM( Q=matrix( c(  0.2,0.3,0.5,    0.5,0.25,0.25,    0.25, 0.65, 0.1), nrow=3, byrow=T),  Mu= c(0,3,10),q0=NA, n)  }
 
  #' Function to compute stationary distribution of HMM
 #'
@@ -58,9 +58,24 @@ FunkSim2<-function(n){   SimHMM( Q=matrix( c(  0.2,0.3,0.5,    0.5,0.25,0.25,   
 #' @examples dDirichlet(c(.1, .9), c(0.1,0.1))
 
 
-FunkSim3<-function(n){   SimHMM( Q=matrix( c(  0.2,0.3,0.5,    0.5,0.25,0.25,    0.25, 0.65, 0.1), nrow=3, byrow=T),  Mu= c(0,2,6),q0=NA, n)  }
+FunkSim2<-function(n){   SimHMM( Q=matrix( c(  0.2,0.3,0.5,    0.5,0.25,0.25,    0.25, 0.65, 0.1), nrow=3, byrow=T),  Mu= c(0,2,6),q0=NA, n)  }
 
- #' Function to compute stationary distribution of HMM
+#' Function to compute stationary distribution of HMM
+#'
+#' density of dirichlet
+#' @param x, alpha, log=False
+#' @keywords dirichlet
+#' @export
+#' @examples dDirichlet(c(.1, .9), c(0.1,0.1))
+
+
+FunkSim3<-function(n){  
+q1<-matrix(0.1, ncol=5, nrow=5)
+diag(q1)<-.6
+SimHMM( Q=q1,  Mu= c(-10, -5, 0, 5, 10),q0=NA, n)  }
+
+
+#' Function to compute stationary distribution of HMM
 #'
 #' density of dirichlet
 #' @param x, alpha, log=False
@@ -76,3 +91,5 @@ FunkSim4<-function(n){
      
        return(data.frame("States"=X, "Observed"=Y))
         }
+
+

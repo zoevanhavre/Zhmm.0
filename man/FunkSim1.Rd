@@ -8,12 +8,17 @@ FunkSim1(n)
 }
 \arguments{
 \item{x,}{alpha, log=False}
+
+\item{x,}{alpha, log=False}
 }
 \description{
 density of dirichlet
 }
 \examples{
 dDirichlet(c(.1, .9), c(0.1,0.1))
+Function to compute stationary distribution of HMM
+
+density of dirichlet
 }
 \keyword{dirichlet}
 
