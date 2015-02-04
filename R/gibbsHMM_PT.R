@@ -32,6 +32,7 @@ gibbsHMM_PT<-function(YZ, M=2000, K=10, mu0=0, var0=100,alphaMAX=1, alphaMin=1e-
     MAP<-c(1:M)  # KEEP TARGET ONLY
     
     # ALPHA
+    
     #alphaMAX<-(K-1)*(1+K-2+alphaMin)*(1+1/( (1/2) - alphaMin*(K-1))) -(K-1)*alphaMin+0.1
     Alpha_lows<-c(alphaMAX, exp(seq(log(alphaMAX), log(alphaMin), length=J))[-1])
          
@@ -74,12 +75,12 @@ gibbsHMM_PT<-function(YZ, M=2000, K=10, mu0=0, var0=100,alphaMAX=1, alphaMin=1e-
 
 
 if(dim(getq0NEW(qnew))[1]>1){
-        q0new <-  altq0(qnew)   
+        q0new <-  ALTERNATEq0(qnew)   
 } else {                    
         q0new<-getq0NEW(qnew)  
 }
 if(sum(q0new<0)>0){ 
-        q0new <-  altq0(qnew)   
+        q0new <-  ALTERNATEq0(qnew)   
 }
   
                 
