@@ -24,6 +24,7 @@ Zhmm_PostProc<-function( Grun, mydata, burn=1000, Thin=1, prep=1000, isSim=TRUE,
 	## 1. split by K0
 	K0estimates<-vector("list", length(K0))
 	Zestimates<-vector("list", length(K0))
+	USfullrun<-vector("list", length(K0))
 	#for each K0:
 	for ( .K0 in 1:length(K0)){
 		grunK0<-Grun
@@ -40,7 +41,7 @@ Zhmm_PostProc<-function( Grun, mydata, burn=1000, Thin=1, prep=1000, isSim=TRUE,
 		## 2. unswitch
 		grunK0us<-Zswitch_hmm(grunK0,0.05 )			
 		Zetc<-Zagg_HMM(grunK0us, Y)
-
+		USfullrun[[.K0]]<-grunK0us
 
 		# PLOTS
 		p1<-ggplot(data=grunK0us$Pars, aes(x=q0, fill=factor(k))) + geom_density( alpha=0.4)+ggtitle("Stationary distribution ")+ylab("")+xlab("")  +  theme(legend.position = "none")
@@ -66,4 +67,4 @@ Zhmm_PostProc<-function( Grun, mydata, burn=1000, Thin=1, prep=1000, isSim=TRUE,
 		p_vals$MAPE[.K0]<-postPredTests$MAPE
 		p_vals$MSPE[.K0]<-postPredTests$MSPE
 		p_vals$Concordance[.K0]<-1-postPredTests$Concordance	}	}
-	return(list(p_vals, K0estimates,Zestimates, grunK0us))		      }
+	return(list(p_vals, K0estimates,Zestimates, USfullrun))		      }
