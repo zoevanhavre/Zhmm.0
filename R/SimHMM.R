@@ -58,7 +58,7 @@ FunkSim1<-function(n){   SimHMM( Q=matrix( c(  0.2,0.3,0.5,    0.5,0.25,0.25,   
 #' @examples dDirichlet(c(.1, .9), c(0.1,0.1))
 
 
-FunkSim2<-function(n){   SimHMM( Q=matrix( c(  0.2,0.3,0.5,    0.5,0.25,0.25,    0.25, 0.65, 0.1), nrow=3, byrow=T),  Mu= c(0,2,6),q0=NA, n)  }
+FunkSim2<-function(n){   SimHMM( Q=matrix( c(  0.2,0.3,0.5,    0.5,0.25,0.25,    0.25, 0.65, 0.1), nrow=3, byrow=T),  Mu= c(0,2,4),q0=NA, n)  }
 
 #' Function to compute stationary distribution of HMM
 #'
