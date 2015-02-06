@@ -10,7 +10,7 @@
 
 
 Zhmm_PostProc<-function( Grun, mydata, burn=1000, Thin=1, prep=1000, isSim=TRUE, simlabel="sim"){	
-		maxZ<-function (x)  as.numeric(names(which.max(table( x ))))
+	#	maxZ<-function (x)  {as.numeric(names(which.max(table( x ))))}
 	
 	 Grun<-TrimThin(Grun, burn, Thin)		
 	 #extract Y's from sim or data:
@@ -38,7 +38,9 @@ Zhmm_PostProc<-function( Grun, mydata, burn=1000, Thin=1, prep=1000, isSim=TRUE,
 		grunK0$K0<-	Grun$K0[.iterK0]
 
 		## 2. unswitch
-		grunK0us<-Zswitch_hmm(grunK0,0.05 )
+		grunK0us<-Zswitch_hmm(grunK0,0.05 )			
+		Zetc<-Zagg_HMM(grunK0us, Y)
+
 
 		# PLOTS
 		p1<-ggplot(data=grunK0us$Pars, aes(x=q0, fill=factor(k))) + geom_density( alpha=0.4)+ggtitle("Stationary distribution ")+ylab("")+xlab("")  +  theme(legend.position = "none")
@@ -47,14 +49,13 @@ Zhmm_PostProc<-function( Grun, mydata, burn=1000, Thin=1, prep=1000, isSim=TRUE,
 		grobframe <- arrangeGrob(p1, p2, p3, ncol=3, nrow=1,main = textGrob(paste(simlabel,": posterior parameter estimates for", K0[.K0]," groups"), gp = gpar(fontsize=8, fontface="bold.italic", fontsize=14)))
 		ggsave(plot=grobframe, filename= paste("PosteriorParDensities_",simlabel,"_K0", K0[.K0],".pdf", sep="") , width=20, height=7, units='cm')
 
-				## 3. RAND, MSE	
-		if(isSim==TRUE){	Zhat<- factor( apply(grunK0us$Z, 2,maxZ))
-					p_vals$RAND[.K0]<-(sum(mydata$States==Zhat[-n])/n) 
+		## 3. RAND, MSE	
+		if(isSim==TRUE){	Zhat<- Zetc$Zpred
+					p_vals$RAND[.K0]<-(sum(mydata$States==Zhat)/n) 
 		} else {			p_vals$RAND[.K0]<-'NA'}
-	
-		Zetc<-Zagg_HMM(grunK0us, Y)
+
 		K0estimates[[.K0]]<-cbind(Zetc$theta, "K0"=K0[.K0])
-		Zestimates[[.K0]]<-Zhat[-(n+1)]
+		Zestimates[[.K0]]<-Zetc$Zpred
 		## 4. Predict replicates
 		postPredTests<-PostPredFunk( grunK0us,Zetc, Y, prep, simlabel)
 		# store output in p_vasl

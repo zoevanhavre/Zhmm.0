@@ -40,7 +40,7 @@ gibbsHMM_PT<-function(YZ, M=2000, K=10, mu0=0, var0=100,alphaMAX=1, alphaMin=1e-
     # functions
     for (m in 1:M){ 
               
-          if(m %% 20==0){Sys.sleep(0.01)
+          if(m %% 100==0){Sys.sleep(0.01)
           par(mfrow=c(1,4))
           plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l')
           ts.plot(q0[[J]], main='q0 from target posterior', col=rainbow(K))
@@ -135,7 +135,7 @@ if(sum(q0new<0)>0){
     #Chain2<-Chain1+1
 
        
-       if (sample(c(1,0),1, prob=c(0.4,.6))==1){
+       if (sample(c(1,0),1, prob=c(0.8,.2))==1){
       if( m%%2==0){chainset<- c(1:(J-1))[c(1:(J-1))%%2==0]   #evens
       } else {chainset<- c(1:(J-1))[c(1:(J-1))%%2!=0] }   #odds
 

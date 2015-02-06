@@ -11,11 +11,11 @@ Zagg_HMM<-function(USout, .Y = Y) {
 .par <- melt(USout$Pars, id.vars = c("Iteration", "k"))
 theta <- aggregate(value ~ variable + factor(k), mean, data = .par)
 K <- max(.par$k)
-Zhat<- factor( apply(grunK0us$Z, 2,maxZ))
+Zhat<- factor( apply(USout$Z, 2,maxZ))[-(n+1)]
 Zemu <- as.numeric(Zhat)
 .Mus <- theta$value[theta$variable == "mu"]
 for (i in 1:length(Zemu)) { Zemu[i] <- .Mus[as.numeric(Zhat[i])]  }
-MSE <- sum((.Y - Zemu[-n])^2) 
-MAE <- sum(abs(.Y - Zemu[-n]))
+MSE <- sum((.Y - Zemu^2) )
+MAE <- sum(abs(.Y - Zemu))
 list(theta = theta, Zpred = Zhat, MSE = MSE, MAE = MAE)
 				}
