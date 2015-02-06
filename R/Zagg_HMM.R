@@ -11,7 +11,7 @@ Zagg_HMM<-function(USout, .Y = Y) {
 .par <- melt(USout$Pars, id.vars = c("Iteration", "k"))
 theta <- aggregate(value ~ variable + factor(k), mean, data = .par)
 K <- max(.par$k)
-Zhat<- factor( apply(USout$Z, 2,maxZ))[-(n+1)]
+Zhat<- factor( apply(USout$Z, 2,maxZ))[-((length(.Y))+1)]
 Zemu <- as.numeric(Zhat)
 .Mus <- theta$value[theta$variable == "mu"]
 for (i in 1:length(Zemu)) { Zemu[i] <- .Mus[as.numeric(Zhat[i])]  }

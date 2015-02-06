@@ -14,7 +14,7 @@ Zhmm_PostProc<-function( Grun, mydata, burn=1000, Thin=1, prep=1000, isSim=TRUE,
 	
 	 Grun<-TrimThin(Grun, burn, Thin)		
 	 #extract Y's from sim or data:
-	 ifelse(isSim==TRUE, Y<-mydata$O,  Y<-mydata)
+	 ifelse(isSim==TRUE, Y<-mydata$Observed,  Y<-mydata)
 	 
 	targetK0<-Grun$K0
 	K0<-as.numeric(names(table(targetK0 )))

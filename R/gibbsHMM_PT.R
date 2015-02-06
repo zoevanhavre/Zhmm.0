@@ -10,7 +10,7 @@
 
 gibbsHMM_PT<-function(YZ, M=2000, K=10, mu0=0, var0=100,alphaMAX=1, alphaMin=1e-05, J=20, lab="sim", type="First"){
     #____SET UP_________________________________________
-    ifelse(class(YZ)=='data.frame',    Y<-YZ$O, Y<-YZ)
+    ifelse(class(YZ)=='data.frame',    Y<-YZ$Observed, Y<-YZ)
     n=length(Y) # sample size
     varknown<-1 # known variace 
     
