@@ -35,12 +35,14 @@ gibbsHMM_PT<-function(YZ, M=2000, K=10, mu0=0, var0=100,alphaMAX=1, alphaMin=1e-
     
     #alphaMAX<-(K-1)*(1+K-2+alphaMin)*(1+1/( (1/2) - alphaMin*(K-1))) -(K-1)*alphaMin+0.1
     Alpha_lows<-c(alphaMAX, exp(seq(log(alphaMAX), log(alphaMin), length=J))[-1])
+    pb <- txtProgressBar(min = 0, max = M, style = 3)
          
       #names(TrackParallelTemp)<-   AllAlphas[,2]
     # functions
     for (m in 1:M){ 
               
-          if(m %% 100==0){Sys.sleep(0.01)
+          if(m %% 100==0){Sys.sleep(0.1)
+          setTxtProgressBar(pb, m)
           par(mfrow=c(1,4))
           plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l')
           ts.plot(q0[[J]], main='q0 from target posterior', col=rainbow(K))
@@ -184,6 +186,8 @@ if(sum(q0new<0)>0){
        K0Final[ m, ]<-sapply(   Z  ,  function(x)  sum(table(x[m,])>0))
 
             }  # end of iteration loop
+close(pb)
+            
             if(m ==M){Sys.sleep(0.01)
          pdf( file=paste("HmmTracker_",lab, '.pdf', sep="") , height=4, width=12)
           par(mfrow=c(1,4))
