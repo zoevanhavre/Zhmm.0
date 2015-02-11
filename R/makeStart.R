@@ -23,7 +23,7 @@ makeStart<-function(Y,k=K){
             for (i in 1:k) trans0[i, ] <- trans0[i, ] / sum(trans0[i, ])
 
             #stationary dist q0 for this:
-            q0<-getq0(trans0)
+            q0<-ALTERNATEq0(trans0)
 
             #initial unobserved state from stationary dist
             initstates0<-sample(c(1:k), size=1, prob=q0)

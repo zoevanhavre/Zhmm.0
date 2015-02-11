@@ -8,7 +8,7 @@
 
 
 
-gibbsHMM_PT<-function(YZ, M=2000, K=10, mu0=0, var0=100,alphaMAX=1, alphaMin=1e-05, J=20, lab="sim", type="First"){
+gibbsHMM_PT<-function(YZ, M=2000, K=10, mu0=0, var0=100,alphaMAX=1, alphaMin=1e-10, J=20, lab="sim", type="First"){
     #____SET UP_________________________________________
     ifelse(class(YZ)=='data.frame',    Y<-YZ$Observed, Y<-YZ)
     n=length(Y) # sample size
@@ -40,17 +40,18 @@ gibbsHMM_PT<-function(YZ, M=2000, K=10, mu0=0, var0=100,alphaMAX=1, alphaMin=1e-
       #names(TrackParallelTemp)<-   AllAlphas[,2]
     # functions
     for (m in 1:M){ 
-              
+          
           if(m %% 100==0){Sys.sleep(0.1)
           setTxtProgressBar(pb, m)
-          par(mfrow=c(1,4))
+                  if(M < 20001){    
+                    par(mfrow=c(1,4))
           plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l')
           ts.plot(q0[[J]], main='q0 from target posterior', col=rainbow(K))
           ts.plot(TrackParallelTemp, main='Track Parallel Tempering', col=rainbow(J), gpars=list(yaxt="n") )
         #  axis(2, at=1:J, tick=1:J, labels=round(AllAlphas[,2],4), las=2) 
-          axis(2, at=1:J, tick=1:J, labels=round(c( Alpha_lows),4), las=2)
+          axis(2, at=1:J, tick=1:J, labels=round(c(Alpha_lows),4), las=2)
           image(Z[[J]][,order(Y)], col=rainbow(K), main="Allocations vs ordered Y")
-          Sys.sleep(0)}
+          Sys.sleep(0)}}
           
                         
       for (j in 1:J){ # FOR EACH CHAIN           
@@ -75,16 +76,16 @@ gibbsHMM_PT<-function(YZ, M=2000, K=10, mu0=0, var0=100,alphaMAX=1, alphaMin=1e-
                     qnew<-matrix(ncol=K, nrow=K)
                     for(k in 1:K){qnew[k,]<-rdirichlet(par=nt[k,]+AllAlphas[k,])}
 
-
-if(dim(getq0NEW(qnew))[1]>1){
-        q0new <-  ALTERNATEq0(qnew)   
-} else {                    
-        q0new<-getq0NEW(qnew)  
-}
-if(sum(q0new<0)>0){ 
-        q0new <-  ALTERNATEq0(qnew)   
-}
-  
+    q0new <-  ALTERNATEq0(qnew)  
+                #if(dim(getq0NEW(qnew))[1]>1){
+                 #       q0new <-  ALTERNATEq0(qnew)   
+                #} else {                    
+                 #       q0new<-getq0NEW(qnew)  
+                #}
+                #if(sum(q0new<0)>0){ 
+                 #       q0new <-  ALTERNATEq0(qnew)   
+                #}
+                  
                 
                         #METROPOLIS Hastings STEP     
                   #      if (m==1){ A<-q0new[states0[1]]/startVal$q0[states0[1]]
@@ -112,11 +113,7 @@ if(sum(q0new<0)>0){
                            sumtot<-cbind(sumNcount$sumy, sumNcount$ny)                                                                                                    #       sums<-sumNcount$sumy ;    tots<-sumNcount$ny
                       # new means          
                       mudraw<-apply(sumtot, 1,  function (x)     rnorm(1, mean= ((mu0/var0)+(x[1]/varknown)) / ((1/var0)+(x[2]/varknown)), sd= sqrt( 1/( (1/var0) + (x[2]/varknown)))  ))
-
-                  #SAVE sampled parameters
-                  #Q[[j]][m,]<-as.vector(t(qok))
-                 # q0[[j]][m,]<-getq0NEW(qok)  
-                  MU[[j]][m,]<-mudraw  
+                      MU[[j]][m,]<-mudraw  
                         
                     # 2 Update States given parameters
                   newZ<- UpdateStates( Y, Q[[j]][m,], MU[[j]], initS= q0[[j]][m,], m)
@@ -189,14 +186,14 @@ if(sum(q0new<0)>0){
 close(pb)
             
             if(m ==M){Sys.sleep(0.01)
-         pdf( file=paste("HmmTracker_",lab, '.pdf', sep="") , height=4, width=12)
+      #   pdf( file=paste("HmmTracker_",lab, '.pdf', sep="") , height=4, width=12)
+          png( file=paste("HmmTracker_",lab, '.png', sep="") , height=400, width=1200)
           par(mfrow=c(1,4))
           plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l', ylab="K0")
           ts.plot(q0[[J]], main='q0 from target posterior', col=rainbow(K))
           ts.plot(TrackParallelTemp, main='Track Parallel Tempering', col=rainbow(J), gpars=list(yaxt="n") , ylab="alpha")
          # axis(2, at=1:J, tick=1:J, labels=round(AllAlphas[,2],4), las=2) 
-          axis(2, at=1:J, tick=1:J, labels=round(c( Alpha_lows),4), las=2)
-          
+          axis(2, at=1:J, tick=1:J, labels=round(c( Alpha_lows),4), las=2) 
           #ts.plot(Bigmu[[nCh]], main='emptying Mu', col=rainbow(k))
           image(Z[[J]][,order(Y)], col=rainbow(K), main="Allocations vs ordered Y")
           #image(ZSaved[[nCh]][order(Y),], col=rainbow(K), main="Allocations")
