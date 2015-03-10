@@ -8,13 +8,15 @@
 #' #nope
 
 HmmAllocationPlot<-function( outZ, myY){
-			grr<-outZ[order(myY)]
+			grr<-outZ[,order(myY)]
 			grrTable<-data.frame("myY"=NULL, "k"=NULL, "Prob"=NULL)
-			maxK<- length(levels(grr))
+			#maxK<- length(levels(grr))
+			maxK<-max(grr)
 			for (i in 1:length(myY)){
 			#rr<-factor(grr[i], levels=1:maxK)
-			rr<-grr[i]
-			grrTable<-rbind(grrTable,cbind(i,c(1:maxK), matrix(table(rr)/ length(rr) )))    }
+			rr<-factor(grr[,i], levels=1:maxK)
+			grrTable<-rbind(grrTable,cbind(i,c(1:maxK), matrix(table(rr)/ length(rr) )))
+			    }
 			names(grrTable)<-c("myY", "k", "Prob")
 				grrTable$k<-as.factor(grrTable$k)
 

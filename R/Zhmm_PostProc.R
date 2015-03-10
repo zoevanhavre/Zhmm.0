@@ -31,7 +31,7 @@ Zhmm_PostProc<-function( Grun, mydata, burn=1000, Thin=1, prep=1000, isSim=TRUE,
 		grunK0$Mu<-	Grun$Means[.iterK0,]
 		grunK0$Q<-	Grun$Trans[.iterK0,]
 		grunK0$q0<-	Grun$q0[.iterK0,]
-		grunK0$MAP<-	Grun$MAP[.iterK0]
+		grunK0$MAP<-Grun$MAP[.iterK0]
 		grunK0$Z<-	Grun$States[.iterK0,]
 		grunK0$K0<-	Grun$K0[.iterK0]
 
@@ -62,8 +62,7 @@ Zhmm_PostProc<-function( Grun, mydata, burn=1000, Thin=1, prep=1000, isSim=TRUE,
 		
 #NEW
 		# clust probabilities:
-p3<-HmmAllocationPlot(outZ=Zetc$Zpred[-(n+1)], myY=Y)
-
+p3<-HmmAllocationPlot(outZ=grunK0us$Z[,-(n+1)], myY=Y)
 		## 4. Predict replicates
 		postPredTests<-PostPredFunk( grunK0us,Zetc, Y, prep, simlabel)
 		p4<-postPredTests$ggp
