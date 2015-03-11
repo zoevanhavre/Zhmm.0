@@ -5,7 +5,7 @@
 \title{gibbsHMM_PT}
 \usage{
 gibbsHMM_Alternator(YZ, M = 2000, K = 10, mu0 = 0, var0 = 100,
-  alphaMAX = 1, alphaMin = 1e-10, J = 20, lab = "sim")
+  alphaMAX = 1, alphaMin = 1e-30, J = 40, lab = "sim")
 }
 \arguments{
 \item{x,}{alpha, log=False}
