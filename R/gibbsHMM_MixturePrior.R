@@ -8,12 +8,12 @@
 
 
 
-gibbsHMM_Alternator<-function(YZ, M=2000, K=10, mu0=0, var0=100,alphaMAX=1, alphaMin=1e-30, J=40, lab="sim"){
+gibbsHMM_MixturePrior<-function(YZ, M=2000, K=10 ,alphaMAX=1, PrbDiag=c("half", "fair"), alphaMin=1e-30, J=40, lab="sim"){
     #____SET UP_________________________________________
     ifelse(class(YZ)=='data.frame',    Y<-YZ$Observed, Y<-YZ)
     n=length(Y) # sample size
     varknown<-1 # known variace 
-    
+    mu0=0; var0=100
      # INITIALIZE
     startVal<-makeStart(Y, K);  states0<-startVal$states0   #FUNK
      
@@ -32,7 +32,7 @@ gibbsHMM_Alternator<-function(YZ, M=2000, K=10, mu0=0, var0=100,alphaMAX=1, alph
     MAP<-c(1:M)  # KEEP TARGET ONLY
     
     # ALPHA
-    
+
     #alphaMAX<-(K-1)*(1+K-2+alphaMin)*(1+1/( (1/2) - alphaMin*(K-1))) -(K-1)*alphaMin+0.1
     Alpha_lows<-c(alphaMAX, exp(seq(log(alphaMAX), log(alphaMin), length=J))[-1])
     pb <- txtProgressBar(min = 0, max = M, style = 3)
@@ -59,8 +59,24 @@ gibbsHMM_Alternator<-function(YZ, M=2000, K=10, mu0=0, var0=100,alphaMAX=1, alph
              # make matrix of alphas
               AllAlphas<-matrix(Alpha_lows[j],ncol=K, nrow=K)   
 
-              if(runif(1)>0.5){        AllAlphas[,1]<-alphaMAX      
-                }else{                    diag(AllAlphas)<-alphaMAX}
+if (PrbDiag=="half"){
+    if(sample( c(1, 0), size=1, prob=c(0.5, 0.5))==1){   # Put on diagonal
+      diag(AllAlphas)<-alphaMAX 
+    } else { 
+ChooseColumn<-sample( c(1:K), size=1, prob=rep(1/K, K))    # draw non-diag position
+AllAlphas[,ChooseColumn]<-alphaMAX      # make said column Amax
+}
+}else if (PrbDiag=="fair"){
+  if(sample( c(1, 0), size=1, prob=c(1/K,(K-1)/K) )==1 ){     # Put on diagonal
+      diag(AllAlphas)<-alphaMAX 
+   } else { 
+ChooseColumn<-sample( c(1:K), size=1, prob=rep(1/K, K))    # draw non-diag position
+AllAlphas[,ChooseColumn]<-alphaMAX      # make said column Amax}
+}   } 
+  
+
+            #  if(runif(1)>0.5){        AllAlphas[,1]<-alphaMAX      
+           #     }else{                    diag(AllAlphas)<-alphaMAX}
                 
           
                               # 1 Parameters given states Z(m-1)

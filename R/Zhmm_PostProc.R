@@ -27,7 +27,7 @@ Zhmm_PostProc<-function( Grun, mydata, burn=1000, Thin=1, prep=1000, isSim=TRUE,
 		grunK0<-Grun
 		# split data by K0
 		.iterK0<- c(na.omit(c(1:dim(Grun$q0) [1])[ targetK0  ==K0[.K0]]))
-		if(length(.iterK0)>200){
+		if(length(.iterK0)>100){
 		grunK0$Mu<-	Grun$Means[.iterK0,]
 		grunK0$Q<-	Grun$Trans[.iterK0,]
 		grunK0$q0<-	Grun$q0[.iterK0,]
