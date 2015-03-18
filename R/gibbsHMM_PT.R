@@ -24,6 +24,7 @@ gibbsHMM_PT<-function(YZ, M=2000, K=10, mu0=0, var0=100,alphaMAX=1, alphaMin=1e-
       # TO BE INCORPORATED INTO J LISTS
     MU<-replicate(J,  matrix(nrow=M, ncol=K),  simplify=F)
     Q  <-replicate(J, matrix(nrow=M, ncol=K*K) , simplify=F)
+          Qold<- replicate(J, diag(K), simplify=F)
     q0 <-replicate(J, matrix(nrow=M, ncol=K), simplify=F)
     Z  <-replicate(J, matrix(nrow=M, ncol=n+1)  ,  simplify=F)  #include 0 for initial state to be estimated too?
    SteadyScore<-data.frame("Iteration"=c(1:M), "K0"=K) ##### THIS IS NEW##
@@ -94,17 +95,24 @@ gibbsHMM_PT<-function(YZ, M=2000, K=10, mu0=0, var0=100,alphaMAX=1, alphaMin=1e-
                     #                 U<-runif(1,c(0,0.99))
                          #         if (A>U){ qok<-qnew}
                 if (m>1){   
-                  A<-q0new[Z[[j]][m-1,1]]/q0[[j]][m-1,Z[[j]][m-1,1]]   
+                  q0Previous<-ALTERNATEq0(Qold[[j]])
+                  A<-q0new[Z[[j]][m-1,1]]/q0Previous[Z[[j]][m-1,1]]   
+
+                  #A<-q0new[Z[[j]][m-1,1]]/q0[[j]][m-1,Z[[j]][m-1,1]]   
                     U<-runif(1,c(0,0.99))
                   if(A>runif(1,c(0,0.99))){ 
                      #    Accept new values
                         Q[[j]][m,]<-as.vector(t(qnew))
                         q0[[j]][m,]<-q0new
                                 } else {
-                       Q[[j]][m,]<-as.vector(t(Q[[j]][m-1,]))
-                       q0[[j]][m,]<-q0[[j]][m-1,]  
+                   #    Q[[j]][m,]<-as.vector(t(Q[[j]][m-1,]))
+                       Q[[j]][m,]<-as.vector(t(Qold[[j]]))
+
+                     #  q0[[j]][m,]<-q0[[j]][m-1,]  
+                         q0[[j]][m,]<-q0Previous
                                 }}else{ Q[[j]][m,]<-as.vector(t(qnew))
                         q0[[j]][m,]<-q0new  }
+Qold[[j]]<-  matrix( Q[[j]][m,]  , K,K, byrow=TRUE)                     # **NEW**
 
                         # 1.2 Update mu's    
                         # compute needed values:  N(k) = number of times state k is visited in chain, and sum(y_k) = sum of y's in state k 
@@ -169,7 +177,11 @@ gibbsHMM_PT<-function(YZ, M=2000, K=10, mu0=0, var0=100,alphaMAX=1, alphaMin=1e-
           .s2<- Q[[Chain2]][m,]
           Q[[Chain1]][m,]<-.s2
           Q[[Chain2]][m,]<-.s1
-          
+                    #ici
+.Qold1<- Qold[[Chain1]]
+.Qold2<- Qold[[Chain2]]
+          Qold[[Chain1]]<-.Qold2
+          Qold[[Chain2]]<-.Qold1
                                                                                                                 # Zs
           .z1<- Z[[Chain1]][m,]
           .z2<- Z[[Chain2]][m,]
