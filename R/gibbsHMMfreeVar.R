@@ -49,59 +49,40 @@ gibbsHMMfreeVar<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5,  p=1){
     #FIX THIS
     #alphaMIN<-1/(4*(K-1))
     #alphaMAX<-(4*(K-1)*(K-1)) + 0.75 + A
-    alphaMAX<-(K-1)*(1+K-2+alphaMin)*(1+1/( (1/2) - alphaMin*(K-1))) -(K-1)*alphaMin+0.1
-    alphas<-c(rep(alphaMAX,p), rep(alphaMin, K-p))    
-    
-
+    #alphaMAX<-(K-1)*(1+K-2+alphaMin)*(1+1/( (1/2) - alphaMin*(K-1))) -(K-1)*alphaMin+0.1
+    alphas<-c(rep(1,p), rep(alphaMin, K-p))    
+     
+     AllAlphas<-matrix(alphaMin,ncol=K, nrow=K)
+     diag(AllAlphas)<-1
+                  
     # functions
-    CountTrans<-function(stateChain,K=K){
-      nt <- matrix(nrow = K, ncol = K, 0)
-      for (t in 1:(length(stateChain) - 1)) nt[stateChain[t], stateChain[t + 1]] <- nt[stateChain[t], stateChain[t + 1]] + 1
-      return(nt)}
-    formu<-function(stateChain, Y, K=K){
-      stateChain <-factor(stateChain, levels=c(1:K))
-      # number in each state and sum of Ys
-      xy<-as.data.frame(cbind(Y, stateChain))
-      ny<-gapply(xy, FUN=function(x) length(x$Y), groups=stateChain)
-      sumy<-gapply(xy, FUN=function(x) sum(x$Y), groups=stateChain)
-      return(list(sumy=sumy, ny=ny))}  
+
 
     forsigma<-function(stateChain, Y, K=K, muNow){
-      stateChain <-factor(stateChain, levels=c(1:K))
-      # number in each state and sum of Ys
-      xy<-data.frame("Y"=Y, "stateChain"= stateChain, "muMatch"=0, "Ymu"=0)
-      for (i in 1:length(stateChain)){  xy$muMatch[i]<-muNow[stateChain[i]]}
-      xy$Ymu<-(xy$Y-xy$muMatch)^2
-      sumy<-gapply(xy, FUN=function(x) sum(x$Ymu), groups=stateChain)
-      return(sumy)}  
+        stateChain <-factor(stateChain, levels=c(1:K))
+        # number in each state and sum of Ys
+        xy<-data.frame("Y"=Y, "stateChain"= stateChain, "muMatch"=0, "Ymu"=0)
+        for (i in 1:length(stateChain)){  xy$muMatch[i]<-muNow[stateChain[i]]}
+        xy$Ymu<-(xy$Y-xy$muMatch)^2
+        sumy<-gapply(xy, FUN=function(x) sum(x$Ymu), groups=stateChain)
+        return(sumy)}  
 
-
-    nk<-function(States, K=K){
-      nkOrd<-matrix(nrow=dim(States)[1], ncol=K)
-      for (i in 1:dim(States)[1]){
-      rowS<-factor(States[i,], levels=1:K)
-      nkOrd[i,]<-table(rowS)
-      }
-      return(nkOrd)
-      }
-    getq0<-function(Q){
-      K<-dim(Q)[1]
-      U<-matrix(rep(1/K, K*K), K,K)
-      u<-rep(1/K, K)
-      I<-diag(K)
-      ipu<-I-Q+U
-      u%*%solve(ipu)
-      }      
-    rdirichlet<-function(m=1,par){
-          k=length(par);  mat=matrix(0,m,k)       
-          for (i in 1:m)  {sim=rgamma(k,shape=par,scale=1); mat[i,]=sim/sum(sim)}
-          mat             
-          }
    
- 
     for (m in 1:M){ 
          # Sys.sleep(0.1);   setTxtProgressBar(pb, m)
-
+   if(m %% 100==0){Sys.sleep(0.1)
+                  if(M < 20001){    
+                    par(mfrow=c(1,4))
+      #    plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l')
+      
+          ts.plot(q0, main='q0 from target posterior', col=rainbow(K))
+          ts.plot(MU, main='MU from target posterior', col=rainbow(K))
+          ts.plot(SIGMA, main='SIGMA from target posterior', col=rainbow(K))
+#          ts.plot(TrackParallelTemp, main='Track Parallel Tempering', col=rainbow(J), gpars=list(yaxt="n") )
+        #  axis(2, at=1:J, tick=1:J, labels=round(AllAlphas[,2],4), las=2) 
+       #   axis(2, at=1:J, tick=1:J, labels=round(c(Alpha_lows),4), las=2)
+          image(S[,order(Y)], col=rainbow(K), main="Allocations vs ordered Y")
+          Sys.sleep(0)}}
         # 1 Parameters given states S(m-1)
         # 1.1  Transition matrix Q from conditional posterior
           if (m==1) {nt<-CountTrans(states0, K)
@@ -109,7 +90,7 @@ gibbsHMMfreeVar<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5,  p=1){
             
           # draw transition probs for state 1:K
           qnew<-matrix(nrow=K, ncol=K)
-          for (i in 1:K) qnew[i,]<-rdirichlet(par=  nt[i,]+alphas)
+          for (i in 1:K) qnew[i,]<-rdirichlet(par=  nt[i,]+AllAlphas[i,])
           q0new<-getq0(qnew)  
 
           #METROPOLIS Hastings STEP     
