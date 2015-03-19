@@ -91,7 +91,7 @@ gibbsHMMfreeVar<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5,  p=1){
           # draw transition probs for state 1:K
           qnew<-matrix(nrow=K, ncol=K)
           for (i in 1:K) qnew[i,]<-rdirichlet(par=  nt[i,]+AllAlphas[i,])
-          q0new<-getq0(qnew)  
+          q0new<-ALTERNATEq0(qnew)  
 
           #METROPOLIS Hastings STEP     
           if (m==1){ 
@@ -109,7 +109,7 @@ gibbsHMMfreeVar<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5,  p=1){
           #save transitions at iteration (m) in Q
           Q[m,]<-as.vector(t(qok))
           #compute new initial dist as ergodic distribution: and store
-          q0[m,]<-getq0(qok)    ## recompute if met hastings step taken
+          q0[m,]<-ALTERNATEq0(qok)    ## recompute if met hastings step taken
 
         # 1.2 Update mu's    
           # compute needed values:  N(k) = number of times state k is visited in chain, and sum(y_k) = sum of y's in state k 
