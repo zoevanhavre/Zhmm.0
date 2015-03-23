@@ -26,15 +26,15 @@ UpdateStates<-function( Y=Y, trans=qok, .mu, initS, m){
                     #compute P(Z(1)=l|t(0),.) using initial distribution of statesp
                     #P(Z(1)=1|Y(0), .) 								  #   for (i in 1:K) OneStep[1,i]<- sum(initS[1:K] * trans[i,])
                   OneStep[1,]<- apply( trans, 1, function(x)  sum( initS[1:K]*x)  )
-                  const[1]<-sum(dnorm(Y[1],mean=.mu[1,1:K])*OneStep[1,])
-                  FilterP[1,]<- (dnorm(Y[1],mean=.mu[1,])*OneStep[1,]) /const[1]   #Obtain filtered probs P(Z(1)|Y(1))
+                  const[1]<-sum(dnorm(Y[1],mean=.mu)*OneStep[1,])
+                  FilterP[1,]<- (dnorm(Y[1],mean=.mu)*OneStep[1,]) /const[1]   #Obtain filtered probs P(Z(1)|Y(1))
                         
                       
                   #for ti=2:...,
                   for (ti in 2:n){					  #  for (i in 1:K) OneStep[ti,i]<-  sum(trans[i,]*FilterP[ti-1, ])  					
                     OneStep[ti,]<- apply( trans, 1, function(x)  sum( x*FilterP[ti-1, ])  )
-                    const[ti]<-sum( dnorm(Y[ti],mean=.mu[m,])*OneStep[ti,]) 		                    #Filter:  P(Z(t)|Y(t))
-                    FilterP[ti,]<- (dnorm(Y[ti],mean=.mu[m,])*OneStep[ti,]) /const[ti]   
+                    const[ti]<-sum( dnorm(Y[ti],mean=.mu)*OneStep[ti,]) 		                    #Filter:  P(Z(t)|Y(t))
+                    FilterP[ti,]<- (dnorm(Y[ti],mean=.mu)*OneStep[ti,]) /const[ti]   
                     }
 
                   # 2.2 Sample final state Z(T) from P(Z(T)=j| y(T),.) (filter from t=100)

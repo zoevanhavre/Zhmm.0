@@ -12,6 +12,12 @@ makeStart<-function(Y,k=K){
 
             # split data by quantiles &  compute allocations
             states0<-as.numeric(cut2(Y, m=5, g=k))
+           
+        # randomize label names
+        states0<-as.factor(states0)
+        levels(states0)<-sample(levels(states0), k)
+        states0<-as.numeric(     as.character(states0))
+
             #, combine with data
             YX0<-cbind(Y, states0)
             # compute means 
@@ -28,5 +34,5 @@ makeStart<-function(Y,k=K){
             #initial unobserved state from stationary dist
             initstates0<-sample(c(1:k), size=1, prob=q0)
             states0<-c(initstates0, states0)
-            return(list(means0=means0, states0=states0, trans0=trans0, q0=q0))
+            return(list(states0=states0, trans0=trans0, q0=q0))
           }

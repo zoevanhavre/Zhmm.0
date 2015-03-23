@@ -8,15 +8,17 @@
 
 
 
-gibbsHMM_MixturePrior<-function(YZ, M=2000, K=10 ,alphaMAX=1, PrbDiag=c("half", "fair"), alphaMin=1e-30, J=40, lab="sim"){
+gibbsHMM_MixturePrior<-function(YZ, M=2000, K=10 ,alphaMAX=1, PrbDiag=c("half", "fair"), alphaMin=1e-30, J=20, lab="sim"){
     #____SET UP_________________________________________
     ifelse(class(YZ)=='data.frame',    Y<-YZ$Observed, Y<-YZ)
     n=length(Y) # sample size
     varknown<-1 # known variace 
     mu0=0; var0=100
      # INITIALIZE
-    startVal<-makeStart(Y, K);  states0<-startVal$states0   #FUNK
-     
+   # startVal<-makeStart(Y, K);  states0<-startVal$states0   #FUNK
+    states0<-replicate(J, list())
+    for(j in 1:J){states0[[j]]<-makeStartSimpler(Y, K)}
+
      # J= number of chains
         TrackParallelTemp<-matrix(nrow=M, ncol=J)
          TrackParallelTemp[1,]<-c(1:J)
@@ -35,6 +37,8 @@ gibbsHMM_MixturePrior<-function(YZ, M=2000, K=10 ,alphaMAX=1, PrbDiag=c("half", 
 
     #alphaMAX<-(K-1)*(1+K-2+alphaMin)*(1+1/( (1/2) - alphaMin*(K-1))) -(K-1)*alphaMin+0.1
     Alpha_lows<-c(alphaMAX, exp(seq(log(alphaMAX), log(alphaMin), length=J))[-1])
+    #Store alphs for PT
+    STORE_Alphas<-replicate(J, list())
     pb <- txtProgressBar(min = 0, max = M, style = 3)
          
       #names(TrackParallelTemp)<-   AllAlphas[,2]
@@ -81,13 +85,13 @@ AllAlphas[,ChooseColumn]<-alphaMAX      # make said column Amax}
           
                               # 1 Parameters given states Z(m-1)
                       # 1.1  Transition matrix Q from conditional posterior
-                      if (m==1) {nt<-CountTrans(states0, K)
+                      if (m==1) {nt<-CountTrans(states0[[j]], K)
                         } else { nt<-CountTrans(Z[[j]][m-1,],K)}   # HERE ACCESS STATES
                           
                         # draw transition probs for state 1:K
                     qnew<-matrix(ncol=K, nrow=K)
                     for(k in 1:K){qnew[k,]<-rdirichlet(par=nt[k,]+AllAlphas[k,])}
-
+STORE_Alphas[[j]]<-AllAlphas
     q0new <-  ALTERNATEq0(qnew)  
 
                         #METROPOLIS Hastings STEP     
@@ -116,7 +120,7 @@ Qold[[j]]<-  matrix( Q[[j]][m,]  , K,K, byrow=TRUE)                     # **NEW*
 
                         # 1.2 Update mu's    
                         # compute needed values:  N(k) = number of times state k is visited in chain, and sum(y_k) = sum of y's in state k 
-                        if (m==1) {sumNcount<-formu(states0[-(n+1)],Y,K)
+                        if (m==1) {sumNcount<-formu(states0[[j]][-(n+1)],Y,K)
                         } else {sumNcount<-formu(Z[[j]][m-1,-(n+1)], Y,K)}   
                            sumtot<-cbind(sumNcount$sumy, sumNcount$ny)                                                                                                    #       sums<-sumNcount$sumy ;    tots<-sumNcount$ny
                       # new means          
@@ -124,7 +128,7 @@ Qold[[j]]<-  matrix( Q[[j]][m,]  , K,K, byrow=TRUE)                     # **NEW*
                       MU[[j]][m,]<-mudraw  
                         
                     # 2 Update States given parameters
-                  newZ<- UpdateStates( Y, Q[[j]][m,], MU[[j]], initS= q0[[j]][m,], m)
+                  newZ<- UpdateStates( Y, Q[[j]][m,], MU[[j]][m,], initS= q0[[j]][m,], m)
                   Z[[j]][m,]<-newZ$Z
                   if(j==J) MAP[m]<-newZ$MAP
 
@@ -142,7 +146,7 @@ Qold[[j]]<-  matrix( Q[[j]][m,]  , K,K, byrow=TRUE)                     # **NEW*
     #Chain2<-Chain1+1
 
        
-       if (sample(c(1,0),1, prob=c(0.8,.2))==1){
+       if (sample(c(1,0),1, prob=c(0.1,.9))==1){
       if( m%%2==0){chainset<- c(1:(J-1))[c(1:(J-1))%%2==0]   #evens
       } else {chainset<- c(1:(J-1))[c(1:(J-1))%%2!=0] }   #odds
 
@@ -151,11 +155,20 @@ Qold[[j]]<-  matrix( Q[[j]][m,]  , K,K, byrow=TRUE)                     # **NEW*
           Chain2<-Chain1+1
         # DOUBLE CHECK THEORY HERE
           # HOW TO DO DIAG PROPERLY??
-          a1<-c(Alpha_lows[1],rep(Alpha_lows[Chain1], K-1))
-          a2<-c(Alpha_lows[1],rep(Alpha_lows[Chain2], K-1))
+          #a1<-c(Alpha_lows[1],rep(Alpha_lows[Chain1], K-1))
+          #a2<-c(Alpha_lows[1],rep(Alpha_lows[Chain2], K-1))
          # MHratio<- parallelAccept(q0[[Chain1]][m,], q0[[Chain2]][m,], AllAlphas[ Chain1,] , AllAlphas[Chain2,] )
 
-          MHratio<- parallelAccept(q0[[Chain1]][m,], q0[[Chain2]][m,], a1 ,a2 )
+
+        Alpha1<-STORE_Alphas[[Chain1]]
+        Alpha2<-STORE_Alphas[[Chain2]]
+
+        Qchain1<-matrix(Q[[Chain1]][m,], nrow=K, byrow=TRUE)
+        Qchain2<- matrix(Q[[Chain1]][m,]   , nrow=K, byrow=TRUE)
+
+       MHratio<- parallelAcceptHMM(Qchain1, Qchain2, Alpha1 ,Alpha2 )
+         
+         # MHratio<- parallelAccept(q0[[Chain1]][m,], q0[[Chain2]][m,], a1 ,a2 )
           if (MHratio==1){                                 # switch 
                    #new
                    .tpt1<-  TrackParallelTemp[m,Chain1 ]
