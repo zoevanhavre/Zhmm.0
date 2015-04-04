@@ -1,6 +1,6 @@
  #' UpdateStates
 #'
-#' density of dirichlet
+#' acceptance ratio based on transition matrix and initial dist
 #' @param x, alpha, log=False
 #' @keywords dirichlet
 #' @export

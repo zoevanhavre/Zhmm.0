@@ -1,6 +1,6 @@
- #' gibbsHMM_PT
+ #' gibbsHMM_PT 
 #'
-#' density of dirichlet
+#' parallel tempering with a column prior - option to mix over column or stick to j=1
 #' @param x, alpha, log=False
 #' @keywords dirichlet
 #' @export
@@ -8,7 +8,7 @@
 
 
 
-gibbsHMM_PTnew_Mixture<-function(YZ, M=2000, K=10 ,alphaMAX=1, PrbDiag=c("half", "fair"), alphaMin=1e-30, J=20, lab="sim"){
+gibbsHMM_PTnew<-function(YZ, M=2000, K=10 ,alphaMAX=1, type= c(1, "mix"), alphaMin=1e-30, J=20, lab="sim"){
     #____SET UP_________________________________________
     ifelse(class(YZ)=='data.frame',    Y<-YZ$Observed, Y<-YZ)
     n=length(Y) # sample size
@@ -46,7 +46,7 @@ gibbsHMM_PTnew_Mixture<-function(YZ, M=2000, K=10 ,alphaMAX=1, PrbDiag=c("half",
     # functions
     for (m in 1:M){ 
           
-          if(m %% 50==0){Sys.sleep(0.1)
+          if(m %% 100==0){Sys.sleep(0.1)
             print(PTsuccess)
           setTxtProgressBar(pb, m)
                   if(M < 20001){    
@@ -60,7 +60,8 @@ gibbsHMM_PTnew_Mixture<-function(YZ, M=2000, K=10 ,alphaMAX=1, PrbDiag=c("half",
        
      par(mfrow=c(1,3))
             plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l')
-            plot(as.vector(q0[[J]]), as.vector(MU[[J]]), color=rgb(0,0,0,alpha=as.vector(q0[[J]])))
+            plot(as.vector(q0[[J]][c(m-99:m), ]), as.vector(MU[[J]][c(m-99:m), ]))
+              #, color=rgb(0,0,0,alpha=as.vector(q0[[J]])))
            # image(Z[[J]][,order(Y)], col=rainbow(K), main="Allocations vs ordered Y")
             ts.plot(TrackParallelTemp, main='Track Parallel Tempering', col=rainbow(J), gpars=list(yaxt="n") )
             axis(2, at=1:J, tick=1:J, labels=round(c(Alpha_lows),4), las=2)
@@ -73,20 +74,13 @@ gibbsHMM_PTnew_Mixture<-function(YZ, M=2000, K=10 ,alphaMAX=1, PrbDiag=c("half",
              # make matrix of alphas
               AllAlphas<-matrix(Alpha_lows[j],ncol=K, nrow=K)   
 
-if (PrbDiag=="half"){
-    if(sample( c(1, 0), size=1, prob=c(0.5, 0.5))==1){   # Put on diagonal
-      diag(AllAlphas)<-alphaMAX 
-    } else { 
-ChooseColumn<-sample( c(1:K), size=1, prob=rep(1/K, K))    # draw non-diag position
-AllAlphas[,ChooseColumn]<-alphaMAX      # make said column Amax
-}
-}else if (PrbDiag=="fair"){
-  if(sample( c(1, 0), size=1, prob=c(1/K,(K-1)/K) )==1 ){     # Put on diagonal
-      diag(AllAlphas)<-alphaMAX 
-   } else { 
+if (type==1){
+    AllAlphas[,1]<-alphaMAX      # make said column Amax
+}else if (type=="mix"){
 ChooseColumn<-sample( c(1:K), size=1, prob=rep(1/K, K))    # draw non-diag position
 AllAlphas[,ChooseColumn]<-alphaMAX      # make said column Amax}
-}   } 
+}   
+
   
 
             #  if(runif(1)>0.5){        AllAlphas[,1]<-alphaMAX      
@@ -105,23 +99,23 @@ STORE_Alphas[[j]]<-AllAlphas
     q0new <-  ALTERNATEq0(qnew)  
 
                         #METROPOLIS Hastings STEP     
-                if (m>1){   
-q0Previous<-ALTERNATEq0(Qold[[j]])
-A<-q0new[Z[[j]][m-1,1]]/q0Previous[Z[[j]][m-1,1]]   
-# A<-q0new[Z[[j]][m-1,1]]/q0[[j]][m-1,Z[[j]][m-1,1]]   
-                                        if(A=='NaN'){A<-0}     
-                              U<-runif(1,c(0,0.99))
-                              if(A>runif(1,c(0,0.99))){  #  Accept new values
-                                        Q[[j]][m,]<-as.vector(t(qnew))
-                                        q0[[j]][m,]<-q0new
-                                    } else {  #Reject, chose OLD values of Q
-                                        #Q[[j]][m,]<-as.vector(t(Q[[j]][m-1,]))
-                                        Q[[j]][m,]<-as.vector(t(Qold[[j]]))
+              if (m>1){   
+                    q0Previous<-ALTERNATEq0(Qold[[j]])
+                    A<-q0new[Z[[j]][m-1,1]]/q0Previous[Z[[j]][m-1,1]]   
+                    # A<-q0new[Z[[j]][m-1,1]]/q0[[j]][m-1,Z[[j]][m-1,1]]   
+                                                            if(A=='NaN'){A<-0}     
+                    U<-runif(1,c(0,0.99))
+              if(A>runif(1,c(0,0.99))){  #  Accept new values
+                            Q[[j]][m,]<-as.vector(t(qnew))
+                            q0[[j]][m,]<-q0new
+              } else {  #Reject, chose OLD values of Q
+                            #Q[[j]][m,]<-as.vector(t(Q[[j]][m-1,]))
+                            Q[[j]][m,]<-as.vector(t(Qold[[j]]))
 
-                                      #  q0[[j]][m,]<-q0[[j]][m-1,]  
-                                        q0[[j]][m,]<-q0Previous
-                                        }
-                }else{ Q[[j]][m,]<-as.vector(t(qnew)) # 1st iteration always approved.
+                            #q0[[j]][m,]<-q0[[j]][m-1,]  
+                            q0[[j]][m,]<-q0Previous
+                            }
+              }else{ Q[[j]][m,]<-as.vector(t(qnew)) # 1st iteration always approved.
                           q0[[j]][m,]<-q0new  }
 
 # new SAVE Qold for next iter        # **NEW**
@@ -172,7 +166,8 @@ Qold[[j]]<-  matrix( Q[[j]][m,]  , K,K, byrow=TRUE)                     # **NEW*
               Qchain1<-matrix(Q[[Chain1]][m,], nrow=K, byrow=TRUE)
               Qchain2<- matrix(Q[[Chain2]][m,]   , nrow=K, byrow=TRUE)
 
-             MHratio<- parallelAcceptHMM_QV(Qchain1, Qchain2, Alpha1 ,Alpha2 , Z[[Chain1]][m,1], Z[[Chain2]][m,1])
+            MHratio<- parallelAcceptHMM_ergodic(Qchain1, Qchain2, Alpha1 ,Alpha2)
+            # MHratio<- parallelAcceptHMM_QV(Qchain1, Qchain2, Alpha1 ,Alpha2, Z[[Chain1]][m,1], Z[[Chain2]][m,1])
                
           if (MHratio==1){                                 # switch 
           PTsuccess[Chain1,"Success"]<-PTsuccess[Chain1, "Success"]+1
@@ -224,12 +219,14 @@ Qold[[j]]<-  matrix( Q[[j]][m,]  , K,K, byrow=TRUE)                     # **NEW*
 close(pb)
              PTsuccess[,"Ratio"]<-apply(PTsuccess[,c(2,3)], 1, function(x) x[2]/x[1])
 
+allResults<-list("Means"=MU[[J]], "Trans"=Q[[J]], "States"=Z[[J]], "q0"=q0[[J]], "YZ"=YZ, "MAP"=MAP, "K0"=SteadyScore$K0, "PTsuccess"=PTsuccess)
+
             if(m ==M){Sys.sleep(0.01)
       #   pdf( file=paste("HmmTracker_",lab, '.pdf', sep="") , height=4, width=12)
           png( file=paste("HmmTracker_",lab, '.png', sep="") , height=400, width=1200)
           par(mfrow=c(1,4))
           plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l', ylab="K0")
-          ts.plot(q0[[J]], main='q0 from target posterior', col=rainbow(K))
+        MuXqoPlot( allResults, M/5, minq=0.01, plotlab=lab)  
           ts.plot(TrackParallelTemp, main='Track Parallel Tempering', col=rainbow(J), gpars=list(yaxt="n") , ylab="alpha")
          # axis(2, at=1:J, tick=1:J, labels=round(AllAlphas[,2],4), las=2) 
           axis(2, at=1:J, tick=1:J, labels=round(c( Alpha_lows),4), las=2) 
@@ -238,7 +235,7 @@ close(pb)
           #image(ZSaved[[nCh]][order(Y),], col=rainbow(K), main="Allocations")
           dev.off()
           Sys.sleep(0)}
-          
-      return(list("Means"=MU[[J]], "Trans"=Q[[J]], "States"=Z[[J]], "q0"=q0[[J]], "YZ"=YZ, "MAP"=MAP, "K0"=SteadyScore$K0, "PTsuccess"=PTsuccess))
+
+      return(allResults)
       }
 
