@@ -72,16 +72,19 @@ gibbsHMM_PTnew<-function(YZ, M=2000, K=10 ,alphaMAX=1, type= 1, alphaMin=0.001, 
       for (j in 1:J){ # FOR EACH CHAIN           
           # FOR EACH CHAIN...
              # make matrix of alphas
-              AllAlphas<-matrix(Alpha_lows[j],ncol=K, nrow=K)   
+ AllAlphas<-matrix(Alpha_lows[j],ncol=K, nrow=K)   
 
 if (type==1){
     AllAlphas[,1]<-alphaMAX      # make said column Amax
+}else if (type=="diag"){
+   diag(AllAlphas)<-alphaMAX 
 }else if (type=="mix"){
-ChooseColumn<-sample( c(1:K), size=1, prob=rep(1/K, K))    # draw non-diag position
-AllAlphas[,ChooseColumn]<-alphaMAX      # make said column Amax}
-}   
-
-  
+    if(sample( c(1, 0), size=1, prob=c(0.5, 0.5))==1){   # Put on diagonal
+      diag(AllAlphas)<-alphaMAX 
+    } else {  
+      AllAlphas[,1]<-alphaMAX
+    }}
+   
 
             #  if(runif(1)>0.5){        AllAlphas[,1]<-alphaMAX      
            #     }else{                    diag(AllAlphas)<-alphaMAX}
