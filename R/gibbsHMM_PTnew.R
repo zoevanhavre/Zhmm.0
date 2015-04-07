@@ -8,7 +8,7 @@
 
 
 
-gibbsHMM_PTnew<-function(YZ, M=2000, K=10 ,alphaMAX=1, type= c(1, "mix"), alphaMin=1e-30, J=20, lab="sim"){
+gibbsHMM_PTnew<-function(YZ, M=2000, K=10 ,alphaMAX=1, type= 1, alphaMin=0.001, J=20, lab="sim"){
     #____SET UP_________________________________________
     ifelse(class(YZ)=='data.frame',    Y<-YZ$Observed, Y<-YZ)
     n=length(Y) # sample size
@@ -165,8 +165,9 @@ Qold[[j]]<-  matrix( Q[[j]][m,]  , K,K, byrow=TRUE)                     # **NEW*
 
               Qchain1<-matrix(Q[[Chain1]][m,], nrow=K, byrow=TRUE)
               Qchain2<- matrix(Q[[Chain2]][m,]   , nrow=K, byrow=TRUE)
+           MHratio<- parallelAcceptHMM_QV(Qchain1, Qchain2, Alpha1 ,Alpha2 , Z[[Chain1]][m,1], Z[[Chain2]][m,1])
 
-            MHratio<- parallelAcceptHMM_ergodic(Qchain1, Qchain2, Alpha1 ,Alpha2)
+# ratio if ergodic only:    # MHratio<- parallelAcceptHMM_ergodic(Qchain1, Qchain2, Alpha1 ,Alpha2)
             # MHratio<- parallelAcceptHMM_QV(Qchain1, Qchain2, Alpha1 ,Alpha2, Z[[Chain1]][m,1], Z[[Chain2]][m,1])
                
           if (MHratio==1){                                 # switch 

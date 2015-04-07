@@ -3,8 +3,8 @@
 \alias{gibbsHMM_PTnew}
 \title{gibbsHMM_PT}
 \usage{
-gibbsHMM_PTnew(YZ, M = 2000, K = 10, alphaMAX = 1, type = c(1, "mix"),
-  alphaMin = 1e-30, J = 20, lab = "sim")
+gibbsHMM_PTnew(YZ, M = 2000, K = 10, alphaMAX = 1, type = 1,
+  alphaMin = 0.001, J = 20, lab = "sim")
 }
 \arguments{
 \item{x,}{alpha, log=False}

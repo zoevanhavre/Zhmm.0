@@ -1,0 +1,1035 @@
+names(s3_n500_CB)
+s3_n500_CB$K0
+# K0 by prior#
+s3_500_K0<-rbind(#
+ cbind("Col_Big", s3_n500_CB$K0),#
+ ,cbind("Col_Small", s3_n500_CS$K0),#
+ ,cbind("Col_Big", s3_n500_DB$K0),#
+ ,cbind("Col_Small", s3_n500_DS$K0),#
+)
+cbind("Col_Big", s3_n500_CB$K0),
+cbind("Col_Big", s3_n500_CB$K0)
+# K0 by prior#
+s3_500_K0<-rbind(#
+ cbind("Col_Big", s3_n500_CB$K0),#
+ cbind("Col_Small", s3_n500_CS$K0),#
+ cbind("Diag_Big", s3_n500_DB$K0),#
+ cbind("Diag_Small", s3_n500_DS$K0),#
+)
+# K0 by prior#
+s3_500_K0<-rbind( cbind("Col_Big", s3_n500_CB$K0),#
+ cbind("Col_Small", s3_n500_CS$K0),#
+ cbind("Diag_Big", s3_n500_DB$K0),#
+ cbind("Diag_Small", s3_n500_DS$K0)#
+)
+head(s3_500_K0)
+s3_500_K0[,2]<-as.numeric(as.character(s3_500_K0[,2]))
+head(s3_500_K0)
+as.numeric(as.character(s3_500_K0[,2]))#
+>
+s3_500_K0[,2]<-as.numeric(as.character(s3_500_K0[,2]))
+head(s3_500_K0)
+s3_500_K0<-data.frame(cbind("Col_Big", s3_n500_CB$K0),#
+ cbind("Col_Small", s3_n500_CS$K0),#
+ cbind("Diag_Big", s3_n500_DB$K0),#
+ cbind("Diag_Small", s3_n500_DS$K0)#
+)
+head(s3_500_K0)
+s3_500_K0<-data.frame(rbind(cbind("Col_Big", s3_n500_CB$K0),#
+ cbind("Col_Small", s3_n500_CS$K0),#
+ cbind("Diag_Big", s3_n500_DB$K0),#
+ cbind("Diag_Small", s3_n500_DS$K0)#
+))
+head(s3_500_K0)
+ggplot(s3_500_K0, aes(y="K0", x="Prior"))+geom_bar()
+ggplot(s3_500_K0, aes(y="K0", x="Prior"))+geom_hist()
+ggplot(s3_500_K0, aes(y="K0", x="Prior"))+geom_histogram()
+ggplot(s3_500_K0, aes(y="K0", x=factor("Prior"))+geom_bar(stat='identity')
+)
+ggplot(s3_500_K0, aes(y="K0", x=factor("Prior")))+geom_bar(stat='identity')
+plot(s3_500_K0$K0~ s3_500_K0$Prior)
+plot(s3_500_K0$K0, s3_500_K0$Prior)
+hist(s3_500_K0$K0, s3_500_K0$Prior)
+head(s3_500_K00)
+head(s3_500_K0)
+class(s3_500_K0$X2)
+hist(s3_500_K0$K0, s3_500_K0$Prior)s3_500_K0<-data.frame(rbind(cbind("Col_Big", s3_n500_CB$K0),#
+ cbind("Col_Small", s3_n500_CS$K0),#
+ cbind("Diag_Big", s3_n500_DB$K0),#
+ cbind("Diag_Small", s3_n500_DS$K0)#
+))
+s3_500_K0<-data.frame(rbind(cbind("Col_Big", s3_n500_CB$K0),#
+ cbind("Col_Small", s3_n500_CS$K0),#
+ cbind("Diag_Big", s3_n500_DB$K0),#
+ cbind("Diag_Small", s3_n500_DS$K0)#
+))
+class(s3_500_K0$X2)
+s3_500_K0[,2]<-as.numeric(as.character(s3_500_K0[,2]))
+class(s3_500_K0$X2)
+ggplot(s3_500_K0, aes(y="K0", x=factor("Prior"))+geom_bar()
+ggplot(s3_500_K0, aes(y="K0", x=factor("Prior")))+geom_bar()
+ggplot(s3_500_K0, aes(y="K0", x="Prior"))+geom_bar()
+try<-melt(s3_n500_CB$K0, s3_n500_CS$K0, s3_n500_DS$K0, s3_n500_DB$K0)
+ggplot(try, aes(y=X1, x=X2))+geom_bar()
+ggplot(try, aes(y=X1, x='X2'))+geom_bar()
+ggplot(try, aes(y='X1', x='X2'))+geom_bar()
+ggplot(try, aes(y='X2', x='X1'))+geom_bar()
+head(try)
+hist(try)
+head(s3_500_K0)
+plot(s3_n500_CS$K0~s3_n500_CS$Iteration, main='#non-empty groups', type='l')
+ts.plot(s3_n500_CS$K0, main='#non-empty groups', type='l')
+hist(s3_n500_CS$K0, main='#non-empty groups', type='l')
+boxplot(s3_n500_CS$K0, main='#non-empty groups', type='l')
+s3_500_K0<-data.frame(rbind(cbind(1, s3_n500_CB$K0),#
+ cbind(2, s3_n500_CS$K0),#
+ cbind(3, s3_n500_DB$K0),#
+ cbind(4, s3_n500_DS$K0)#
+))
+head(s3_n500)
+head(s3_n500_K))
+head(s3_n500_K0)
+head(s3_500_K0)
+tail(s3_500_K0)
+ts.plot(X2~X1, data=s3_500_K0)
+plot(X2~X1, data=s3_500_K0)
+hist(X2~X1, data=s3_500_K0)
+ggplot(s3_500_K0, aes(y=X2))+geom_bar()
+ggplot(s3_500_K0, aes(y=X2, x=X1))+geom_bar()
+ggplot(s3_500_K0, aes(y=X2, x=X1))+geom_bar(stat='identity')
+ggplot(s3_500_K0, aes(y=X2, x=X1))+geom_histogram(stat='identity')
+ggplot(s3_500_K0, aes(y=X2, group=X1))+geom_histogram(stat='identity')
+ggplot(s3_500_K0, aes(y=X2, group=X1))+geom_histogram()
+ggplot(s3_500_K0, aes(x=X2, group=X1))+geom_histogram()
+ggplot(s3_500_K0, aes(x=X2, col=X1))+geom_histogram()
+ggplot(s3_500_K0, aes(x=X2, group=X1))+geom_histogram(col=X1)
+ggplot(s3_500_K0, aes(x=X2, group=X1))+geom_histogram(colour=X1)
+ggplot(s3_500_K0, aes(x=X2, group=X1))+geom_histogram()
+ggplot(s3_500_K0, aes(x=X2))+geom_histogram()
+ggplot(s3_500_K0, aes(x=X2))+geom_histogram(aes(colour=X1))
+ggplot(s3_500_K0, aes(x=X2))+geom_histogram(aes(fill=X1))
+ggplot(s3_500_K0, aes(x=X2, y=X1))+geom_bar()
+plot(s3_500_K0, aes(x=X2, y=X1))q
+qplot(s3_500_K0, aes(x=X2, y=X1))q
+qplot(s3_500_K0, aes(x=X2, y=X1))
+qplot(s3_500_K0, aes(x=X2, y=X1), gem'bar')
+qplot(s3_500_K0, aes(x=X2, y=X1), geom='bar')
+qplot(X2, data=s3_500_K0, geom='bar')
+qplot(X2, data=s3_500_K0, geom='bar', fill=X1)
+head(s3_500_K0)
+qplot(X2, data=s3_500_K0, geom='bar', fill=X1)
+?qplot
+qplot(X2, data=s3_500_K0, geom='bar', colour=X1)
+qplot(X2, data=s3_500_K0, geom='bar', color=X1)
+qplot(X2, data=s3_500_K0, geom='bar')
+qplot(X2, data=s3_500_K0, geom='bar', color=factor(X1))
+qplot(X2, data=s3_500_K0, geom='hist', color=factor(X1))
+qplot(X2, data=s3_500_K0, geom='histogram', color=factor(X1))
+qplot(X2, data=s3_500_K0, geom='histogram', fill=factor(X1))
+load('~/Google Drive/P3 HMMs/Lyra Simulations/RESULTS/Feb12/s3_n100_CB.RDATA')#
+ load('~/Google Drive/P3 HMMs/Lyra Simulations/RESULTS/Feb12/s3_n100_CS.RDATA')#
+ load('~/Google Drive/P3 HMMs/Lyra Simulations/RESULTS/Feb12/s3_n100_DB.RDATA')#
+ load('~/Google Drive/P3 HMMs/Lyra Simulations/RESULTS/Feb12/s3_n100_DS.RDATA')
+load('~/Google Drive/P3 HMMs/Lyra Simulations/RESULTS/Feb12/s4_n100_DS010.RDATA')
+s3_100_K0<-data.frame(rbind(cbind("Col_Big", s3_n100_CB$K0),#
+  cbind("Col_Small", s3_n100_CS$K0),#
+  cbind("Diag_Big", s3_n100_DB$K0),#
+  cbind("Diag_Small", s3_n100_DS$K0)#
+ ))#
+#
+qplot(X2, data=s3_100_K0, geom='histogram', fill=factor(X1))
+ls()
+load('~/Google Drive/P3 HMMs/Lyra Simulations/RESULTS/Feb12/s3_n100_DS010.RDATA')
+s3_100_K0<-data.frame(rbind(cbind("Col_Big", s3_n100_CB$K0),#
+  cbind("Col_Small", s3_n100_CS$K0),#
+  cbind("Diag_Big", s3_n100_DB$K0),#
+  cbind("Diag_Small", s3_n100_DS$K0)#
+ ))#
+#
+qplot(X2, data=s3_100_K0, geom='histogram', fill=factor(X1))
+s3_100_K0<-data.frame(rbind(cbind("Col_Big", s3_n100_CB$K0),#
+  cbind("Col_Small", s3_n100_CS$K0),#
+  cbind("Diag_Big", s3_n100_DB$K0),#
+  cbind("Diag_Small", s3_n100_DS$K0)#
+ ))#
+#
+qplot(X2, data=s3_100_K0, geom='histogram', fill=factor(X1), position='dodge')
+s3_100_K0<-data.frame(rbind(cbind("Col_Big", s3_n100_CB$K0),#
+  cbind("Col_Small", s3_n100_CS$K0),#
+  cbind("Diag_Big", s3_n100_DB$K0),#
+  cbind("Diag_Small", s3_n100_DS$K0)#
+ ))#
+#
+qplot(X2, data=s3_100_K0, geom='density', fill=factor(X1))
+s3_100_K0<-data.frame(rbind(cbind("Col_Big", s3_n100_CB$K0),#
+  cbind("Col_Small", s3_n100_CS$K0),#
+  cbind("Diag_Big", s3_n100_DB$K0),#
+  cbind("Diag_Small", s3_n100_DS$K0)#
+ ))#
+#
+qplot(X2, data=s3_100_K0, geom='density', fill=X1)
+s3_100_K0<-data.frame(rbind(cbind("Col_Big", s3_n100_CB$K0),#
+  cbind("Col_Small", s3_n100_CS$K0),#
+  cbind("Diag_Big", s3_n100_DB$K0),#
+  cbind("Diag_Small", s3_n100_DS$K0)#
+ ))#
+#
+qplot(X2, data=s3_100_K0, geom='density')
+head(s3_100_K0)
+class(s3_100_K0$X1)
+class(s3_100_K0$X2)
+s3_100_K0<-data.frame(rbind(cbind("Col_Big", s3_n100_CB$K0),#
+  cbind("Col_Small", s3_n100_CS$K0),#
+  cbind("Diag_Big", s3_n100_DB$K0),#
+  cbind("Diag_Small", s3_n100_DS$K0)#
+ ))#
+#
+qplot(as.numeric(X2), data=s3_100_K0, geom='density')
+qplot(as.numeric(X2), data=s3_100_K0,fill=X2 geom='density')
+qplot(as.numeric(X2), data=s3_100_K0,fill=X2 ,geom='density')
+qplot(as.numeric(X2), data=s3_100_K0,fill=X1 ,geom='density')
+s3_both<-rbind(data.frame(s3_500_K0, n=500),data.frame(s3_100_K0, n=100)	)
+head(s3_both)
+qplot(as.numeric(X2), data=s3_100_K0,fill=X1 ,geom='density', facet=n)
+qplot(as.numeric(X2), data=s3_100_K0,fill=X1 ,geom='density', facet='n')
+qplot(as.numeric(X2), data=s3_100_K0,fill=X1 ,geom='density', facets='n')
+qplot(as.numeric(X2), data=s3_100_K0,fill=X1 ,geom='density', facet='n')
+qplot(as.numeric(X2), data=s3_100_K0,fill=X1 ,geom='density', facets='n')
+qplot(as.numeric(X2), data=s3_both,fill=X1 ,geom='density', facets='n')
+qplot(as.numeric(X2), data=s3_both,fill=X1 ,geom='density', facets=n)
+head(s3_both)
+qplot(as.numeric(X2), data=s3_both,fill=X1 ,geom='density', facets=as.factor(n))
+qplot(as.numeric(X2), data=s3_both,fill=X1 ,geom='density', facets=as.factor('n'))
+qplot(as.numeric(X2), data=s3_both,fill=X1 ,geom='density', facets=factor('n'))
+qplot(as.numeric(X2), data=s3_both,fill=X1 ,geom='density')
+s3_500_K0<-data.frame(rbind(cbind("Col_Big", s3_n500_CB$K0),#
+  cbind("Col_Small", s3_n500_CS$K0),#
+  cbind("Diag_Big", s3_n500_DB$K0),#
+  cbind("Diag_Small", s3_n500_DS$K0)#
+ ))
+s3_both<-rbind(data.frame(s3_500_K0, n=500),data.frame(s3_100_K0, n=100)	)
+qplot(as.numeric(X2), data=s3_both,fill=X1 ,geom='density', facets=as.factor('n'))
+qplot(as.numeric(X2), data=s3_both,fill=X1 ,geom='density')
+s3_both$X2
+s3_both$X2<-as.numeric(as.character(s3_both$X2))
+s3_both$X2
+qplot(X2, data=s3_both,fill=X1 ,geom='density', facets='n')
+qplot(X2, data=s3_both,fill=X1 ,geom='density', facets=n)
+qplot(X2, data=s3_both,fill=X1 ,geom='density')
+class(s3_both$n)
+qplot(X2, data=s3_both,fill=X1 ,geom='density', facets=factor('n'))
+qplot(X2, data=s3_both,fill=X1 ,geom='density', facets=factor(n))
+qplot(X2, data=s3_both,fill=X1 ,geom='density', facets=as.factor(n))
+qplot(X2, data=s3_both,fill=X1 ,geom='density', facets=as.factor('n'))
+s3_both$n<-as.factor(s3_both$n)
+qplot(X2, data=s3_both,fill=X1 ,geom='density', facets=as.factor('n'))
+qplot(X2, data=s3_both,fill=X1 ,geom='density', facets=n)
+qplot(X2, data=s3_both,fill=X1 ,geom='density', facets=s3_both$n)
+> plot(residuals(lmS1), S1$x)
+library(devtools)#
+library(roxygen2)#
+install_github('zoevanhavre/Zhmm.0')
+install_github("zoevanhavre/Zhmm.0")
+?install_github
+install_github('zoevanhavre/Zhmm.0', auth_token='2fc7e2af77543d2a61981e945f6a67f6c4e59d7e' )
+library(Zhmm)
+Sim2_a01n100<-gibbsHMM_Alternator( YZ=FunkSim2(100),  M=500, alphaMin=1e-30, J=20  ,K=10 )
+getwd()
+Sim2_lo<-Sim2_a01n100#
+pp_Sim2_lo<-Zhmm_PostProc( Sim2_lo, Sim2_lo$YZ, burn=100, Thin=1, prep=100, isSim=TRUE, simlabel="Sim2_lo")
+pp_Sim2_lo [[1]]
+#' PostProcessing function univ#
+#'#
+#' This function draws samples from a Wishart dist#
+#' @param v and s#
+#' @keywords Wishart#
+#' @export#
+#' @examples#
+#' #nope#
+#
+Zhmm_PostProc<-function( Grun, mydata, burn=1000, Thin=1, prep=1000, isSim=TRUE, simlabel="sim"){	#
+	#	maxZ<-function (x)  {as.numeric(names(which.max(table( x ))))}#
+	 Grun<-TrimThin(Grun, burn, Thin)		#
+	 #extract Y's from sim or data:#
+	 ifelse(isSim==TRUE, Y<-mydata$Observed,  Y<-mydata)#
+	targetK0<-Grun$K0#
+	K0<-as.numeric(names(table(targetK0 )))#
+	n<-length(Y)  #
+	K<-dim(Grun$q0)[2]	#
+	p_vals<-data.frame("K0"=K0, "PropIters"=as.numeric(table(Grun$K0)/dim(Grun$q0)[1]), "RAND"=NA, "MAE"=NA, "MSE"=NA,"Pmin"=NA, "Pmax"=NA, "Concordance"=NA, "MAPE"=NA, "MSPE"=NA)#
+	## 1. split by K0#
+	K0estimates<-vector("list", length(K0))#
+	Zestimates<-vector("list", length(K0))#
+	USfullrun<-vector("list", length(K0))#
+	#for each K0:#
+	for ( .K0 in 1:length(K0)){#
+		grunK0<-Grun#
+		# split data by K0#
+		.iterK0<- c(na.omit(c(1:dim(Grun$q0) [1])[ targetK0  ==K0[.K0]]))#
+		if(length(.iterK0)>20){#
+		grunK0$Mu<-	Grun$Means[.iterK0,]#
+		grunK0$Q<-	Grun$Trans[.iterK0,]#
+		grunK0$q0<-	Grun$q0[.iterK0,]#
+		grunK0$MAP<-Grun$MAP[.iterK0]#
+		grunK0$Z<-	Grun$States[.iterK0,]#
+		grunK0$K0<-	Grun$K0[.iterK0]#
+#
+		## 2. unswitch#
+		grunK0us<-Zswitch_hmm(grunK0,0.05 )			#
+		Zetc<-Zagg_HMM(grunK0us, Y)#
+		USfullrun[[.K0]]<-grunK0us#
+#
+		# PLOTS#
+		p1<-ggplot(data=grunK0us$Pars, aes(x=q0, fill=factor(k))) + geom_density( alpha=0.4)+ylab("")+xlab("")  +  theme(legend.position = "none")+#
+		ggtitle(bquote(atop(italic(paste( "p(K=", .(K0[.K0]), ")=", .(round(p_vals$PropIters[.K0],2)), sep="")), atop("Stationary distribution"))))#
+#
+		p2<-ggplot(data=grunK0us$Pars, aes(x=mu, fill=factor(k))) + geom_density( alpha=0.4)+ylab("")+xlab("") +  theme(legend.position = "none")+#
+		ggtitle( bquote( atop(italic( paste(.(simlabel) , ", K=", .(K0[.K0]) ) ), atop("Means"))))#
+	#	p3<-ggplot(data=grunK0us$Pars, aes(x=X5, fill=factor(k))) +geom_density(alpha=0.4)+ggtitle("One column of Q")+ylab("")+xlab("") +  theme(legend.position = "none")#
+	#	grobframe <- arrangeGrob(p1, p2, p3, ncol=3, nrow=1,main = textGrob(paste(simlabel,": posterior parameter estimates for", K0[.K0]," groups"), gp = gpar(fontsize=8, fontface="bold.italic", fontsize=14)))#
+	#	ggsave(plot=grobframe, filename= paste("PosteriorParDensities_",simlabel,"_K0", K0[.K0],".pdf", sep="") , width=20, height=7, units='cm')#
+		## 3. RAND, MSE	#
+		if(isSim==TRUE){	Zhat<- Zetc$Zpred#
+					p_vals$RAND[.K0]<-(sum(mydata$States==Zhat)/n) #
+		} else {			p_vals$RAND[.K0]<-'NA'}#
+#
+		K0estimates[[.K0]]<-cbind(Zetc$theta, "K0"=K0[.K0])#
+		Zestimates[[.K0]]<-Zetc$Zpred#
+#NEW#
+		# clust probabilities:#
+p3<-HmmAllocationPlot(outZ=grunK0us$Z[,-(n+1)], myY=Y)#
+		## 4. Predict replicates#
+		postPredTests<-PostPredFunk( grunK0us,Zetc, Y, prep, simlabel)#
+		p4<-postPredTests$ggp#
+		# store output in p_vasl#
+		p_vals$MAE[.K0]<- Zetc$MAE#
+		p_vals$MSE[.K0]<- Zetc$MSE#
+		p_vals$Pmin[.K0]<-postPredTests$MinP#
+		p_vals$Pmax[.K0]<-postPredTests$MaxP#
+		p_vals$MAPE[.K0]<-postPredTests$MAPE#
+		p_vals$MSPE[.K0]<-postPredTests$MSPE#
+		p_vals$Concordance[.K0]<-1-postPredTests$Concordance		#
+# clusters:#
+plotyz<-data.frame("X"=1:n, "Y"=Y, "Post_Z"=Zetc$Zpred[-(n+1)])#
+p5<-ggplot(plotyz, aes(y=Y,x=X ))+geom_point(aes(colour=Post_Z),)+ geom_line(alpha = 1/4)+theme_bw()+  theme(legend.position = "none")+ggtitle("Posterior Allocations")+xlab("Time") #
+#
+		pdf( file= paste("pp_", simlabel, "K_ ",K0[.K0] , ".pdf",sep='') ,width=10, height=5)#
+	 		print( wq::layOut(	list(p1, 	1, 1:2),  #
+		        	list(p2, 	1, 3:4),   #
+		         	list(p3,	1,5:6),#
+		         	list(p5, 	2,1:3),  #
+		          	list(p4, 	2,4:6)))#
+		dev.off()#
+		} }#
+	return(list(p_vals, K0estimates,Zestimates, USfullrun))		      }
+Sim2_lo<-Sim2_a01n100#
+pp_Sim2_lo<-Zhmm_PostProc( Sim2_lo, Sim2_lo$YZ, burn=100, Thin=1, prep=100, isSim=TRUE, simlabel="Sim2_lo")
+pp_Sim2_lo [[1]]
+Sim2_lesslo<-gibbsHMM_Alternator( YZ=FunkSim2(100),  M=500, alphaMin=1e-10, J=20  ,K=10 ) #
+pp_Sim2_lesslo<-Zhmm_PostProc( Sim2_lesslo, Sim2_lesslo$YZ, burn=100, Thin=1, prep=100, isSim=TRUE, simlabel="Sim2_lesslo")	#
+pp_Sim2_lesslo[[1]]
+Sim2_lo<-gibbsHMM_Alternator( YZ=FunkSim2(100),  M=1000, alphaMin=1e-30, J=20  ,K=10 ) #
+pp_Sim2_lo<-Zhmm_PostProc( Sim2_lo, Sim2_lo$YZ, burn=500, Thin=1, prep=200, isSim=TRUE, simlabel="Sim2_lo")	#
+pp_Sim2_lo[[1]]#
+  Sim2_lesslo<-gibbsHMM_Alternator( YZ=FunkSim2(100),  M=1000, alphaMin=1e-10, J=20  ,K=10 ) #
+pp_Sim2_lesslo<-Zhmm_PostProc( Sim2_lesslo, Sim2_lesslo$YZ, burn=500, Thin=1, prep=200, isSim=TRUE, simlabel="Sim2_lesslo")	#
+pp_Sim2_lesslo[[1]]
+4*2
+dDirichlet(1, alpha=c(1,0.2,0.2))
+dDirichlet(3, alpha=c(1,0.2,0.2))
+rdirichlet(c(1,0,0))
+rdirichlet(c(1,0.1,0.1))
+rdirichlet(1,c(1,0.1,0.1))
+rdirichlet(10,c(1,0.1,0.1))
+rdirichlet(10,c(17,0.1,0.1))
+apply(rdirichlet(10,c(17,0.1,0.1)), 1, sort)
+lapply(rdirichlet(10,c(17,0.1,0.1)), 1, sort)
+vapply(rdirichlet(10,c(17,0.1,0.1)), 1, sort)
+sapply(rdirichlet(10,c(17,0.1,0.1)), 1, sort)
+apply(rdirichlet(10,c(17,0.1,0.1)), 1, sort)
+apply(rdirichlet(1,c(17,0.1,0.1)), 1, sort)
+apply(rdirichlet(10,c(17,0.1,0.1)), 1, sort)
+boxplot(apply(rdirichlet(10,c(17,0.1,0.1)), 1, sort))
+boxplot(t(apply(rdirichlet(10,c(17,0.1,0.1)), 1, sort)))
+boxplot(t(apply(rdirichlet(1000,c(17,0.1,0.1)), 1, sort)))
+boxplot(t(apply(rdirichlet(1000,c(17,0.125,0.125)), 1, sort)))
+par(mfrow=c(2,1))
+boxplot(t(apply(rdirichlet(1000,c(17,0.125,0.125)), 1, sort)))
+par(mfrow=c(1,2))
+boxplot(t(apply(rdirichlet(1000,c(17,0.125,0.125)), 1, sort)))
+boxplot(t(apply(rdirichlet(1000,c(1,0,0)), 1, sort)))
+boxplot(t(apply(rdirichlet(1000,c(1,0.125,0.125)), 1, sort)))
+boxplot(rdirichlet(1000,c(1,0.125,0.125)))
+boxplot(rdirichlet(1000,c(17,0.125,0.125)))
+boxplot(rdirichlet(1000,c(1,0.125,0.125)))
+boxplot(rdirichlet(1000,c(17,0.125,0.125)))
+boxplot(rdirichlet(1000,c(1,0.000000000000000001,0.00000000000000001)))
+boxplot(rdirichlet(1000,c(1,0.000000000000000001,0.00000000000000001)), ylim=c(0,00.1))
+boxplot(rdirichlet(1000,c(17,0.125,0.125)), ylim=c(0,.1))
+boxplot(rdirichlet(1000,c(1,0.000000000000000001,0.00000000000000001)), ylim=c(0,00.01))
+boxplot(rdirichlet(1000,c(17,0.125,0.125)), ylim=c(0,.01))
+boxplot(rdirichlet(1000,c(1,0.000000000000000001,0.00000000000000001)), ylim=c(0,00.01))#
+> boxplot(rdirichlet(1000,c(17,0.125,0.125)), ylim=c(0,.01))#
+par(mfrow=c(2,2))#
+boxplot(rdirichlet(1000,c(1,0.000000000000000001,0.00000000000000001)), ylim=c(0,1))#
+boxplot(rdirichlet(1000,c(17,0.125,0.125)), ylim=c(0,1))#
+boxplot(rdirichlet(1000,c(1,0.000000000000000001,0.00000000000000001)), ylim=c(0,.1))#
+boxplot(rdirichlet(1000,c(17,0.125,0.125)), ylim=c(0,.1))
+Q1<-rbind( c(.5, .5, 0), c(0.5, 0.5, 0), c(1,0,0))#
+#
+Q2<-rbind( c(.5, .5, 0), c(0.5, 0.5, 0), c(0,0,1))
+q0t<-c(0.5, 0.5,0)
+Q1%*%q0t
+q08
+q0t
+q0t%*%Q1
+q0t%*%Q2
+c(0,0,1)%*%Q2
+q0t%*%Q2
+q0t%*%Q1
+q0t%*%Q2
+Q2%*%Q2
+Q!%*%Q2
+Q1%*%Q2
+#' gibbsHMM_PT#
+#'#
+#' density of dirichlet#
+#' @param x, alpha, log=False#
+#' @keywords dirichlet#
+#' @export#
+#' @examples dDirichlet(c(.1, .9), c(0.1,0.1))#
+gibbsHMM_PTnew<-function(YZ, M=2000, K=10 ,alphaMAX=1, type= c(1, "mix"), alphaMin=1e-30, J=20, lab="sim"){#
+    #____SET UP_________________________________________#
+    ifelse(class(YZ)=='data.frame',    Y<-YZ$Observed, Y<-YZ)#
+    n=length(Y) # sample size#
+    varknown<-1 # known variace #
+    mu0=0; var0=100#
+     # INITIALIZE#
+   # startVal<-makeStart(Y, K);  states0<-startVal$states0   #FUNK#
+    states0<-replicate(J, list())#
+    for(j in 1:J){states0[[j]]<-makeStartSimpler(Y, K)}#
+#
+     # J= number of chains#
+        TrackParallelTemp<-matrix(nrow=M, ncol=J)#
+         TrackParallelTemp[1,]<-c(1:J)#
+      # TO BE INCORPORATED INTO J LISTS#
+    MU<-replicate(J,  matrix(nrow=M, ncol=K),  simplify=F)#
+    Q  <-replicate(J, matrix(nrow=M, ncol=K*K) , simplify=F)#
+    Qold<- replicate(J, diag(K), simplify=F)#
+    q0 <-replicate(J, matrix(nrow=M, ncol=K), simplify=F)#
+    Z  <-replicate(J, matrix(nrow=M, ncol=n+1)  ,  simplify=F)  #include 0 for initial state to be estimated too?#
+    SteadyScore<-data.frame("Iteration"=c(1:M), "K0"=K) ##### THIS IS NEW###
+    PTsuccess  <- data.frame("Chain"=c(1:J),"Tries"=0,"Success"=0, "Ratio"=NA) #include 0 for initial state to be estimated too?#
+    ntSTORE<-replicate(J, list())#
+    K0Final<-matrix(nrow=M, ncol=J)#
+    MAP<-c(1:M)  # KEEP TARGET ONLY#
+    # ALPHA#
+#
+    #alphaMAX<-(K-1)*(1+K-2+alphaMin)*(1+1/( (1/2) - alphaMin*(K-1))) -(K-1)*alphaMin+0.1#
+    Alpha_lows<-c(alphaMAX, exp(seq(log(alphaMAX), log(alphaMin), length=J))[-1])#
+    #Store alphs for PT#
+    STORE_Alphas<-replicate(J, list())#
+    pb <- txtProgressBar(min = 0, max = M, style = 3)#
+      #names(TrackParallelTemp)<-   AllAlphas[,2]#
+    # functions#
+    for (m in 1:M){ #
+          if(m %% 100==0){Sys.sleep(0.1)#
+            print(PTsuccess)#
+          setTxtProgressBar(pb, m)#
+                  if(M < 20001){    #
+      #     par(mfrow=c(1,4))#
+      #    plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l')#
+      #    ts.plot(q0[[J]], main='q0 from target posterior', col=rainbow(K))#
+      #    ts.plot(TrackParallelTemp, main='Track Parallel Tempering', col=rainbow(J), gpars=list(yaxt="n") )#
+        #  axis(2, at=1:J, tick=1:J, labels=round(AllAlphas[,2],4), las=2) #
+      #    axis(2, at=1:J, tick=1:J, labels=round(c(Alpha_lows),4), las=2)#
+      #    image(Z[[J]][,order(Y)], col=rainbow(K), main="Allocations vs ordered Y")#
+     par(mfrow=c(1,3))#
+            plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l')#
+            plot(as.vector(q0[[J]][c(m-99:m), ]), as.vector(MU[[J]][c(m-99:m), ]))#
+              #, color=rgb(0,0,0,alpha=as.vector(q0[[J]])))#
+           # image(Z[[J]][,order(Y)], col=rainbow(K), main="Allocations vs ordered Y")#
+            ts.plot(TrackParallelTemp, main='Track Parallel Tempering', col=rainbow(J), gpars=list(yaxt="n") )#
+            axis(2, at=1:J, tick=1:J, labels=round(c(Alpha_lows),4), las=2)#
+          Sys.sleep(0)}}#
+      for (j in 1:J){ # FOR EACH CHAIN           #
+          # FOR EACH CHAIN...#
+             # make matrix of alphas#
+              AllAlphas<-matrix(Alpha_lows[j],ncol=K, nrow=K)   #
+#
+if (type==1){#
+    AllAlphas[,1]<-alphaMAX      # make said column Amax#
+}else if (type=="mix"){#
+ChooseColumn<-sample( c(1:K), size=1, prob=rep(1/K, K))    # draw non-diag position#
+AllAlphas[,ChooseColumn]<-alphaMAX      # make said column Amax}#
+}   #
+            #  if(runif(1)>0.5){        AllAlphas[,1]<-alphaMAX      #
+           #     }else{                    diag(AllAlphas)<-alphaMAX}#
+                              # 1 Parameters given states Z(m-1)#
+                      # 1.1  Transition matrix Q from conditional posterior#
+                      if (m==1) {nt<-CountTrans(states0[[j]], K)#
+                        } else { nt<-CountTrans(Z[[j]][m-1,],K)}   # HERE ACCESS STATES#
+                          ntSTORE[[j]]<-nt#
+                        # draw transition probs for state 1:K#
+                    qnew<-matrix(ncol=K, nrow=K)#
+                    for(k in 1:K){qnew[k,]<-rdirichlet(par=nt[k,]+AllAlphas[k,])}#
+STORE_Alphas[[j]]<-AllAlphas#
+    q0new <-  ALTERNATEq0(qnew)  #
+#
+                        #METROPOLIS Hastings STEP     #
+              if (m>1){   #
+                    q0Previous<-ALTERNATEq0(Qold[[j]])#
+                    A<-q0new[Z[[j]][m-1,1]]/q0Previous[Z[[j]][m-1,1]]   #
+                    # A<-q0new[Z[[j]][m-1,1]]/q0[[j]][m-1,Z[[j]][m-1,1]]   #
+                                                            if(A=='NaN'){A<-0}     #
+                    U<-runif(1,c(0,0.99))#
+              if(A>runif(1,c(0,0.99))){  #  Accept new values#
+                            Q[[j]][m,]<-as.vector(t(qnew))#
+                            q0[[j]][m,]<-q0new#
+              } else {  #Reject, chose OLD values of Q#
+                            #Q[[j]][m,]<-as.vector(t(Q[[j]][m-1,]))#
+                            Q[[j]][m,]<-as.vector(t(Qold[[j]]))#
+#
+                            #q0[[j]][m,]<-q0[[j]][m-1,]  #
+                            q0[[j]][m,]<-q0Previous#
+                            }#
+              }else{ Q[[j]][m,]<-as.vector(t(qnew)) # 1st iteration always approved.#
+                          q0[[j]][m,]<-q0new  }#
+#
+# new SAVE Qold for next iter        # **NEW**#
+Qold[[j]]<-  matrix( Q[[j]][m,]  , K,K, byrow=TRUE)                     # **NEW**#
+                        # 1.2 Update mu's    #
+                        # compute needed values:  N(k) = number of times state k is visited in chain, and sum(y_k) = sum of y's in state k #
+                        if (m==1) {sumNcount<-formu(states0[[j]][-(n+1)],Y,K)#
+                        } else {sumNcount<-formu(Z[[j]][m-1,-(n+1)], Y,K)}   #
+                           sumtot<-cbind(sumNcount$sumy, sumNcount$ny)                                                                                                    #       sums<-sumNcount$sumy ;    tots<-sumNcount$ny#
+                      # new means          #
+                      mudraw<-apply(sumtot, 1,  function (x)     rnorm(1, mean= ((mu0/var0)+(x[1]/varknown)) / ((1/var0)+(x[2]/varknown)), sd= sqrt( 1/( (1/var0) + (x[2]/varknown)))  ))#
+                      MU[[j]][m,]<-mudraw  #
+                    # 2 Update States given parameters#
+                  newZ<- UpdateStates( Y, Q[[j]][m,], MU[[j]][m,], initS= q0[[j]][m,], m)#
+                  Z[[j]][m,]<-newZ$Z#
+                  if(j==J) MAP[m]<-newZ$MAP#
+             } #end of PT chain loop#
+## PT move#
+#
+          if(m>1) {TrackParallelTemp[m,]<-TrackParallelTemp[m-1,]}     #
+          if(m>20){#
+        #  if( sample(c(1,0),1, 0.9)==1){   # FREQ OF TEMPERING! #
+## NEW, try each chain each time#
+    #Chain1<-sample( 1:(J-1), 1)   #
+    #Chain2<-Chain1+1#
+       if (sample(c(1,0),1, prob=c(0.1,.9))==1){#
+      if( m%%2==0){chainset<- c(1:(J-1))[c(1:(J-1))%%2==0]   #evens#
+      } else {chainset<- c(1:(J-1))[c(1:(J-1))%%2!=0] }   #odds#
+#
+ for( eachChain in 1:length(chainset)){#
+                Chain1<-chainset[eachChain]  #
+                Chain2<-Chain1+1#
+                 PTsuccess[Chain1,"Tries"]<-     PTsuccess[Chain1,"Tries"]+1#
+                 PTsuccess[Chain2,"Tries"]<-     PTsuccess[Chain2,"Tries"]+1#
+              Alpha1<-STORE_Alphas[[Chain1]]#
+              Alpha2<-STORE_Alphas[[Chain2]]#
+#
+              Qchain1<-matrix(Q[[Chain1]][m,], nrow=K, byrow=TRUE)#
+              Qchain2<- matrix(Q[[Chain2]][m,]   , nrow=K, byrow=TRUE)#
+#
+            MHratio<- parallelAcceptHMM_ergodic(Qchain1, Qchain2, Alpha1 ,Alpha2)#
+            # MHratio<- parallelAcceptHMM_QV(Qchain1, Qchain2, Alpha1 ,Alpha2, Z[[Chain1]][m,1], Z[[Chain2]][m,1])#
+          if (MHratio==1){                                 # switch #
+          PTsuccess[Chain1,"Success"]<-PTsuccess[Chain1, "Success"]+1#
+          PTsuccess[Chain2,"Success"]<-PTsuccess[Chain2, "Success"]+1#
+                   #new#
+                   .tpt1<-  TrackParallelTemp[m,Chain1 ]#
+                   .tpt2<-  TrackParallelTemp[m,Chain2 ]             #
+                  TrackParallelTemp[m,Chain1 ]<-.tpt2#
+                  TrackParallelTemp[m,Chain2 ]<-.tpt1 #
+          .p1<- q0[[Chain1]][m,]#
+          .p2<- q0[[Chain2]][m,]#
+          q0[[Chain1]][m,]<-.p2#
+          q0[[Chain2]][m,]<-.p1#
+          .m1<- MU[[Chain1]][m,]#
+          .m2<- MU[[Chain2]][m,]#
+          MU[[Chain1]][m,]<-.m2#
+          MU[[Chain2]][m,]<-.m1#
+          .s1<- Q[[Chain1]][m,]#
+          .s2<- Q[[Chain2]][m,]#
+          Q[[Chain1]][m,]<-.s2#
+          Q[[Chain2]][m,]<-.s1#
+          #ici#
+.Qold1<- Qold[[Chain1]]#
+.Qold2<- Qold[[Chain2]]#
+          Qold[[Chain1]]<-.Qold2#
+          Qold[[Chain2]]<-.Qold1#
+                                                                                                                # Zs#
+          .z1<- Z[[Chain1]][m,]#
+          .z2<- Z[[Chain2]][m,]#
+          Z[[Chain1]][m,]<-.z2#
+          Z[[Chain2]][m,]<-.z1#
+          }   }  #
+         PTsuccess[,"Ratio"]<-apply(PTsuccess[,c(2,3)], 1, function(x) x[2]/x[1])#
+              }}#
+   SteadyScore$K0[m]<-sum(table(Z[[J]][m,])>0)#
+#
+# for all chains #
+       K0Final[ m, ]<-sapply(   Z  ,  function(x)  sum(table(x[m,])>0))#
+#
+            }  # end of iteration loop#
+close(pb)#
+             PTsuccess[,"Ratio"]<-apply(PTsuccess[,c(2,3)], 1, function(x) x[2]/x[1])#
+#
+allResults<-list("Means"=MU[[J]], "Trans"=Q[[J]], "States"=Z[[J]], "q0"=q0[[J]], "YZ"=YZ, "MAP"=MAP, "K0"=SteadyScore$K0, "PTsuccess"=PTsuccess)#
+#
+            if(m ==M){Sys.sleep(0.01)#
+      #   pdf( file=paste("HmmTracker_",lab, '.pdf', sep="") , height=4, width=12)#
+          png( file=paste("HmmTracker_",lab, '.png', sep="") , height=400, width=1200)#
+          par(mfrow=c(1,4))#
+          plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l', ylab="K0")#
+        MuXqoPlot( allResults, M/5, minq=0.01, plotlab=lab)  #
+          ts.plot(TrackParallelTemp, main='Track Parallel Tempering', col=rainbow(J), gpars=list(yaxt="n") , ylab="alpha")#
+         # axis(2, at=1:J, tick=1:J, labels=round(AllAlphas[,2],4), las=2) #
+          axis(2, at=1:J, tick=1:J, labels=round(c( Alpha_lows),4), las=2) #
+          #ts.plot(Bigmu[[nCh]], main='emptying Mu', col=rainbow(k))#
+          image(Z[[J]][,order(Y)], col=rainbow(K), main="Allocations vs ordered Y")#
+          #image(ZSaved[[nCh]][order(Y),], col=rainbow(K), main="Allocations")#
+          dev.off()#
+          Sys.sleep(0)}#
+#
+      return(allResults)#
+      }
+#' MuXqoPlot#
+#'#
+#' Plot means by stationary distribution#
+#' @param ...#
+#' @keywords ...#
+#' @export#
+#' @examples ...#
+#
+MuXqoPlot<-function(gibbsout, burn, trueValues="NA", minq=0.01, plotlab=""){#
+        both<-cbind(melt(gibbsout$Means[-c(1:burn),])[,3],#
+                    melt(gibbsout$q0[-c(1:burn),])[,3])#
+        color <- as.factor(melt(gibbsout$Means[-c(1:burn),])[,2])#
+        raincol<-rainbow(length(levels(color)))#
+        levels(color)<-raincol#
+        trancol<-sapply(c(1:length(color)), function(x) adjustcolor(color[x], alpha.f=both[x,2]))#
+        minmaxMEANS<-c(min(both[both[,2]>minq ,1]), max(both[both[,2]>minq ,1]))#
+#
+        plot(  melt(gibbsout$Means[-c(1:burn),])[,3],#
+               melt(gibbsout$q0[-c(1:burn),])[,3],#
+                   # col=rgb(0,0,0,alpha=melt(gibbsout$q0[-c(1:burn),])[,3]),#
+                   col=trancol, xlim=minmaxMEANS,#
+                    xlab="Mean", ylab="Stationary Distribution", bg='grey',#
+                    main=paste(plotlab, ",zoomed, with transparency ~ q0 ", sep=" "))#
+#
+        if(trueValues!="NA"){#
+#
+            points(trueValues, pch=7, cex=2)#
+        }}
+#' UpdateStates#
+#'#
+#' density of dirichlet#
+#' @param x, alpha, log=False#
+#' @keywords dirichlet#
+#' @export#
+#' @examples dDirichlet(c(.1, .9), c(0.1,0.1))#
+parallelAcceptHMM_ergodic<-function(Qchain1, Qchain2, Alpha1, Alpha2){#
+q01<-ALTERNATEq0(Qchain1)#
+q02<-ALTERNATEq0(Qchain2)#
+q01[q01< 1e-200]<-1e-200  #?           # truncate so super small values dont crash everyting#
+q02[q02< 1e-200]<-1e-200 #? #
+#
+K<-dim(Qchain1)[1]      #
+# Chain 2, prior 1#
+T1<-dDirichlet(q02, Alpha1, log=TRUE)#
+#
+#Chain 1, prior 2#
+T2<-dDirichlet(q01, Alpha2, log=TRUE)#
+#
+topRatio<-T1+T2#
+#
+# Chain1 PRior 1#
+B1<-dDirichlet(q01, Alpha1, log=TRUE)#
+# Chain 2, Prior 2#
+B2<-dDirichlet(q02, Alpha2, log=TRUE)#
+#
+bottomRatio<-B1+B2#
+# sum since logs#
+    MH<-min(1,  exp(topRatio-bottomRatio)) #
+    Ax<-sample(c(1,0), 1, prob=c(MH,1-MH))#
+    return(Ax)#
+                    }
+#' gibbsHMM_PT#
+#'#
+#' density of dirichlet#
+#' @param x, alpha, log=False#
+#' @keywords dirichlet#
+#' @export#
+#' @examples dDirichlet(c(.1, .9), c(0.1,0.1))#
+gibbsHMM_PTnew_Mixture<-function(YZ, M=2000, K=10 ,alphaMAX=1, PrbDiag=c("half", "fair"), alphaMin=1e-30, J=20, lab="sim"){#
+    #____SET UP_________________________________________#
+    ifelse(class(YZ)=='data.frame',    Y<-YZ$Observed, Y<-YZ)#
+    n=length(Y) # sample size#
+    varknown<-1 # known variace #
+    mu0=0; var0=100#
+     # INITIALIZE#
+   # startVal<-makeStart(Y, K);  states0<-startVal$states0   #FUNK#
+    states0<-replicate(J, list())#
+    for(j in 1:J){states0[[j]]<-makeStartSimpler(Y, K)}#
+#
+     # J= number of chains#
+        TrackParallelTemp<-matrix(nrow=M, ncol=J)#
+         TrackParallelTemp[1,]<-c(1:J)#
+      # TO BE INCORPORATED INTO J LISTS#
+    MU<-replicate(J,  matrix(nrow=M, ncol=K),  simplify=F)#
+    Q  <-replicate(J, matrix(nrow=M, ncol=K*K) , simplify=F)#
+    Qold<- replicate(J, diag(K), simplify=F)#
+    q0 <-replicate(J, matrix(nrow=M, ncol=K), simplify=F)#
+    Z  <-replicate(J, matrix(nrow=M, ncol=n+1)  ,  simplify=F)  #include 0 for initial state to be estimated too?#
+    SteadyScore<-data.frame("Iteration"=c(1:M), "K0"=K) ##### THIS IS NEW###
+    PTsuccess  <- data.frame("Chain"=c(1:J),"Tries"=0,"Success"=0, "Ratio"=NA) #include 0 for initial state to be estimated too?#
+    ntSTORE<-replicate(J, list())#
+    K0Final<-matrix(nrow=M, ncol=J)#
+    MAP<-c(1:M)  # KEEP TARGET ONLY#
+    # ALPHA#
+#
+    #alphaMAX<-(K-1)*(1+K-2+alphaMin)*(1+1/( (1/2) - alphaMin*(K-1))) -(K-1)*alphaMin+0.1#
+    Alpha_lows<-c(alphaMAX, exp(seq(log(alphaMAX), log(alphaMin), length=J))[-1])#
+    #Store alphs for PT#
+    STORE_Alphas<-replicate(J, list())#
+    pb <- txtProgressBar(min = 0, max = M, style = 3)#
+      #names(TrackParallelTemp)<-   AllAlphas[,2]#
+    # functions#
+    for (m in 1:M){ #
+          if(m %% 50==0){Sys.sleep(0.1)#
+            print(PTsuccess)#
+          setTxtProgressBar(pb, m)#
+                  if(M < 20001){    #
+      #     par(mfrow=c(1,4))#
+      #    plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l')#
+      #    ts.plot(q0[[J]], main='q0 from target posterior', col=rainbow(K))#
+      #    ts.plot(TrackParallelTemp, main='Track Parallel Tempering', col=rainbow(J), gpars=list(yaxt="n") )#
+        #  axis(2, at=1:J, tick=1:J, labels=round(AllAlphas[,2],4), las=2) #
+      #    axis(2, at=1:J, tick=1:J, labels=round(c(Alpha_lows),4), las=2)#
+      #    image(Z[[J]][,order(Y)], col=rainbow(K), main="Allocations vs ordered Y")#
+     par(mfrow=c(1,3))#
+            plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l')#
+            plot(as.vector(q0[[J]]), as.vector(MU[[J]]), color=rgb(0,0,0,alpha=as.vector(q0[[J]])))#
+           # image(Z[[J]][,order(Y)], col=rainbow(K), main="Allocations vs ordered Y")#
+            ts.plot(TrackParallelTemp, main='Track Parallel Tempering', col=rainbow(J), gpars=list(yaxt="n") )#
+            axis(2, at=1:J, tick=1:J, labels=round(c(Alpha_lows),4), las=2)#
+          Sys.sleep(0)}}#
+      for (j in 1:J){ # FOR EACH CHAIN           #
+          # FOR EACH CHAIN...#
+             # make matrix of alphas#
+              AllAlphas<-matrix(Alpha_lows[j],ncol=K, nrow=K)   #
+#
+if (PrbDiag=="half"){#
+    if(sample( c(1, 0), size=1, prob=c(0.5, 0.5))==1){   # Put on diagonal#
+      diag(AllAlphas)<-alphaMAX #
+    } else { #
+ChooseColumn<-sample( c(1:K), size=1, prob=rep(1/K, K))    # draw non-diag position#
+AllAlphas[,ChooseColumn]<-alphaMAX      # make said column Amax#
+}#
+}else if (PrbDiag=="fair"){#
+  if(sample( c(1, 0), size=1, prob=c(1/K,(K-1)/K) )==1 ){     # Put on diagonal#
+      diag(AllAlphas)<-alphaMAX #
+   } else { #
+ChooseColumn<-sample( c(1:K), size=1, prob=rep(1/K, K))    # draw non-diag position#
+AllAlphas[,ChooseColumn]<-alphaMAX      # make said column Amax}#
+}   } #
+            #  if(runif(1)>0.5){        AllAlphas[,1]<-alphaMAX      #
+           #     }else{                    diag(AllAlphas)<-alphaMAX}#
+                              # 1 Parameters given states Z(m-1)#
+                      # 1.1  Transition matrix Q from conditional posterior#
+                      if (m==1) {nt<-CountTrans(states0[[j]], K)#
+                        } else { nt<-CountTrans(Z[[j]][m-1,],K)}   # HERE ACCESS STATES#
+                          ntSTORE[[j]]<-nt#
+                        # draw transition probs for state 1:K#
+                    qnew<-matrix(ncol=K, nrow=K)#
+                    for(k in 1:K){qnew[k,]<-rdirichlet(par=nt[k,]+AllAlphas[k,])}#
+STORE_Alphas[[j]]<-AllAlphas#
+    q0new <-  ALTERNATEq0(qnew)  #
+#
+                        #METROPOLIS Hastings STEP     #
+                if (m>1){   #
+q0Previous<-ALTERNATEq0(Qold[[j]])#
+A<-q0new[Z[[j]][m-1,1]]/q0Previous[Z[[j]][m-1,1]]   #
+# A<-q0new[Z[[j]][m-1,1]]/q0[[j]][m-1,Z[[j]][m-1,1]]   #
+                                        if(A=='NaN'){A<-0}     #
+                              U<-runif(1,c(0,0.99))#
+                              if(A>runif(1,c(0,0.99))){  #  Accept new values#
+                                        Q[[j]][m,]<-as.vector(t(qnew))#
+                                        q0[[j]][m,]<-q0new#
+                                    } else {  #Reject, chose OLD values of Q#
+                                        #Q[[j]][m,]<-as.vector(t(Q[[j]][m-1,]))#
+                                        Q[[j]][m,]<-as.vector(t(Qold[[j]]))#
+#
+                                      #  q0[[j]][m,]<-q0[[j]][m-1,]  #
+                                        q0[[j]][m,]<-q0Previous#
+                                        }#
+                }else{ Q[[j]][m,]<-as.vector(t(qnew)) # 1st iteration always approved.#
+                          q0[[j]][m,]<-q0new  }#
+#
+# new SAVE Qold for next iter        # **NEW**#
+Qold[[j]]<-  matrix( Q[[j]][m,]  , K,K, byrow=TRUE)                     # **NEW**#
+                        # 1.2 Update mu's    #
+                        # compute needed values:  N(k) = number of times state k is visited in chain, and sum(y_k) = sum of y's in state k #
+                        if (m==1) {sumNcount<-formu(states0[[j]][-(n+1)],Y,K)#
+                        } else {sumNcount<-formu(Z[[j]][m-1,-(n+1)], Y,K)}   #
+                           sumtot<-cbind(sumNcount$sumy, sumNcount$ny)                                                                                                    #       sums<-sumNcount$sumy ;    tots<-sumNcount$ny#
+                      # new means          #
+                      mudraw<-apply(sumtot, 1,  function (x)     rnorm(1, mean= ((mu0/var0)+(x[1]/varknown)) / ((1/var0)+(x[2]/varknown)), sd= sqrt( 1/( (1/var0) + (x[2]/varknown)))  ))#
+                      MU[[j]][m,]<-mudraw  #
+                    # 2 Update States given parameters#
+                  newZ<- UpdateStates( Y, Q[[j]][m,], MU[[j]][m,], initS= q0[[j]][m,], m)#
+                  Z[[j]][m,]<-newZ$Z#
+                  if(j==J) MAP[m]<-newZ$MAP#
+             } #end of PT chain loop#
+## PT move#
+#
+          if(m>1) {TrackParallelTemp[m,]<-TrackParallelTemp[m-1,]}     #
+          if(m>20){#
+        #  if( sample(c(1,0),1, 0.9)==1){   # FREQ OF TEMPERING! #
+## NEW, try each chain each time#
+    #Chain1<-sample( 1:(J-1), 1)   #
+    #Chain2<-Chain1+1#
+       if (sample(c(1,0),1, prob=c(0.1,.9))==1){#
+      if( m%%2==0){chainset<- c(1:(J-1))[c(1:(J-1))%%2==0]   #evens#
+      } else {chainset<- c(1:(J-1))[c(1:(J-1))%%2!=0] }   #odds#
+#
+ for( eachChain in 1:length(chainset)){#
+                Chain1<-chainset[eachChain]  #
+                Chain2<-Chain1+1#
+                 PTsuccess[Chain1,"Tries"]<-     PTsuccess[Chain1,"Tries"]+1#
+                 PTsuccess[Chain2,"Tries"]<-     PTsuccess[Chain2,"Tries"]+1#
+              Alpha1<-STORE_Alphas[[Chain1]]#
+              Alpha2<-STORE_Alphas[[Chain2]]#
+#
+              Qchain1<-matrix(Q[[Chain1]][m,], nrow=K, byrow=TRUE)#
+              Qchain2<- matrix(Q[[Chain2]][m,]   , nrow=K, byrow=TRUE)#
+#
+             MHratio<- parallelAcceptHMM_QV(Qchain1, Qchain2, Alpha1 ,Alpha2 , Z[[Chain1]][m,1], Z[[Chain2]][m,1])#
+          if (MHratio==1){                                 # switch #
+          PTsuccess[Chain1,"Success"]<-PTsuccess[Chain1, "Success"]+1#
+          PTsuccess[Chain2,"Success"]<-PTsuccess[Chain2, "Success"]+1#
+                   #new#
+                   .tpt1<-  TrackParallelTemp[m,Chain1 ]#
+                   .tpt2<-  TrackParallelTemp[m,Chain2 ]             #
+                  TrackParallelTemp[m,Chain1 ]<-.tpt2#
+                  TrackParallelTemp[m,Chain2 ]<-.tpt1 #
+          .p1<- q0[[Chain1]][m,]#
+          .p2<- q0[[Chain2]][m,]#
+          q0[[Chain1]][m,]<-.p2#
+          q0[[Chain2]][m,]<-.p1#
+          .m1<- MU[[Chain1]][m,]#
+          .m2<- MU[[Chain2]][m,]#
+          MU[[Chain1]][m,]<-.m2#
+          MU[[Chain2]][m,]<-.m1#
+          .s1<- Q[[Chain1]][m,]#
+          .s2<- Q[[Chain2]][m,]#
+          Q[[Chain1]][m,]<-.s2#
+          Q[[Chain2]][m,]<-.s1#
+          #ici#
+.Qold1<- Qold[[Chain1]]#
+.Qold2<- Qold[[Chain2]]#
+          Qold[[Chain1]]<-.Qold2#
+          Qold[[Chain2]]<-.Qold1#
+                                                                                                                # Zs#
+          .z1<- Z[[Chain1]][m,]#
+          .z2<- Z[[Chain2]][m,]#
+          Z[[Chain1]][m,]<-.z2#
+          Z[[Chain2]][m,]<-.z1#
+          }   }  #
+         PTsuccess[,"Ratio"]<-apply(PTsuccess[,c(2,3)], 1, function(x) x[2]/x[1])#
+              }}#
+   SteadyScore$K0[m]<-sum(table(Z[[J]][m,])>0)#
+#
+# for all chains #
+       K0Final[ m, ]<-sapply(   Z  ,  function(x)  sum(table(x[m,])>0))#
+#
+            }  # end of iteration loop#
+close(pb)#
+             PTsuccess[,"Ratio"]<-apply(PTsuccess[,c(2,3)], 1, function(x) x[2]/x[1])#
+#
+            if(m ==M){Sys.sleep(0.01)#
+      #   pdf( file=paste("HmmTracker_",lab, '.pdf', sep="") , height=4, width=12)#
+          png( file=paste("HmmTracker_",lab, '.png', sep="") , height=400, width=1200)#
+          par(mfrow=c(1,4))#
+          plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l', ylab="K0")#
+          ts.plot(q0[[J]], main='q0 from target posterior', col=rainbow(K))#
+          ts.plot(TrackParallelTemp, main='Track Parallel Tempering', col=rainbow(J), gpars=list(yaxt="n") , ylab="alpha")#
+         # axis(2, at=1:J, tick=1:J, labels=round(AllAlphas[,2],4), las=2) #
+          axis(2, at=1:J, tick=1:J, labels=round(c( Alpha_lows),4), las=2) #
+          #ts.plot(Bigmu[[nCh]], main='emptying Mu', col=rainbow(k))#
+          image(Z[[J]][,order(Y)], col=rainbow(K), main="Allocations vs ordered Y")#
+          #image(ZSaved[[nCh]][order(Y),], col=rainbow(K), main="Allocations")#
+          dev.off()#
+          Sys.sleep(0)}#
+      return(list("Means"=MU[[J]], "Trans"=Q[[J]], "States"=Z[[J]], "q0"=q0[[J]], "YZ"=YZ, "MAP"=MAP, "K0"=SteadyScore$K0, "PTsuccess"=PTsuccess))#
+      }
+#' UpdateStates#
+#'#
+#' density of dirichlet#
+#' @param x, alpha, log=False#
+#' @keywords dirichlet#
+#' @export#
+#' @examples dDirichlet(c(.1, .9), c(0.1,0.1))#
+parallelAcceptHMM_QV<-function(Qchain1, Qchain2, Alpha1, Alpha2, X1, X2){#
+#
+q01<-ALTERNATEq0(Qchain1)#
+q02<-ALTERNATEq0(Qchain2)#
+q01[q01< 1e-200]<-1e-200  #?           # truncate so super small values dont crash everyting#
+q02[q02< 1e-200]<-1e-200 #? #
+#
+Qchain1[Qchain1< 1e-200]<-1e-200             # truncate so super small values dont crash everyting#
+Qchain2[Qchain2< 1e-200]<-1e-200             # truncate so super small values dont crash everyting#
+K<-dim(Qchain1)[1]      #
+X1<-as.numeric(table(factor(X1, levels=c(1:K))))#
+X2<-as.numeric(table(factor(X2, levels=c(1:K))))#
+#
+X1[X1< 1e-200]<-1e-200  #?        #
+X2[X2< 1e-200]<-1e-200  #?#
+# Chain 2, prior 1#
+T1<-dDirichlet(X2, q01, log=TRUE)+sum(sapply(c(1:K), function(x)dDirichlet(Qchain2[x,], Alpha1[x,], log=TRUE)))#
+#
+#Chain 1, prior 2#
+T2<-dDirichlet(X1, q02, log=TRUE)+sum(sapply(c(1:K), function(x)dDirichlet(Qchain1[x,], Alpha2[x,], log=TRUE)))#
+#
+topRatio<-T1+T2#
+#
+# Chain1 PRior 1#
+B1<-dDirichlet(X1, q01, log=TRUE)+sum(sapply(c(1:K), function(x)dDirichlet(Qchain1[x,], Alpha1[x,], log=TRUE)))#
+# Chain 2, Prior 2#
+B2<-dDirichlet(X2, q02, log=TRUE)+sum(sapply(c(1:K), function(x)dDirichlet(Qchain2[x,], Alpha2[x,], log=TRUE)))#
+#
+bottomRatio<-B1+B2#
+# sum since logs#
+    MH<-min(1,  exp(topRatio-bottomRatio)) #
+    Ax<-sample(c(1,0), 1, prob=c(MH,1-MH))#
+    return(Ax)#
+                    }
+pt1<-gibbsHMM_PTnew_Mixture(t2, M=500, K=10, alphaMAX=1, type=1, alphaMin=0.001, J=20, lab='TestingNewPT_1' )
+pt1<-gibbsHMM_PTnew(t2, M=500, K=10, alphaMAX=1, type=1, alphaMin=0.001, J=20, lab='TestingNewPT_1' )
+t1<-FunkSim1(200)#
+#
+pt1<-gibbsHMM_PTnew(t1, M=500, K=10, alphaMAX=1, type=1, alphaMin=0.001, J=20, lab='TestingNewPT_1' )#
+MuXqoPlot(pt1, burn=100, trueValues=tv, minq=0.01, plotlab="TestingNewPT_1")
+png( file=paste("ClustPlot_",S1n200_Col1_a1, '.png', sep="") , height=500, width=1000)#
+ MuXqoPlot(pt1, burn=100, trueValues=tv, minq=0.01, plotlab="S1n200_Col1_a1")#
+dev.off()
+tv<-cbind("Mean"=c(0,3,10), "q0"=ALTERNATEq0(matrix( c(  0.2,0.3,0.5,    0.5,0.25,0.25,    0.25, 0.65, 0.1), nrow=3, byrow=T)))
+png( file=paste("ClustPlot_",S1n200_Col1_a1, '.png', sep="") , height=500, width=1000)#
+ MuXqoPlot(pt1, burn=100, trueValues=tv, minq=0.01, plotlab="S1n200_Col1_a1")#
+dev.off()
+png( file=paste("ClustPlot_","S1n200_Col1_a1", '.png', sep="") , height=500, width=1000)
+MuXqoPlot(pt1, burn=100, trueValues=tv, minq=0.01, plotlab="S1n200_Col1_a1")
+dev.off()
+dev.off()
+png( file=paste("ClustPlot_","S1n200_Col1_a1", '.png', sep="") , height=500, width=1000)
+MuXqoPlot(pt1, burn=100, trueValues=tv, minq=0.01, plotlab="S1n200_Col1_a1")
+dev.off()
+getwd()
+pt_a10<-gibbsHMM_PTnew(t1, M=500, K=10, alphaMAX=10, type=1, alphaMin=0.001, J=20, lab='S1n200_Col1_a10' )#
+png( file=paste("ClustPlot_","S1n200_Col1_a10", '.png', sep="") , height=500, width=1000)#
+ MuXqoPlot(pt_a10, burn=100, trueValues=tv, minq=0.01, plotlab="S1n200_Col1_a10")#
+dev.off()#
+ MuXqoPlot(pt_a10, burn=100, trueValues=tv, minq=0.01, plotlab="S1n200_Col1_a10")
+pt_a10<-gibbsHMM_PTnew(t1, M=500, K=10, alphaMAX=10, type=1, alphaMin=0.001, J=30, lab='S1n200_Col1_a10' )#
+png( file=paste("ClustPlot_","S1n200_Col1_a10", '.png', sep="") , height=500, width=1000)#
+ MuXqoPlot(pt_a10, burn=100, trueValues=tv, minq=0.01, plotlab="S1n200_Col1_a10")#
+dev.off()#
+ MuXqoPlot(pt_a10, burn=100, trueValues=tv, minq=0.01, plotlab="S1n200_Col1_a10")
+par(mfrow=c(1,2))#
+MuXqoPlot(pt1, burn=100, trueValues=tv, minq=0.01, plotlab=""))#
+MuXqoPlot(pt2, burn=100, trueValues=tv, minq=0.01, plotlab=""))
+pt2<-gibbsHMM_PTnew(t1, M=500, K=10, alphaMAX=1, type="mix", alphaMin=0.001, J=20, lab='S1n200_Col1_a1_mix' )#
+MuXqoPlot(pt2, burn=100, trueValues=tv, minq=0.01, plotlab="S1n200_Col1_a1_mix")#
+#
+pt3<-gibbsHMM_PTnew(t1, M=500, K=10, alphaMAX=10, type="mix", alphaMin=0.001, J=20, lab='S1n200_Col1_a10_mix' )#
+MuXqoPlot(pt2, burn=100, trueValues=tv, minq=0.01, plotlab="S1n200_Col1_a10_mix")
+pt2<-gibbsHMM_PTnew(t1, M=500, K=10, alphaMAX=1, type="mix", alphaMin=0.001, J=20, lab='S1n200_Col1_a1_mix' )#
+MuXqoPlot(pt2, burn=100, trueValues=tv, minq=0.01, plotlab="S1n200_Col1_a1_mix")#
+#
+pt3<-gibbsHMM_PTnew(t1, M=500, K=10, alphaMAX=10, type="mix", alphaMin=0.001, J=20, lab='S1n200_Col1_a10_mix' )#
+MuXqoPlot(pt3, burn=100, trueValues=tv, minq=0.01, plotlab="S1n200_Col1_a10_mix")
+png( file=paste("ClustPlot_","S1n200_Col1_a1_mix", '.png', sep="") , height=500, width=1000)#
+MuXqoPlot(pt2, burn=100, trueValues=tv, minq=0.01, plotlab="S1n200_Col1_a1_mix")#
+dev.off()
+png( file=paste("ClustPlot_","S1n200_Col1_a10_mix", '.png', sep="") , height=500, width=1000)#
+MuXqoPlot(pt3, burn=100, trueValues=tv, minq=0.01, plotlab="S1n200_Col1_a10_mix")#
+dev.off()
+# sim 3#
+#
+s3n100_mix1<-gibbsHMM_PTnew(s3_n100, M=2000, K=10, alphaMAX=1, type="mix", alphaMin=0.001, J=20, lab='s3n100_mix1' )#
+png( file=paste("ClustPlot_","s3n100_mix1", '.png', sep="") , height=500, width=1000)#
+MuXqoPlot(s3n100_mix1, burn=500, trueValues="NA", minq=0.01, plotlab="s3n100_mix1")#
+dev.off()#
+#
+s3n100_mix10<-gibbsHMM_PTnew(s3_n100, M=2000, K=10, alphaMAX=10, type="mix", alphaMin=0.001, J=20, lab='s3n100_mix10' )#
+png( file=paste("ClustPlot_","s3n100_mix10", '.png', sep="") , height=500, width=1000)#
+MuXqoPlot(s3n100_mix10, burn=500, trueValues="NA", minq=0.01, plotlab="s3n100_mix10")#
+dev.off()#
+s3n100_mixtheory<-gibbsHMM_PTnew(s3_n100, M=2000, K=10, alphaMAX=aMAXtheory(0.001, 10, "Rousseau"), type="mix", alphaMin=0.001, J=20, lab='s3n100_mixtheory' )#
+png( file=paste("ClustPlot_","s3n100_mixtheory", '.png', sep="") , height=500, width=1000)#
+MuXqoPlot(s3n100_mixtheory, burn=500, trueValues="NA", minq=0.01, plotlab="s3n100_mixtheory")#
+dev.off()#
+#
+s3n100_1col1<-gibbsHMM_PTnew(s3_n100, M=2000, K=10, alphaMAX=1, type=1, alphaMin=0.001, J=20, lab='s3n100_1col1' )#
+png( file=paste("ClustPlot_","s3n100_1col1", '.png', sep="") , height=500, width=1000)#
+MuXqoPlot(s3n100_1col1, burn=500, trueValues="NA", minq=0.01, plotlab="s3n100_1col1")#
+dev.off()#
+#
+s3n100_1col10<-gibbsHMM_PTnew(s3_n100, M=2000, K=10, alphaMAX=10, type=1, alphaMin=0.001, J=20, lab='s3n100_1col10' )#
+png( file=paste("ClustPlot_","s3n100_1col10", '.png', sep="") , height=500, width=1000)#
+MuXqoPlot(s3n100_1col10, burn=500, trueValues="NA", minq=0.01, plotlab="s3n100_1col10")#
+dev.off()#
+s3n100_1coltheory<-gibbsHMM_PTnew(s3_n100, M=2000, K=10, alphaMAX=aMAXtheory(0.001, 10, "Rousseau"), type=1, alphaMin=0.001, J=20, lab='s3n100_1coltheory' )#
+png( file=paste("ClustPlot_","s3n100_1coltheory", '.png', sep="") , height=500, width=1000)#
+MuXqoPlot(s3n100_1coltheory, burn=500, trueValues="NA", minq=0.01, plotlab="s3n100_1coltheory")#
+dev.off()#
+s3n500_mix1<-gibbsHMM_PTnew(s3_n500, M=2000, K=10, alphaMAX=1, type="mix", alphaMin=0.001, J=20, lab='s3n500_mix1' )#
+png( file=paste("ClustPlot_","s3n500_mix1", '.png', sep="") , height=500, width=5000)#
+MuXqoPlot(s3n500_mix1, burn=500, trueValues="NA", minq=0.01, plotlab="s3n500_mix1")#
+dev.off()#
+#
+s3n500_mix10<-gibbsHMM_PTnew(s3_n500, M=2000, K=10, alphaMAX=10, type="mix", alphaMin=0.001, J=20, lab='s3n500_mix10' )#
+png( file=paste("ClustPlot_","s3n500_mix10", '.png', sep="") , height=500, width=5000)#
+MuXqoPlot(s3n500_mix10, burn=500, trueValues="NA", minq=0.01, plotlab="s3n500_mix10")#
+dev.off()#
+s3n500_mixtheory<-gibbsHMM_PTnew(s3_n500, M=2000, K=10, alphaMAX=aMAXtheory(0.001, 10, "Rousseau"), type="mix", alphaMin=0.001, J=20, lab='s3n500_mixtheory' )#
+png( file=paste("ClustPlot_","s3n500_mixtheory", '.png', sep="") , height=500, width=5000)#
+MuXqoPlot(s3n500_mixtheory, burn=500, trueValues="NA", minq=0.01, plotlab="s3n500_mixtheory")#
+dev.off()#
+#
+s3n500_1col1<-gibbsHMM_PTnew(s3_n500, M=2000, K=10, alphaMAX=1, type=1, alphaMin=0.001, J=20, lab='s3n500_1col1' )#
+png( file=paste("ClustPlot_","s3n500_1col1", '.png', sep="") , height=500, width=5000)#
+MuXqoPlot(s3n500_1col1, burn=500, trueValues="NA", minq=0.01, plotlab="s3n500_1col1")#
+dev.off()#
+#
+s3n500_1col10<-gibbsHMM_PTnew(s3_n500, M=2000, K=10, alphaMAX=10, type=1, alphaMin=0.001, J=20, lab='s3n500_1col10' )#
+png( file=paste("ClustPlot_","s3n500_1col10", '.png', sep="") , height=500, width=5000)#
+MuXqoPlot(s3n500_1col10, burn=500, trueValues="NA", minq=0.01, plotlab="s3n500_1col10")#
+dev.off()#
+s3n500_1coltheory<-gibbsHMM_PTnew(s3_n500, M=2000, K=10, alphaMAX=aMAXtheory(0.001, 10, "Rousseau"), type=1, alphaMin=0.001, J=20, lab='s3n500_1coltheory' )#
+png( file=paste("ClustPlot_","s3n500_1coltheory", '.png', sep="") , height=500, width=5000)#
+MuXqoPlot(s3n500_1coltheory, burn=500, trueValues="NA", minq=0.01, plotlab="s3n500_1coltheory")#
+dev.off()
+save.image(file="NewPTEasterWeekendsaturdayRun.RDATA")
+save.image(file="NewPTEasterWeekendsaturdayRun.RDATA")
+setwd("/Users/zoevanhavre/Google Drive/GitHub/Zhmm.0/R")
+document()
+library(roxygwn)
+library(roxygwn)
+library(roxygen)
+library(roxygen2)
+library(devtools)
+document()
+setwd(..)
+setwd(...)
+setwd("..")
+document()
+document()
+install_github('zoevanhavre/Zhmm.0', auth_token='2fc7e2af77543d2a61981e945f6a67f6c4e59d7e')
+install_github('zoevanhavre/Zhmm.0', auth_token='2fc7e2af77543d2a61981e945f6a67f6c4e59d7e')
+library(Zhmm)
+gibbsHMM_PTnew

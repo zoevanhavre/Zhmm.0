@@ -17,31 +17,8 @@ gibbsHMMdiag<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5,   p=1){
     q0<-matrix(nrow=M, ncol=K)
     S<-matrix(nrow=M, ncol=n+1)  #include 0 for initial state to be estimated too?
     MAP<-c(1:M)
-     makeStart<-function(Y,k=K){
-        n<-length(Y)
-        states0<-rep(0,n)
-
-        # split data by quantiles &  compute allocations
-        states0<-as.numeric(cut2(Y, m=5, g=k))
-        #, combine with data
-        YX0<-cbind(Y, states0)
-        # compute means 
-        means0<-gapply(as.data.frame(YX0), FUN=function(x) mean(x$Y), groups=YX0[,2])
-        # compute transition matrix
-        
-        trans0 <- matrix(nrow = k, ncol = k, 0)
-        for (t in 1:(length(states0) - 1)) trans0[states0[t], states0[t + 1]] <- trans0[states0[t], states0[t + 1]] + 1
-        for (i in 1:k) trans0[i, ] <- trans0[i, ] / sum(trans0[i, ])
-
-        #stationary dist q0 for this:
-        q0<-getq0(trans0)
-
-        #initial unobserved state from stationary dist
-        initstates0<-sample(c(1:k), size=1, prob=q0)
-        states0<-c(initstates0, states0)
-        return(list(means0=means0, states0=states0, trans0=trans0, q0=q0))  }
-
-    startVal<-makeStart(Y, K);  states0<-startVal$states0 
+    
+     states0<-makeStartSimpler(Y, K) 
     varknown<-1
 
 
@@ -50,39 +27,7 @@ gibbsHMMdiag<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5,   p=1){
     alphas<-diag(K)*alphaMAX
     alphas<-apply(alphas,c(1,2), function(x) ifelse(x==0, x<-alphaMin, x<-x) )
 
-      # functions
-    CountTrans<-function(stateChain,K=K){
-      nt <- matrix(nrow = K, ncol = K, 0)
-      for (t in 1:(length(stateChain) - 1)) nt[stateChain[t], stateChain[t + 1]] <- nt[stateChain[t], stateChain[t + 1]] + 1
-      return(nt)}
-    formu<-function(stateChain, Y, K=K){
-      stateChain <-factor(stateChain, levels=c(1:K))
-      # number in each state and sum of Ys
-      xy<-as.data.frame(cbind(Y, stateChain))
-      ny<-gapply(xy, FUN=function(x) length(x$Y), groups=stateChain)
-      sumy<-gapply(xy, FUN=function(x) sum(x$Y), groups=stateChain)
-      return(list(sumy=sumy, ny=ny))}  
-    nk<-function(States, K=K){
-      nkOrd<-matrix(nrow=dim(States)[1], ncol=K)
-      for (i in 1:dim(States)[1]){
-      rowS<-factor(States[i,], levels=1:K)
-      nkOrd[i,]<-table(rowS)
-      }
-      return(nkOrd)
-      }
-    getq0<-function(Q){
-      K<-dim(Q)[1]
-      U<-matrix(rep(1/K, K*K), K,K)
-      u<-rep(1/K, K)
-      I<-diag(K)
-      ipu<-I-Q+U
-      u%*%solve(ipu)
-      }      
-    rdirichlet<-function(m=1,par){
-          k=length(par);  mat=matrix(0,m,k)       
-          for (i in 1:m)  {sim=rgamma(k,shape=par,scale=1); mat[i,]=sim/sum(sim)}
-          mat             
-          }
+ 
   
     ##################
     # START MAIN LOOP HERE for m in 1:M
@@ -112,9 +57,10 @@ gibbsHMMdiag<-function(YZ, M=2000, K=5, mu0=0, var0=100, alphaMin=0.5,   p=1){
 
           #METROPOLIS Hastings STEP     
           if (m==1){ 
-              A<-q0new[states0[1]]/startVal$q0[states0[1]]
-              U<-runif(1,c(0,0.99))
-                ifelse(A>U, qok<-qnew , qok<-qnew)        
+              #A<-q0new[states0[1]]/startVal$q0[states0[1]]
+              #U<-runif(1,c(0,0.99))
+               # ifelse(A>U, qok<-qnew , qok<-qnew)     
+                   qok<-qnew
           } else  { 
               A<-q0new[S[m-1,1]]/q0[m-1,S[m-1,1]]
               U<-runif(1,c(0,0.99))
