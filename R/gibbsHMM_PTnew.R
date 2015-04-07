@@ -153,7 +153,7 @@ Qold[[j]]<-  matrix( Q[[j]][m,]  , K,K, byrow=TRUE)                     # **NEW*
     #Chain2<-Chain1+1
 
        
-       if (sample(c(1,0),1, prob=c(0.1,.9))==1){
+       if (sample(c(1,0),1, prob=c(0.9,.1))==1){
       if( m%%2==0){chainset<- c(1:(J-1))[c(1:(J-1))%%2==0]   #evens
       } else {chainset<- c(1:(J-1))[c(1:(J-1))%%2!=0] }   #odds
 
