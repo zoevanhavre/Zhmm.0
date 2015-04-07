@@ -7,8 +7,8 @@
 #' @examples
 #' #nope
 
-Zhmm_PP<-function( run , burn=1000, prep=1000, isSim=TRUE,trueValues=NA, minq4PLOT=0.0, simlabel="sim"){
-	K<-dim(Run$q0)[2]
+Zhmm_PP<-function( run , burn=1000, prep=1000, isSim=TRUE,trueValues=NA, minq4PLOT=0.05, simlabel="sim"){
+	K<-dim(run$q0)[2]
 	K0<-run$K0[burn:length(run$K0)]
 	K0estimates<-vector("list", length(K0))
 	Zestimates<-vector("list", length(K0))
@@ -92,6 +92,7 @@ for ( .K0 in 1:length(K0)){
 				
 		# print plot
 		#pdf( file= paste(simlabel, "K_ ",K0[.K0] , ".pdf",sep='') ,width=10, height=5)
+	 if(p_vals$PropIters[.K0]==max(p_vals$PropIters)){
 	 	png( file= paste(simlabel, "K_ ",K0[.K0] , ".png",sep='') ,width=800, height=500)
 	 		print( wq::layOut(	list(p1, 	1, 1:2),  
 		        	list(p2, 	1, 3:4),   
@@ -99,6 +100,7 @@ for ( .K0 in 1:length(K0)){
 		         	list(p5, 	2,1:3),  
 		          	list(p4, 	2,4:6)))
 		dev.off()
+	}
 		} # Close loop of >pmin
 		} # Close loop over each K0
 

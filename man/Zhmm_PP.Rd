@@ -4,7 +4,7 @@
 \title{PostProcessing function univ}
 \usage{
 Zhmm_PP(run, burn = 1000, prep = 1000, isSim = TRUE, trueValues = NA,
-  minq4PLOT = 0, simlabel = "sim")
+  minq4PLOT = 0.05, simlabel = "sim")
 }
 \arguments{
 \item{v}{and s}
