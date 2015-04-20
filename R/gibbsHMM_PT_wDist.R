@@ -48,7 +48,7 @@ gibbsHMM_PT_wDist<-function(YZ, M=2000, K=10 ,alphaMAX=1, type= 1, alphaMin=0.00
     for (m in 1:M){ 
           
           if(m %% 100==0){Sys.sleep(0.1)
-            print(PTsuccess)
+    #        print(PTsuccess)
           setTxtProgressBar(pb, m)
                   if(M < 20001){    
       #     par(mfrow=c(1,4))
@@ -224,9 +224,9 @@ Qold[[j]]<-  matrix( Q[[j]][m,]  , K,K, byrow=TRUE)                     # **NEW*
 #
 #
 # NEW
-## Compute density f2 at this iteration
+## Compute density f2 at this iteration (L1 norm)
 f2now[m]<- density_f2(y=  Y,  .q0=q0[[J]][m ,] , .Q=Q[[J]][m ,], .mu=MU[[J]][m ,] )
-fDist[m]<-   abs(  f2now[m]-densTrue)
+fDist[m]<-   abs( f2now[m]-densTrue)
 
             }  # end of iteration loop
 close(pb)
@@ -234,20 +234,29 @@ close(pb)
 
 allResults<-list("Means"=MU[[J]], "Trans"=Q[[J]], "States"=Z[[J]], "q0"=q0[[J]], "YZ"=YZ, "MAP"=MAP, "K0"=SteadyScore$K0, "PTsuccess"=PTsuccess, "f2dens"=f2now, "f2Dist"=fDist)
 
-            if(m ==M){Sys.sleep(0.01)
-      #   pdf( file=paste("HmmTracker_",lab, '.pdf', sep="") , height=4, width=12)
-          png( file=paste("HmmTracker_",lab, '.png', sep="") , height=400, width=1200)
-          par(mfrow=c(1,4))
-          plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l', ylab="K0")
-        MuXqoPlot( allResults, M/5, minq=0.01, plotlab=lab)  
-          ts.plot(TrackParallelTemp, main='Track Parallel Tempering', col=rainbow(J), gpars=list(yaxt="n") , ylab="alpha")
-         # axis(2, at=1:J, tick=1:J, labels=round(AllAlphas[,2],4), las=2) 
-          axis(2, at=1:J, tick=1:J, labels=round(c( Alpha_lows),4), las=2) 
-          #ts.plot(Bigmu[[nCh]], main='emptying Mu', col=rainbow(k))
-          image(Z[[J]][,order(Y)], col=rainbow(K), main="Allocations vs ordered Y")
-          #image(ZSaved[[nCh]][order(Y),], col=rainbow(K), main="Allocations")
-          dev.off()
-          Sys.sleep(0)}
+			     if(m ==M){Sys.sleep(0.01)
+			      #  pdf( file=paste("HmmTracker_",lab, '.pdf', sep="") , height=4, width=12)
+			          png( file=paste("HmmTracker_",lab, '.png', sep="") , height=800, width=1200)
+			          par(mfrow=c(2,3))
+			       #1
+			          plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l', ylab="K0")
+			      #2
+			          MuXqoPlot( allResults, M/5, minq=0.01, plotlab=lab)  
+			       #3
+			          ts.plot(TrackParallelTemp, main='Track Parallel Tempering', col=rainbow(J), gpars=list(yaxt="n") , ylab="alpha")
+			         # axis(2, at=1:J, tick=1:J, labels=round(AllAlphas[,2],4), las=2) 
+			          axis(2, at=1:J, tick=1:J, labels=round(c( Alpha_lows),4), las=2) 
+			          #ts.plot(Bigmu[[nCh]], main='emptying Mu', col=rainbow(k))
+			       #4
+			          image(Z[[J]][,order(Y)], col=rainbow(K), main="Allocations vs ordered Y")
+			          #image(ZSaved[[nCh]][order(Y),], col=rainbow(K), main="Allocations")
+			       #5  
+			        ts.plot(fDist, main='L1 norm distance (y1, y2)')
+			       #6 
+			        plotbyK0<-cbind(  y= fDist[-M/10], x=SteadyScore$K0[-M/10])
+			        boxplot( y~x, data=plotbyK0, main='L1 norm by K0')
+			          dev.off()
+			          Sys.sleep(0)}
 
       return(allResults)
       }
