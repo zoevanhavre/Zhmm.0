@@ -8,7 +8,7 @@
 
 
 
-gibbsHMM_PTnew<-function(YZ, M=2000, K=10 ,alphaMAX=1, type= 1, alphaMin=0.001, J=20, lab="sim"){
+gibbsHMM_PT_wDist<-function(YZ, M=2000, K=10 ,alphaMAX=1, type= 1, alphaMin=0.001, J=20, lab="sim", densTrue){
     #____SET UP_________________________________________
     ifelse(class(YZ)=='data.frame',    Y<-YZ$Observed, Y<-YZ)
     n=length(Y) # sample size
@@ -34,6 +34,7 @@ gibbsHMM_PTnew<-function(YZ, M=2000, K=10 ,alphaMAX=1, type= 1, alphaMin=0.001, 
     K0Final<-matrix(nrow=M, ncol=J)
     MAP<-c(1:M)  # KEEP TARGET ONLY
     f2now<-vector(length=M)
+    fDist<-vector(length=M)
     # ALPHA
 
     #alphaMAX<-(K-1)*(1+K-2+alphaMin)*(1+1/( (1/2) - alphaMin*(K-1))) -(K-1)*alphaMin+0.1
@@ -65,7 +66,7 @@ gibbsHMM_PTnew<-function(YZ, M=2000, K=10 ,alphaMAX=1, type= 1, alphaMin=0.001, 
            # image(Z[[J]][,order(Y)], col=rainbow(K), main="Allocations vs ordered Y")
             ts.plot(TrackParallelTemp, main='Track Parallel Tempering', col=rainbow(J), gpars=list(yaxt="n") )
             axis(2, at=1:J, tick=1:J, labels=round(c(Alpha_lows),4), las=2)
-            ts.plot(f2now, main='Density y1 and y2')
+            ts.plot(fDist, main='L1 norm distance (y1, y2)')
        
           Sys.sleep(0)}}
           
@@ -224,14 +225,14 @@ Qold[[j]]<-  matrix( Q[[j]][m,]  , K,K, byrow=TRUE)                     # **NEW*
 #
 # NEW
 ## Compute density f2 at this iteration
-
 f2now[m]<- density_f2(y=  Y,  .q0=q0[[J]][m ,] , .Q=Q[[J]][m ,], .mu=MU[[J]][m ,] )
+fDist[m]<-   abs(  f2now[m]-densTrue)
 
             }  # end of iteration loop
 close(pb)
              PTsuccess[,"Ratio"]<-apply(PTsuccess[,c(2,3)], 1, function(x) x[2]/x[1])
 
-allResults<-list("Means"=MU[[J]], "Trans"=Q[[J]], "States"=Z[[J]], "q0"=q0[[J]], "YZ"=YZ, "MAP"=MAP, "K0"=SteadyScore$K0, "PTsuccess"=PTsuccess, "f2dens"=f2now)
+allResults<-list("Means"=MU[[J]], "Trans"=Q[[J]], "States"=Z[[J]], "q0"=q0[[J]], "YZ"=YZ, "MAP"=MAP, "K0"=SteadyScore$K0, "PTsuccess"=PTsuccess, "f2dens"=f2now, "f2Dist"=fDist)
 
             if(m ==M){Sys.sleep(0.01)
       #   pdf( file=paste("HmmTracker_",lab, '.pdf', sep="") , height=4, width=12)
