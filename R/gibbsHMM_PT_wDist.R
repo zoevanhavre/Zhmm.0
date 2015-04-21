@@ -60,8 +60,14 @@ gibbsHMM_PT_wDist<-function(YZ, M=2000, K=10 ,alphaMAX=1, type= 1, alphaMin=0.00
       #    image(Z[[J]][,order(Y)], col=rainbow(K), main="Allocations vs ordered Y")
        
      par(mfrow=c(1,4))
-            plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l')
-            plot(as.vector(q0[[J]][c(m-99:m), ]), as.vector(MU[[J]][c(m-99:m), ]))
+    #        plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l')
+    #        plot(as.vector(q0[[J]][c(m-99:m), ]), as.vector(MU[[J]][c(m-99:m), ]))
+        slices <- prop.table(table((factor(SteadyScore$K0[-(1:m/5)], levels=c(1:K)))))
+      barplot(slices, ylim=c(0,1), main="Number of non-empty states", xlab="Number of non-empty states", ylab="Probability (from MCMC)") 
+        abline(h=seq(0, 1, .05), lwd=0.5, col='LightGrey')
+         #   plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l')
+          plot(as.vector(q0[[J]][c(m-99:m), ]), as.vector(MU[[J]][c(m-99:m), ]), main="Latest Posterior Draws (100 iter)", ylab="Stationary Dist", xlab="Means")
+
               #, color=rgb(0,0,0,alpha=as.vector(q0[[J]])))
            # image(Z[[J]][,order(Y)], col=rainbow(K), main="Allocations vs ordered Y")
             ts.plot(TrackParallelTemp, main='Track Parallel Tempering', col=rainbow(J), gpars=list(yaxt="n") )
@@ -239,7 +245,12 @@ allResults<-list("Means"=MU[[J]], "Trans"=Q[[J]], "States"=Z[[J]], "q0"=q0[[J]],
 			          png( file=paste("HmmTracker_",lab, '.png', sep="") , height=800, width=1200)
 			          par(mfrow=c(2,3))
 			       #1
-			          plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l', ylab="K0")
+			       #   plot(SteadyScore$K0~SteadyScore$Iteration, main='#non-empty groups', type='l', ylab="K0")
+                              slices <- prop.table(table((factor(SteadyScore$K0[-(1:M/5)], levels=c(1:K)))))
+                              barplot(slices, ylim=c(0,1), main="Number of non-empty states", xlab="Number of non-empty states", ylab="Probability (from MCMC)") 
+                              abline(h=seq(0, 1, .05), lwd=0.5, col='LightGrey')
+
+
 			      #2
 			          MuXqoPlot( allResults, M/5, minq=0.01, plotlab=lab)  
 			       #3
@@ -253,7 +264,7 @@ allResults<-list("Means"=MU[[J]], "Trans"=Q[[J]], "States"=Z[[J]], "q0"=q0[[J]],
 			       #5  
 			        ts.plot(fDist, main='L1 norm distance (y1, y2)')
 			       #6 
-			        plotbyK0<-cbind(  y= fDist[-M/10], x=SteadyScore$K0[-M/10])
+			        plotbyK0<-cbind(  y= fDist[-(1:M/5)], x=SteadyScore$K0[-(1:M/5)])
 			        boxplot( y~x, data=plotbyK0, main='L1 norm by K0')
 			          dev.off()
 			          Sys.sleep(0)}
