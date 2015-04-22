@@ -13,7 +13,8 @@ gibbsHMM_PT_wDist<-function(YZ, M=2000, K=10 ,alphaMAX=1, type= 1, alphaMin=0.00
     ifelse(class(YZ)=='data.frame',    Y<-YZ$Observed, Y<-YZ)
     n=length(Y) # sample size
     varknown<-1 # known variace 
-    mu0=0; var0=100
+    mu0=0
+    var0=100
      # INITIALIZE
    # startVal<-makeStart(Y, K);  states0<-startVal$states0   #FUNK
     states0<-replicate(J, list())
