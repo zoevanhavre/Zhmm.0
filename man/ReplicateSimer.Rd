@@ -4,7 +4,7 @@
 \alias{ReplicateSimer}
 \title{gibbsHMM_PT}
 \usage{
-ReplicateSimer(N, n, SimID, ITERATIONS, BURN, AMAX, PRIOR_TYPE)
+ReplicateSimer(N, n, SimID, ITERATIONS, BURN, AMAX, PRIOR_TYPE, PTchain = 20)
 }
 \arguments{
 \item{x,}{alpha, log=False}

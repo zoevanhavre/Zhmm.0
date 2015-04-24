@@ -6,7 +6,7 @@
 #' @export
 #' @examples dDirichlet(c(.1, .9), c(0.1,0.1))
 
-ReplicateSimer<-function(   N, n, SimID, ITERATIONS, BURN, AMAX,  PRIOR_TYPE){
+ReplicateSimer<-function(   N, n, SimID, ITERATIONS, BURN, AMAX,  PRIOR_TYPE, PTchain=20){
 		#  STORE SIMULATIONS in a list
 		simFunctionMorpher<-function(SimNumber){
 		if(	SimNumber==1){ 	return(FunkSim1)
@@ -30,7 +30,7 @@ ReplicateSimer<-function(   N, n, SimID, ITERATIONS, BURN, AMAX,  PRIOR_TYPE){
 		# Clean up Gibbs for lyra...
 		library(parallel)
 		Result<-mclapply( c(1:N), function(x)  {
-		gibbsHMM_LYRA( SIMS[[x]], SIM_DENSITY_TRUE[[x]],  M=ITERATIONS, burn=BURN, alphaMAX=AMAX, type= PRIOR_TYPE, alphaMin=0.001, J=3)
+		gibbsHMM_LYRA( SIMS[[x]], SIM_DENSITY_TRUE[[x]],  M=ITERATIONS, burn=BURN, alphaMAX=AMAX, type= PRIOR_TYPE, alphaMin=0.001, J=PTchain)
 		
 		} )
 		return(Result)

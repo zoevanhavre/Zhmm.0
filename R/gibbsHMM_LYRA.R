@@ -76,21 +76,25 @@ gibbsHMM_LYRA<-function(YZ, densTrue, M=2000,burn=500, type= 1,alphaMAX=1,  alph
                           STORE_Alphas[[j]]<-AllAlphas
                           q0new <-  ALTERNATEq0(qnew)  
 
-                                #METROPOLIS Hastings STEP     
-                                if (m>1){   
-                                q0Previous<-ALTERNATEq0(Qold[[j]])
-                                A<-q0new[Z[[j]][m-1,1]]/q0Previous[Z[[j]][m-1,1]]   
-                                if(A=='NaN'){A<-0}     
-                                U<-runif(1,c(0,0.99))
-                                if(A>runif(1,c(0,0.99))){  #  Accept new values
-                                Q[[j]][m,]<-as.vector(t(qnew))
-                                q0[[j]][m,]<-q0new
-                                } else {  #Reject, chose OLD values of Q
-                                Q[[j]][m,]<-as.vector(t(Qold[[j]]))
-                                q0[[j]][m,]<-q0Previous
-                                }
-                                }else{ Q[[j]][m,]<-as.vector(t(qnew)) # 1st iteration always approved.
-                                q0[[j]][m,]<-q0new  }
+                               #METROPOLIS Hastings STEP     
+              if (m>1){   
+                    q0Previous<-ALTERNATEq0(Qold[[j]])
+                    A<-q0new[Z[[j]][m-1,1]]/q0Previous[Z[[j]][m-1,1]]   
+                    # A<-q0new[Z[[j]][m-1,1]]/q0[[j]][m-1,Z[[j]][m-1,1]]   
+                                                            if(A=='NaN'){A<-0}     
+                    U<-runif(1,c(0,0.99))
+              if(A>runif(1,c(0,0.99))){  #  Accept new values
+                            Q[[j]][m,]<-as.vector(t(qnew))
+                            q0[[j]][m,]<-q0new
+              } else {  #Reject, chose OLD values of Q
+                            #Q[[j]][m,]<-as.vector(t(Q[[j]][m-1,]))
+                            Q[[j]][m,]<-as.vector(t(Qold[[j]]))
+
+                            #q0[[j]][m,]<-q0[[j]][m-1,]  
+                            q0[[j]][m,]<-q0Previous
+                            }
+              }else{ Q[[j]][m,]<-as.vector(t(qnew)) # 1st iteration always approved.
+                          q0[[j]][m,]<-q0new  }
 
                           # new SAVE Qold for next iter        # **NEW**
                           Qold[[j]]<-  matrix( Q[[j]][m,]  , K,K, byrow=TRUE)                     # **NEW**
