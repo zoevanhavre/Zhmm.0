@@ -55,9 +55,9 @@ gibbsHMM_LYRA<-function(YZ, densTrue, M=2000,burn=500, type= 1,alphaMAX=1,  alph
                                  
                           if (type==1){
                           AllAlphas[,1]<-alphaMAX      # make said column Amax
-                          }else if (type=="diag"){
+                          }else if (type==2){
                           diag(AllAlphas)<-alphaMAX 
-                          }else if (type=="mix"){
+                          }else if (type==3){
                           if(sample( c(1, 0), size=1, prob=c(0.5, 0.5))==1){   # Put on diagonal
                           diag(AllAlphas)<-alphaMAX 
                           } else {  
