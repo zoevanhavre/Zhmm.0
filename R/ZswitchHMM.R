@@ -56,7 +56,7 @@ Zswitch_hmm<-function(GrunK0, PropMin=0.1 ){
 				done<-0 
 				if(class(Candies)=='data.frame'){
 				if  ( max(sapply(apply(Candies, 1, unique), length))<length(row.names(CandiCells))){
-				Candies<- matrix( as.numeric( row.names(CandiCells))[permutations(numK0now,numK0now )], ncol=numK0now)	
+				Candies<- matrix( as.numeric( row.names(CandiCells))[permutations(numK0now )], ncol=numK0now)	
 				colnames(Candies)<-as.numeric(names(as.data.frame(CandiCells)))
 					
 				MinusRefPars_catch<-function(x) 	{ flp<- Candies[x,]   

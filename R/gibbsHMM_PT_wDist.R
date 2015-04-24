@@ -107,7 +107,7 @@ if (type==1){
                         # draw transition probs for state 1:K
                     qnew<-matrix(ncol=K, nrow=K)
                     for(k in 1:K){qnew[k,]<-rdirichlet(par=nt[k,]+AllAlphas[k,])}
-STORE_Alphas[[j]]<-AllAlphas
+    STORE_Alphas[[j]]<-AllAlphas
     q0new <-  ALTERNATEq0(qnew)  
 
                         #METROPOLIS Hastings STEP     
