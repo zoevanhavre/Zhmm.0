@@ -17,8 +17,7 @@ gibbsHMM_PT_wDist2<-function(YZ, M=2000, K=10 ,alphaMAX=1, type= 1, alphaMin=0.0
      # INITIALIZE
    # startVal<-makeStart(Y, K);  states0<-startVal$states0   #FUNK
 states0<-lapply(rep(K, J), function(x) makeStartSimpler(Y, x))
-         TrackParallelTemp<-matrix(nrow=M, ncol=J)
-         TrackParallelTemp[1,]<-c(1:J)
+TrackParallelTemp<-data.frame("Chain"=c(1:J),"NumTries"=rep(0,J), "NumSuccess"=rep(0,J))
 
 # final
 FinalMu<- matrix(nrow=M, ncol=K)
@@ -26,6 +25,7 @@ FinalQ<- matrix(nrow=M, ncol=K*K)
 Finalq0<- matrix(nrow=M, ncol=K)
 FinalStates<- matrix(nrow=M, ncol=n+1)
 SteadyScore<-data.frame("Iteration"=c(1:M), "K0"=K) 
+
 
 #temp storage
     MU<- matrix(nrow=J, ncol=K)
@@ -44,28 +44,38 @@ SteadyScore<-data.frame("Iteration"=c(1:M), "K0"=K)
     #Store alphs for PT  
    AllAlphas<- lapply(c(1:J), function(x) matrix(Alpha_lows[x],ncol=K, nrow=K)  )
 
-AllAlphas<-lapply(AllAlphas, function(x) { if (type==1){
-    x[,1]<-alphaMAX      # make said column Amax
-    }else if (type=="diag"){   diag(x)<-alphaMAX } 
-    return(x)})
+AllAlphas<-lapply(AllAlphas, function(x) { 
+    if (type==1){
+      x[,1]<-alphaMAX      # make said column Amax
+    }else if (type=="diag"){   
+      diag(x)<-alphaMAX } 
+      return(x)})
 STORE_Alphas<-AllAlphas
    
 
-    pb <- txtProgressBar(min = 0, max = M, style = 3)
+    if (SuppressAll=="FALSE") pb <- txtProgressBar(min = 0, max = M, style = 3)
  
 
 ptmZZZ <- proc.time()# REMOVE ME
 
      for (m in 1:M){ 
-        if (type=="mix"){  if(sample( c(1, 0), size=1, prob=c(0.5, 0.5))==1){   # Put on diagonal
-            diag(x)<-alphaMAX 
-        } else {   x[,1]<-alphaMAX  }} 
-          if(m %% 10==0){Sys.sleep(0.1)        
+        if (type=="mix"){  
+   AllAlphas<- lapply(c(1:J), function(x) matrix(Alpha_lows[x],ncol=K, nrow=K)  )
+          
+          if(sample( c(1, 0), size=1, prob=c(0.5, 0.5))==1){   # Put on diagonal
+            AllAlphas<- lapply(AllAlphas,  function(x) {diag(x)<-alphaMAX ; return(x)})
+          } else { 
+            AllAlphas<-lapply( AllAlphas, function(x) {x[,1]<-alphaMAX;return(x)})
+           }} 
+
+
+          if(m %% 10==0){  if (SuppressAll=="FALSE"){
+          Sys.sleep(0.1)        
           #if(m %% 100==0){Sys.sleep(0.1)
-            print(m)
+          print(m)
           flush.console()
     #        print(PTsuccess)
-          setTxtProgressBar(pb, m)}
+          setTxtProgressBar(pb, m)}}
  
 # OVER EACH CHAINS
           # Transition
@@ -93,19 +103,22 @@ Z<- t(sapply(c(1:J) , function(x) newZ[[x]]$Z))
 MAP[m]<-newZ[[J]]$MAP
  
 ## PT move
-  if(m>20){
+  if(m>2){
     #if( sample(c(1,0),1, prob=c(0.7,.1))==1){
     if( m%%2==0){chainset<- c(1:(J-1))[c(1:(J-1))%%2==0]   #evens
     } else {chainset<- c(1:(J-1))[c(1:(J-1))%%2!=0] }   #odds
 
 
-
     chainset<-cbind(chainset, chainset+1)
+
+TrackParallelTemp[TrackParallelTemp$Chain%in%as.numeric(chainset),2]<-TrackParallelTemp[TrackParallelTemp$Chain%in%as.numeric(chainset),2]+1
+
     if(class(chainset)=='numeric')chainset<-t(data.frame(chainset))
     SwitchMe<-mapply( function(x,y) parallelAcceptHMM_QV2(Q[x,], Q[y,], AllAlphas[[x]] ,AllAlphas[[y]] , Z[x,1], Z[y,1]), chainset[,1], chainset[,2])
     chainset<-chainset[SwitchMe==1,]
     if(class(chainset)=='numeric')chainset<-t(data.frame(chainset))
 
+TrackParallelTemp[TrackParallelTemp$Chain%in%as.numeric(chainset),3]<-TrackParallelTemp[TrackParallelTemp$Chain%in%as.numeric(chainset),3]+1
 
     #q0
     .q01<-q0[chainset[,1],]
@@ -147,10 +160,11 @@ FinalMu[m,]<-MU[J,]
 FinalStates[m,]<-Z[J,]
 
              } # end of iteration loop
-close(pb)
+  if (SuppressAll=="FALSE") close(pb)
+
 print(proc.time() - ptmZZZ)# REMOVE ME
 
-allResults<-list("Means"=FinalMu, "Trans"=FinalQ, "States"=FinalStates, "q0"=Finalq0, "YZ"=YZ, "MAP"=MAP, "K0"=SteadyScore$K0, "f2dens"=f2now, "f2Dist"=fDist)
+allResults<-list("Means"=FinalMu, "Trans"=FinalQ, "States"=FinalStates, "q0"=Finalq0, "YZ"=YZ, "MAP"=MAP, "K0"=SteadyScore$K0, "f2dens"=f2now, "f2Dist"=fDist,"TrackParallelTemp" =TrackParallelTemp)
 return(allResults)
       }
 

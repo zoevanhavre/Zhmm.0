@@ -8,7 +8,7 @@
 #' #nope
 
 
-Zswitch_hmm<-function(GrunK0, PropMin=0.1 ){
+Zswitch_hmm<-function(GrunK0, PropMin=0.01 ){
 			K<-dim(GrunK0$q0)[2]
 			
 			 # Pick Reference 
@@ -70,7 +70,7 @@ Zswitch_hmm<-function(GrunK0, PropMin=0.1 ){
 				levels(Znew)<-as.numeric(names(BestOne))
 				Zfixed[.iter,]<-as.numeric(as.character(Znew))
 					# Parameters
-				swQ<-nowQ<-matrix(GrunK0$Q[.iter,], nrow=K, byrow=T)[flp, flp]					
+				swQ<-matrix(GrunK0$Q[.iter,], nrow=K, byrow=T)[flp, flp]					
 				combinePars<- cbind(.iter, 1:numK0now,  GrunK0$q0[.iter,flp],GrunK0$Mu[.iter,flp],swQ)
 					AllPars[AllPars[,1]==.iter,]<- combinePars ;	done<-1
 				}}
@@ -99,10 +99,12 @@ Zswitch_hmm<-function(GrunK0, PropMin=0.1 ){
 				
 			newOrder<-order(as.numeric(BestOne), decreasing=FALSE)
 			combinePars<-cbind(.iter,as.numeric(BestOne),  GrunK0$q0[.iter,as.numeric(names(BestOne))],GrunK0$Mu[.iter,as.numeric(names(BestOne))] )[newOrder,]
-			swQ<-matrix(GrunK0$Q[.iter,], nrow=K, byrow=T)[as.numeric(names(BestOne)),as.numeric(names(BestOne))][newOrder,newOrder]
+			swQ<-matrix(GrunK0$Q[.iter,], nrow=K, byrow=T)[as.numeric(names(BestOne)),as.numeric(names(BestOne))]
+			if(class(swQ)!="numeric") swQ<-swQ[newOrder,newOrder]			
 			combinePars<-cbind(combinePars,swQ)
 			AllPars[AllPars[1]==.iter,]<- combinePars
-			}		}
+			}		
+		}
 		
 		Zhat<- factor( apply(Zfixed, 2,maxZ))   # sumarise Z
 		names(AllPars)[1:4]<-c("Iteration", "k", "q0", "mu")

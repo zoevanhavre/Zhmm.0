@@ -61,7 +61,7 @@ for ( .K0 in 1:length(K0)){
 		grunK0$K0<-	Grun$K0[.iterK0]
 
 		## 2. unswitch
-		grunK0us<-Zswitch_hmm(grunK0,0.05 )			
+		grunK0us<-Zswitch_hmm(grunK0,0.01 )			
 		Zetc<-Zagg_HMM(grunK0us, Y)
 		K0estimates[[.K0]]<-cbind(Zetc$thetaCI, "K0"=K0[.K0])
 		Zestimates[[.K0]]<-Zetc$Zpred[-(n+1)]
