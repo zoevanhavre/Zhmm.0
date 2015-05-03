@@ -7,7 +7,7 @@
 #' @examples dDirichlet(c(.1, .9), c(0.1,0.1))
 
 
-gibbsHMM_PT_wDist2<-function(YZ, M=2000, K=10 ,alphaMAX=1, type= 1, alphaMin=0.001, J=20, lab="sim", densTrue, SuppressAll="FALSE"){
+gibbsHMM_PT_wDist2<-function(YZ, M=2000, K=10 ,alphaMAX=1, type= 1, alphaMin=0.001, J=20, densTrue, SuppressAll="FALSE"){
     #____SET UP_________________________________________
     ifelse(class(YZ)=='data.frame',    Y<-YZ$Observed, Y<-YZ)
     n=length(Y) # sample size
