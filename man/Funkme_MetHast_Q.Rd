@@ -3,7 +3,7 @@
 \alias{Funkme_MetHast_Q}
 \title{Funkme_MetHast_Q}
 \usage{
-Funkme_MetHast_Q(.qnew, .qold, .z1)
+Funkme_MetHast_Q(.q0new, .q0old, .z1)
 }
 \arguments{
 \item{x,}{alpha, log=False}

@@ -60,8 +60,7 @@ ptmZZZ <- proc.time()# REMOVE ME
 
      for (m in 1:M){ 
         if (type=="mix"){  
-   AllAlphas<- lapply(c(1:J), function(x) matrix(Alpha_lows[x],ncol=K, nrow=K)  )
-          
+          AllAlphas<- lapply(c(1:J), function(x) matrix(Alpha_lows[x],ncol=K, nrow=K)  )
           if(sample( c(1, 0), size=1, prob=c(0.5, 0.5))==1){   # Put on diagonal
             AllAlphas<- lapply(AllAlphas,  function(x) {diag(x)<-alphaMAX ; return(x)})
           } else { 
@@ -79,19 +78,49 @@ ptmZZZ <- proc.time()# REMOVE ME
  
 # OVER EACH CHAINS
           # Transition
-if (m==1) {nt<-lapply(c(1:J),function(x)CountTrans(states0[[x]], K))
+if (m==1) {nt<-lapply(c(1:J),function(x) CountTrans(states0[[x]], K))
 } else { nt<-  lapply(c(1:J), function(j) CountTrans(Z[j,],K))
-         Qold<-Q}  
+         Qold<-Q
+         Q0old<-q0}  
          qnew<-lapply(c(1:J), function(j) sapply(c(1:K), function(x) rdirichlet(par=nt[[j]][x,]+AllAlphas[[j]][x,]) ) )
          qnew<-lapply(qnew, t)
-         q0new <-  lapply(qnew, ALTERNATEq0)  
+         q0new <-  lapply(qnew, getq0)  
 if(m==1) {Q<-  t(sapply(qnew, function(x) as.vector(t(x))  ) )# Save values at this iteration
-          q0<- t(sapply(qnew, ALTERNATEq0) ) 
-          Qold<-Q}   
+          q0<- t(sapply(qnew, getq0) ) 
+          Qold<-Q
+          Q0old<-q0}   
 if (m>1){        
-    Q<- lapply(c(1:J),function(j) Funkme_MetHast_Q(.qnew=qnew[[j]],.qold=Qold[j,],.z1=Z[j,1]) ) # NOT DONE! # NEED TO APPLY OVER right values, particularly Z's (1'st)    
-    q0new <-  t(sapply(Q, ALTERNATEq0))  #make final q0 from output and store
+    Qtest<- lapply(c(1:J),function(j) Funkme_MetHast_Q(.q0new=q0new[[j]],.q0old=Q0old[j,],.z1=Z[j,1]) ) # NOT DONE! # NEED TO APPLY OVER right values, particularly Z's (1'st)    
+    Q<- lapply(c(1:J), function(j) { if (Qtest[[j]]=="TRUE") {return( qnew[[j]]) 
+          }else { return( matrix(Qold[j,], nrow=K, byrow="TRUE") )} })
+q0<-t(sapply(c(1:J), function(j) { if (Qtest[[j]]=="TRUE") {return( q0new[[j]]) 
+          }else { return(Q0old[j,]  )} }))
+
+    #q0new <-  t(sapply(Q, getq0))  #make final q0 from output and store
     Q<-t(sapply(Q, function(x) as.vector(t(x)) )) }
+
+
+
+
+
+
+
+#           # Transition
+# if (m==1) {nt<-lapply(c(1:J),function(x) CountTrans(states0[[x]], K))
+# } else { nt<-  lapply(c(1:J), function(j) CountTrans(Z[j,],K))
+#          Qold<-Q}  
+#          qnew<-lapply(c(1:J), function(j) sapply(c(1:K), function(x) rdirichlet(par=nt[[j]][x,]+AllAlphas[[j]][x,]) ) )
+#          qnew<-lapply(qnew, t)
+#          q0new <-  lapply(qnew, ALTERNATEq0)  
+# if(m==1) {Q<-  t(sapply(qnew, function(x) as.vector(t(x))  ) )# Save values at this iteration
+#           q0<- t(sapply(qnew, ALTERNATEq0) ) 
+#           Qold<-Q}   
+# if (m>1){        
+#     Q<- lapply(c(1:J),function(j) Funkme_MetHast_Q(.qnew=qnew[[j]],.qold=Qold[j,],.z1=Z[j,1]) ) # NOT DONE! # NEED TO APPLY OVER right values, particularly Z's (1'st)    
+#     q0new <-  t(sapply(Q, ALTERNATEq0))  #make final q0 from output and store
+#     Q<-t(sapply(Q, function(x) as.vector(t(x)) )) }
+    
+
           # Means
 if (m==1) { sumNcount<-lapply(c(1:J), function(j) formu2(states0[[j]][-(n+1)],Y,K))
 } else {    sumNcount<- lapply(c(1:J), function(j) formu2(Z[j,-(n+1)], Y,K))}   # MAKE LIST over Chains (RIGHT Z's)      
