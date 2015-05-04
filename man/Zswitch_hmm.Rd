@@ -3,7 +3,7 @@
 \alias{Zswitch_hmm}
 \title{PostProcessing function univ}
 \usage{
-Zswitch_hmm(GrunK0, PropMin = 0.1)
+Zswitch_hmm(GrunK0, PropMin = 0.01)
 }
 \arguments{
 \item{v}{and s}

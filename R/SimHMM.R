@@ -9,7 +9,7 @@
 SimHMM<-function(Q,Mu, q0=NA, n=100){
         k<-dim(Q)[1]
         #stationary dist q0 for this:
-      if(is.na(q0)){ q0<-getq0NEW(Q)}
+      if(class(q0)!="numeric"){ q0<-getq0NEW(Q)}
         #state chain & ys
         X<-c(rep(0,n))
         Y<-c(rep(0,n))
@@ -147,5 +147,27 @@ FunkSimSEQ<-function(n){
      
        return(data.frame("States"=X, "Observed"=Y))
         }
+
+#' Function to compute stationary distribution of HMM
+#'
+#' density of dirichlet
+#' @param x, alpha, log=False
+#' @keywords dirichlet
+#' @export
+#' @examples dDirichlet(c(.1, .9), c(0.1,0.1))
+
+
+FunkSim0<-function(n){   SimHMM( Q=matrix( c(0.6,0.4,    0.7,0.3), nrow=2, byrow=T),  Mu= c(1,3),q0=NA, n)  }
+
+
+ #' Function to compute stationary distribution of HMM
+#'
+#' density of dirichlet
+#' @param x, alpha, log=False
+#' @keywords dirichlet
+#' @export
+#' @examples dDirichlet(c(.1, .9), c(0.1,0.1))
+
+SimDensity0<-  function(x) { return(density_f2(  x$O, .Q= c(0.6,0.4,    0.7,0.3), .mu=c(1,3), .q0=ALTERNATEq0(matrix( c(0.6,0.4,    0.7,0.3), nrow=2, byrow=T)) ) )}
 
 
