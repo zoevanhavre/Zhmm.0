@@ -8,10 +8,10 @@
 
 ALTERNATEq0<-function(qnew){
 	estq0<-round(qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew%*%qnew
-			, 8)
+			, 15)
 			#return(estq0[ 1, (estq0 != 0)[1,] ])
 			#return( estq0)
-		okid<-c(1:dim(qnew)[1])[apply((estq0 == 1), 1, sum)==0]  
-       	if(length(okid)==0){ okid<-1}                    
+		okid<-c(1:dim(qnew)[1])[apply((estq0 == 1), 1, sum)==0]
+       	if(length(okid)==0){ okid<-1}
 		return( estq0[okid[1], ])
 }
