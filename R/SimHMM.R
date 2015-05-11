@@ -157,7 +157,7 @@ FunkSimSEQ<-function(n){
 #' @examples dDirichlet(c(.1, .9), c(0.1,0.1))
 
 
-FunkSim0<-function(n){   SimHMM( Q=matrix( c(0.6,0.4,    0.7,0.3), nrow=2, byrow=T),  Mu= c(1,3),q0=NA, n)  }
+FunkSim0<-function(n){   SimHMM( Q=matrix( c(0.6,0.4,    0.7,0.3), nrow=2, byrow=T),  Mu= c(2,-1),q0=NA, n)  }
 
 
  #' Function to compute stationary distribution of HMM
@@ -168,6 +168,6 @@ FunkSim0<-function(n){   SimHMM( Q=matrix( c(0.6,0.4,    0.7,0.3), nrow=2, byrow
 #' @export
 #' @examples dDirichlet(c(.1, .9), c(0.1,0.1))
 
-SimDensity0<-  function(x) { return(density_f2(  x$O, .Q= c(0.6,0.4,    0.7,0.3), .mu=c(1,3), .q0=ALTERNATEq0(matrix( c(0.6,0.4,    0.7,0.3), nrow=2, byrow=T)) ) )}
+SimDensity0<-  function(x) { return(density_f2(  x$O, .Q= c(0.6,0.4,    0.7,0.3), .mu=c(2,-1), .q0=ALTERNATEq0(matrix( c(0.6,0.4,    0.7,0.3), nrow=2, byrow=T)) ) )}
 
 
