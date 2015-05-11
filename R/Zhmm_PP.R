@@ -15,7 +15,7 @@ Zhmm_PP<-function( run , burn=1000, prep=1000, isSim=TRUE,trueValues=NA, minq4PL
 	USfullrun<-vector("list", length(K0))
 	# distribution of $K_0$
 	emptyK<-run$K0[burn:length(run$K0)]
-	
+
 	# parameters by stationary dist
     both<-cbind(melt(run$Means[-c(1:burn),])[,3], melt(run$q0[-c(1:burn),])[,3])
 	color <- as.factor(melt(run$Means[-c(1:burn),])[,2])
@@ -30,7 +30,7 @@ Lab.palette <- colorRampPalette(rainbow(K*3, alpha=.3), space = "Lab")
 
 pdf(file=paste(simlabel, "_MCMCpp.pdf",sep='') ,width=8, height=3)
 	par(mfrow=c(1, 3))
-	barplot(slices, ylim=c(0,1), main="Estmated K_0", xlab="Number of non-empty states", ylab="Probability (from MCMC)") 
+	barplot(slices, ylim=c(0,1), main="Estmated K_0", xlab="Number of non-empty states", ylab="Probability (from MCMC)")
 	abline(h=seq(0, 1, .05), lwd=0.5, col='LightGrey')
 	smoothScatter(both, colramp = Lab.palette, main="Posterior Surface", nrpoints = 0, xlab="Mean", ylab="Stationary dist.")
 	plot(both, col=trancol, xlim=minmaxMEANS, xlab="Mean", ylab="Stationary Distribution", bg='grey', main="Posterior Samples")
@@ -41,16 +41,16 @@ dev.off()
 
 # unswitch seperate groups and make indi plots
 Y<-run$YZ$Obs
-Grun<-TrimThin(run, burn, Thin=1)		
+Grun<-TrimThin(run, burn, Thin=1)
 targetK0<-Grun$K0
 K0<-as.numeric(names(table(targetK0 )))
-	n<-length(Y)  
-	K<-dim(Grun$q0)[2]	
+	n<-length(Y)
+	K<-dim(Grun$q0)[2]
 	p_vals<-data.frame("K0"=K0, "PropIters"=as.numeric(table(Grun$K0)/dim(Grun$q0)[1]), "RAND"=NA, "MAE"=NA, "MSE"=NA,"Pmin"=NA, "Pmax"=NA, "Concordance"=NA, "MAPE"=NA, "MSPE"=NA)
-		
+
 		grunK0<-Grun
 		# split data by K0
-for ( .K0 in 1:length(K0)){		
+for ( .K0 in 1:length(K0)){
 		.iterK0<- c(na.omit(c(1:dim(Grun$q0) [1])[targetK0 ==K0[.K0]]))
 	if(p_vals$PropIters[.K0]>0.05){
 		grunK0$Mu<-	Grun$Means[.iterK0,]
@@ -61,7 +61,7 @@ for ( .K0 in 1:length(K0)){
 		grunK0$K0<-	Grun$K0[.iterK0]
 
 		## 2. unswitch
-		grunK0us<-Zswitch_hmm(grunK0,0.01 )			
+		grunK0us<-Zswitch_hmm(grunK0,0.01 )
 		Zetc<-Zagg_HMM(grunK0us, Y)
 		K0estimates[[.K0]]<-cbind(Zetc$thetaCI, "K0"=K0[.K0])
 		Zestimates[[.K0]]<-Zetc$Zpred[-(n+1)]
@@ -74,30 +74,30 @@ for ( .K0 in 1:length(K0)){
 		#Allocations
 		p3<-HmmAllocationPlot(outZ=grunK0us$Z[,-(n+1)], myY=Y)
 		## 4. Predict replicates
-		postPredTests<-PostPredFunk(grunK0us,Zetc, Y, 100, simlabel)
-		p4<-postPredTests$ggp	
+		postPredTests<-PostPredFunk(grunK0us,Zetc, Y, prep, simlabel)
+		p4<-postPredTests$ggp
 		# clusters:
 		plotyz<-data.frame("X"=1:n, "Y"=Y, "Post_Z"=Zetc$Zpred[-(n+1)])
-		p5<-ggplot(plotyz, aes(y=Y,x=X ))+geom_point(aes(colour=Post_Z),size=3)+ geom_line(alpha = 1/4)+theme_bw()+  theme(legend.position = "none")+ggtitle("Posterior Allocations")+xlab("Time") 
-			#RAND		
-		if (isSim==TRUE){ p_vals$RAND<- sum(run$YZ$States==Zetc$Zpred)/length(Zetc$Zpred)}
+		p5<-ggplot(plotyz, aes(y=Y,x=X ))+geom_point(aes(colour=Post_Z),size=3)+ geom_line(alpha = 1/4)+theme_bw()+  theme(legend.position = "none")+ggtitle("Posterior Allocations")+xlab("Time")
+			#RAND
+		if (isSim==TRUE){ p_vals$RAND[.K0]<- sum(run$YZ$States==Zetc$Zpred)/length(Zetc$Zpred)}
 		p_vals$MAE[.K0]<- Zetc$MAE
 		p_vals$MSE[.K0]<- Zetc$MSE
 		p_vals$Pmin[.K0]<-postPredTests$MinP
 		p_vals$Pmax[.K0]<-postPredTests$MaxP
 		p_vals$MAPE[.K0]<-postPredTests$MAPE
 		p_vals$MSPE[.K0]<-postPredTests$MSPE
-		p_vals$Concordance[.K0]<-1-postPredTests$Concordance		
+		p_vals$Concordance[.K0]<-1-postPredTests$Concordance
 
-				
+
 		# print plot
 		#pdf( file= paste(simlabel, "K_ ",K0[.K0] , ".pdf",sep='') ,width=10, height=5)
 	 if(p_vals$PropIters[.K0]==max(p_vals$PropIters)){
 	 	png( file= paste(simlabel, "K_ ",K0[.K0] , ".png",sep='') ,width=800, height=500)
-	 		print( wq::layOut(	list(p1, 	1, 1:2),  
-		        	list(p2, 	1, 3:4),   
+	 		print( wq::layOut(	list(p1, 	1, 1:2),
+		        	list(p2, 	1, 3:4),
 		         	list(p3,	1,5:6),
-		         	list(p5, 	2,1:3),  
+		         	list(p5, 	2,1:3),
 		          	list(p4, 	2,4:6)))
 		dev.off()
 	}
@@ -109,7 +109,7 @@ for ( .K0 in 1:length(K0)){
 
 
 
-return(list(p_vals, K0estimates,Zestimates, USfullrun))	
+return(list(p_vals, K0estimates,Zestimates, USfullrun))
 
 }
 
