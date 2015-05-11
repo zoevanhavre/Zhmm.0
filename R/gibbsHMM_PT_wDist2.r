@@ -35,7 +35,6 @@ SteadyScore<-data.frame("Iteration"=c(1:M), "K0"=K)
     Z  <- matrix(nrow=J, ncol=n+1) #include 0 for initial state to be estimated too?
 
     PTsuccess  <- data.frame("Chain"=c(1:J),"Tries"=0,"Success"=0, "Ratio"=NA) #include 0 for initial state to be estimated too?
-    K0Final<-matrix(nrow=M, ncol=J)
     MAP<-rep(0,M)  # KEEP TARGET ONLY
     f2now<-vector(length=M)
     fDist<-vector(length=M)
@@ -153,7 +152,6 @@ TrackParallelTemp[TrackParallelTemp$Chain%in%as.numeric(chainset),3]<-TrackParal
 f2now[m]<- density_f2(y=  Y,  .q0=q0[J,] , .Q=Q[J,], .mu=MU[J,])
 fDist[m]<-   abs( f2now[m]-densTrue)
 SteadyScore$K0[m]<-sum(table(Z[J,])>0)
-K0Final[ m, ]<-apply(   Z  ,1,  function(x)  sum(table(x)>0))
 
 Finalq0[m,]<-q0[J,]
 FinalQ[m,]<-Q[J,]
