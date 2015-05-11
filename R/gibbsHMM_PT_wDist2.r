@@ -102,7 +102,7 @@ q0<-t(sapply(c(1:J), function(j) { if (Qtest[[j]]=="TRUE") {return( q0new[[j]])
     Q<-t(sapply(Q, function(x) as.vector(t(x)) ))
 
 
-     Sys.sleep(0.1); print(q0);flush.console()
+   #  Sys.sleep(0.1); print(q0);flush.console()
         }
 
 
