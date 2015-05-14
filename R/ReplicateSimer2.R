@@ -1,4 +1,4 @@
- #' gibbsHMM_PT 
+ #' gibbsHMM_PT
 #'
 #' parallel tempering with a column prior - option to mix over column or stick to j=1
 #' @param x, alpha, log=False
@@ -6,7 +6,7 @@
 #' @export
 #' @examples dDirichlet(c(.1, .9), c(0.1,0.1))
 
-ReplicateSimer2<-function(  N, n, Kfit=10, SimID, ITERATIONS, AMAX,  PRIOR_TYPE, PTchain=20){
+ReplicateSimer2<-function(  N, n, Kfit=10, SimID, ITERATIONS,BURN,  AMAX,  PRIOR_TYPE, PTchain=20){
 		#  STORE SIMULATIONS in a list
 		simFunctionMorpher<-function(SimNumber){
 			if(	SimNumber==1){ 	return(FunkSim1)
@@ -22,21 +22,27 @@ ReplicateSimer2<-function(  N, n, Kfit=10, SimID, ITERATIONS, AMAX,  PRIOR_TYPE,
 			}else if (SimNumber==3){	return(SimDensity4)
 			}	}
 		MorphineDENSITY<-simDensityMorpher(SimID)
-		
+
 		SIM_DENSITY_TRUE<-lapply(SIMS, 	MorphineDENSITY)
-	
-	NumCores<-min(parallel::detectCores(), N)		
+
+	NumCores<-min(parallel::detectCores(), N)
 
 		# Clean up Gibbs for lyra...
 		library(parallel)
-		Result<-mclapply( c(1:N), function(x)  {
+		Result<-mclapply(c(1:N), function(x)  {
 		gibbsHMM_PT_wDist2(YZ=SIMS[[x]],K=Kfit, densTrue=SIM_DENSITY_TRUE[[x]],  M=ITERATIONS,  alphaMAX=AMAX, type= PRIOR_TYPE, alphaMin=0.001, J=PTchain, SuppressAll="TRUE")
-		
+
 		} , mc.cores = NumCores)
 		print(NumCores)
-		return(Result)
+
+# combine results!
+Alive<-sapply(Result, function(x)  median(x$K0[-c(1:BURN)]))
+L1norm<-sapply(Result, function(x)  mean(x$f2Dist[-c(1:BURN)]))
+
+SmallResults<-return(data.frame("AliveStates"=Alive, "L1norm"=L1norm))
+
+		return(SmallResults)
 		}
 
 
 
-	

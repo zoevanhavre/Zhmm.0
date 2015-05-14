@@ -4,7 +4,7 @@
 \alias{ReplicateSimer2}
 \title{gibbsHMM_PT}
 \usage{
-ReplicateSimer2(N, n, Kfit = 10, SimID, ITERATIONS, AMAX, PRIOR_TYPE,
+ReplicateSimer2(N, n, Kfit = 10, SimID, ITERATIONS, BURN, AMAX, PRIOR_TYPE,
   PTchain = 20)
 }
 \arguments{
