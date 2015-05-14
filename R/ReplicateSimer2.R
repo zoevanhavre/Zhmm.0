@@ -38,10 +38,16 @@ ReplicateSimer2<-function(  N, n, Kfit=10, SimID, ITERATIONS,BURN,  AMAX,  PRIOR
 # combine results!
 
 #Alive<-sapply(Result, function(x)  median(x$K0[-c(1:BURN)]))
-Alive<-sapply(Result, function(x)  median( x[['K0']][-c(1:BURN)]))
-L1norm<-sapply(Result, function(x)  mean(x[['f2Dist']][-c(1:BURN)]))
-SmallResults<-data.frame("AliveStates"=Alive, "L1norm"=L1norm)
-		return(SmallResults)
+Fin<-data.frame("Run"=rep(0,N), "MedianK0"=rep(0, N), "MeanDist"=rep(0,N))
+for(i in 1:N){
+	Fin[i,1]<-i
+	Fin[i,2]<- median(Result[[i]][["K0"]][-c(1:BURN)])
+	Fin[i,3]<-mean(Result[[i]][["f2Dist"]][-c(1:BURN)])
+}
+#Alive<-sapply(Result, function(x)  median( x[['K0']][-c(1:BURN)]))
+#L1norm<-sapply(Result, function(x)  mean(x[['f2Dist']][-c(1:BURN)]))
+#SmallResults<-data.frame("AliveStates"=Alive, "L1norm"=L1norm)
+		return(Fin)
 		}
 
 
