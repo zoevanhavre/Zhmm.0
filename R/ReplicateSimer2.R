@@ -38,9 +38,7 @@ ReplicateSimer2<-function(  N, n, Kfit=10, SimID, ITERATIONS,BURN,  AMAX,  PRIOR
 # combine results!
 Alive<-sapply(Result, function(x)  median(x$K0[-c(1:BURN)]))
 L1norm<-sapply(Result, function(x)  mean(x$f2Dist[-c(1:BURN)]))
-
-SmallResults<-return(data.frame("AliveStates"=Alive, "L1norm"=L1norm))
-
+SmallResults<-data.frame("AliveStates"=Alive, "L1norm"=L1norm)
 		return(SmallResults)
 		}
 
