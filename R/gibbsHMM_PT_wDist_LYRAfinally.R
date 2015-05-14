@@ -38,7 +38,11 @@ SteadyScore<-data.frame("Iteration"=c(1:M), "K0"=K)
     MAP<-rep(0,M)  # KEEP TARGET ONLY
     f2now<-vector(length=M)
     fDist<-vector(length=M)
+       f2now_MERGED<-vector(length=M)
+    fDistMERGED<-vector(length=M)
+
     # ALPHA
+
     Alpha_lows<-c(alphaMAX, exp(seq(log(alphaMAX), log(alphaMin), length=J))[-1])
     #Store alphs for PT
    AllAlphas<- lapply(c(1:J), function(x) matrix(Alpha_lows[x],ncol=K, nrow=K)  )
@@ -46,7 +50,7 @@ SteadyScore<-data.frame("Iteration"=c(1:M), "K0"=K)
 AllAlphas<-lapply(AllAlphas, function(x) {
     if (type==1){
       x[,1]<-alphaMAX      # make said column Amax
-    }else if (type=="diag"){
+    }else if (type==2){
       diag(x)<-alphaMAX }
       return(x)})
 STORE_Alphas<-AllAlphas
@@ -56,7 +60,7 @@ STORE_Alphas<-AllAlphas
 ptmZZZ <- proc.time()# REMOVE ME
 
      for (m in 1:M){
-        if (type=="mix"){
+        if (type==3){
           AllAlphas<- lapply(c(1:J), function(x) matrix(Alpha_lows[x],ncol=K, nrow=K)  )
           if(sample( c(1, 0), size=1, prob=c(0.5, 0.5))==1){   # Put on diagonal
             AllAlphas<- lapply(AllAlphas,  function(x) {diag(x)<-alphaMAX ; return(x)})
@@ -151,6 +155,10 @@ TrackParallelTemp[TrackParallelTemp$Chain%in%as.numeric(chainset),3]<-TrackParal
 ## Compute density f2 at this iteration (L1 norm)
 f2now[m]<- density_f2(y=  Y,  .q0=q0[J,] , .Q=Q[J,], .mu=MU[J,])
 fDist[m]<-   abs( f2now[m]-densTrue)
+
+f2now_MERGED[m]<- density_f2(y=  Y,  .q0=q0[1,] , .Q=Q[1,], .mu=MU[1,])
+fDistMERGED[m]<-   abs( f2now_MERGED[m]-densTrue)
+
 SteadyScore$K0[m]<-sum(table(Z[J,])>0)
 
 Finalq0[m,]<-q0[J,]
@@ -163,7 +171,7 @@ FinalStates[m,]<-Z[J,]
 
 #print(proc.time() - ptmZZZ)# REMOVE ME
 
-allResults<-data.frame("K0"=SteadyScore$K0,"f2Dist"=fDist)
+allResults<-data.frame("K0"=SteadyScore$K0,"f2Dist"=fDist, "f2Dist_Merged"=fDistMERGED)
 return(allResults)
       }
 
