@@ -37,13 +37,16 @@ ReplicateSimer2<-function(  N, n, Kfit=10, SimID, ITERATIONS,BURN,  AMAX,  PRIOR
 
 # combine results!
 #Alive<-sapply(Result, function(x)  median(x$K0[-c(1:BURN)]))
-Fin<-data.frame("Run"=rep(0,N), "MedianK0"=rep(0, N), "MeanDist"=rep(0,N))
+Fin<-data.frame("Run"=rep(0,N), "MedianK0"=rep(0, N), "MeanDist"=rep(0,N), "MeanDist_MERGED"=rep(0,N), "WorstMixChain"=rep(0,N))
 for(i in 1:N){
 	Fin[i,1]<-i
 	.result<-Result[[i]]
 #	print(head(.result))
 	Fin[i,2]<- median(.result$K0[-c(1:BURN)])
 	Fin[i,3]<-mean(.result$f2Dist[-c(1:BURN)])
+	Fin[i,4]<-mean(.result$f2Dist_Merged[-c(1:BURN)])
+	Fin[i,5]<-.result$WorstMixProp[1]
+
 }
 
  #Alive<-sapply(Result, function(x)  median( x[[]]$K0[-c(1:BURN)]))

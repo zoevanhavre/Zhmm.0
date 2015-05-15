@@ -169,9 +169,16 @@ FinalStates[m,]<-Z[J,]
              } # end of iteration loop
   if (SuppressAll=="FALSE") close(pb)
 
+AnyMix<-0
+if( sum(TrackParallelTemp$NumSuccess > 5) ==J) AnyMix<-1  # if all chains mix a bit
+
+#find worst mixed chain :
+ChainProportionSuccess<- TrackParallelTemp$NumSuccess/TrackParallelTemp$NumTries
+WorstMixProp<-min(ChainProportionSuccess)
+
 #print(proc.time() - ptmZZZ)# REMOVE ME
 
-allResults<-data.frame("K0"=SteadyScore$K0,"f2Dist"=fDist, "f2Dist_Merged"=fDistMERGED)
+allResults<-data.frame("K0"=SteadyScore$K0,"f2Dist"=fDist, "f2Dist_Merged"=fDistMERGED, "WorstMixProp"=WorstMixProp )
 return(allResults)
       }
 
