@@ -37,15 +37,15 @@ Result.store$MeanfDist[.rep]<-mean(My.Result$f2Dist[-c(1:BURN)])
 Result.store$MeanfDistMERGED[.rep]<-mean(My.Result$f2Dist_Merged[-c(1:BURN)])
 Result.store$WorstMixed[.rep]<-min(My.Result$WorstMixProp[-c(1:BURN)])
 
-write.csv(Result.store[1:.rep,], file=paste( "RepResult_Sim" ,SimID, "Prior", PRIOR_TYPE, "Alpha", AMAX,"Iters",ITERATIONS,".csv", sep=""))
-save(Result.store, file=paste( "RepResult_Sim" ,SimID, "Prior", PRIOR_TYPE,"Alpha",AMAX,"Iters",ITERATIONS, ".RDATA", sep="_"))
+write.csv(Result.store[1:.rep,], file=paste( "RepResult_Sim" ,SimID, "Prior", PRIOR_TYPE, "Alpha", AMAX,".csv", sep=""))
+save(Result.store, file=paste( "RepResult_Sim" ,SimID, "Prior", PRIOR_TYPE, "Alpha", AMAX, ".RDATA", sep=""))
 
 Sys.sleep(0.1)
 print(Result.store[1:.rep,])
 Sys.sleep(0.1)
 }
 
-pdf( file= paste( "Sim" ,SimID, "Prior", PRIOR_TYPE, "MaxAlpha", AMAX,"Iters",ITERATIONS, ".pdf", sep="") ,width=5, height=3)
+pdf( file= paste( "Sim" ,SimID, "Prior", PRIOR_TYPE, "Max Alpha", AMAX, ".pdf", sep="") ,width=5, height=3)
 	 		print( wq::layOut(	
 	 		list(ggplot(data=Result.store, aes(x=ModeK0))+geom_histogram(binwidth=1)+theme_bw()+xlab("K_0")+
 	 			ggtitle(paste( "RepResult_Sim" ,SimID, "Prior", PRIOR_TYPE, "Alpha", AMAX)) 
