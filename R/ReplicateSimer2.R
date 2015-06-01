@@ -27,7 +27,7 @@ ReplicateSimer2<-function(  N, n, Kfit=10, SimID, ITERATIONS, BURN,  AMAX,  PRIO
 
 		# Clean up Gibbs for lyra...
 
-Result.store<-data.frame("Replicate"=c(1:N), "SimID"=SimID, "AlphaMax"=AMAX, "Prior"=PRIOR_TYPE, "ModeK0"=0, "MeanfDist"=0, "MeanfDistMERGED"=0, "WorstMixed"=0)
+Result.store<-data.frame("Replicate"=c(1:N), "SimID"=SimID, "n"=n,"AlphaMax"=AMAX, "Prior"=PRIOR_TYPE, "ModeK0"=0, "MeanfDist"=0, "MeanfDistMERGED"=0, "WorstMixed"=0)
 
 for (.rep in 1:N){
 My.Result<-gibbsHMM_PT_wDist_LYRAfinally(YZ=SIMS[[.rep]],K=Kfit, densTrue=SIM_DENSITY_TRUE[[.rep]],  M=ITERATIONS,  alphaMAX=AMAX, type= PRIOR_TYPE, alphaMin=0.001, J=PTchain, SuppressAll="TRUE")
@@ -37,23 +37,22 @@ Result.store$MeanfDist[.rep]<-mean(My.Result$f2Dist[-c(1:BURN)])
 Result.store$MeanfDistMERGED[.rep]<-mean(My.Result$f2Dist_Merged[-c(1:BURN)])
 Result.store$WorstMixed[.rep]<-min(My.Result$WorstMixProp[-c(1:BURN)])
 
-write.csv(Result.store[1:.rep,], file=paste( "RepResult_Sim" ,SimID, "Prior", PRIOR_TYPE, "Alpha", AMAX,"Iters",ITERATIONS,".csv", sep=""))
-save(Result.store, file=paste( "RepResult_Sim" ,SimID, "Prior", PRIOR_TYPE,"Alpha",AMAX,"Iters",ITERATIONS, ".RDATA", sep="_"))
+write.csv(Result.store[1:.rep,], file=paste( "RepResult_Sim" ,SimID,"n",n, "Prior", PRIOR_TYPE, "Alpha", AMAX,"Iters",ITERATIONS,".csv", sep=""))
+save(Result.store, file=paste( "RepResult_Sim" ,SimID,"n",n, "Prior", PRIOR_TYPE,"Alpha",round( AMAX,3) ,"Iters",ITERATIONS, ".RDATA", sep="_"))
 
 Sys.sleep(0.1)
 print(Result.store[1:.rep,])
 Sys.sleep(0.1)
 }
 
-pdf( file= paste( "Sim" ,SimID, "Prior", PRIOR_TYPE, "MaxAlpha", AMAX,"Iters",ITERATIONS, ".pdf", sep="") ,width=5, height=3)
-	 		print( wq::layOut(	
+pdf( file= paste( "Sim" ,SimID,"n",n, "Prior", PRIOR_TYPE, "MaxAlpha", AMAX,"Iters",ITERATIONS, ".pdf", sep="") ,width=5, height=3)
+	 		print( wq::layOut(
 	 		list(ggplot(data=Result.store, aes(x=ModeK0))+geom_histogram(binwidth=1)+theme_bw()+xlab("K_0")+
-	 			ggtitle(paste( "RepResult_Sim" ,SimID, "Prior", PRIOR_TYPE, "Alpha", AMAX)) 
-	 			, 	1, 1:2),  
-		    list(ggplot(data=Result.store, aes(y=MeanfDist, x= factor(1)))+geom_boxplot()+theme_bw()+ylab("Distance") +ggtitle("Mean f2Dist distance"), 	1, 3)  ))
-		
+	 			ggtitle(paste( "Sim" ,SimID ,"(n=" ,n, ") Prior", PRIOR_TYPE,  "Alpha", round( AMAX,3) , ": K_0"))  ,	1 ,	 1:2),
+		    list(ggplot(data=Result.store, aes(y=MeanfDist, x= factor(1)))+geom_boxplot()+theme_bw()+ylab("Distance") ,	1,	 3)  )    )
+
 dev.off()
-	
+
 	return(Result.store)
 		}
 
