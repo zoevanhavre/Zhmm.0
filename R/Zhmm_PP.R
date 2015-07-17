@@ -97,7 +97,9 @@ for ( .K0 in 1:length(K0)){
 
 		# print plot
 		#pdf( file= paste(simlabel, "K_ ",K0[.K0] , ".pdf",sep='') ,width=10, height=5)
-	 if(p_vals$PropIters[.K0]==max(p_vals$PropIters)){
+	# if(p_vals$PropIters[.K0]==max(p_vals$PropIters)){
+	 if(p_vals$PropIters[.K0]>0.05){
+
 	 	pdf( file= paste(simlabel, "K_ ",K0[.K0] , ".pdf",sep='') ,width=8, height=6, pointsize=8)
 	 		print( wq::layOut(	list(p1, 	1, 1:2),
 		        	list(p2, 	1, 3:4),
