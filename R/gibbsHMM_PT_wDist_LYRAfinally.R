@@ -25,7 +25,7 @@ gibbsHMM_PT_wDist_LYRAfinally<-function(YZ, M=2000, K=10 ,alphaMin=0.00001, alph
   FinalQ<- matrix(nrow=M, ncol=K*K)
   Finalq0<- matrix(nrow=M, ncol=K)
   FinalStates<- matrix(nrow=M, ncol=n+1)
-  SteadyScore<-data.frame("Iteration"=c(1:M), "K0"=K)
+  SteadyScore<-data.frame("Iteration"=c(1:M), "K0"=K)  #FIX
 
   #temp storage
   MU<- matrix(nrow=J, ncol=K)
@@ -162,14 +162,13 @@ gibbsHMM_PT_wDist_LYRAfinally<-function(YZ, M=2000, K=10 ,alphaMin=0.00001, alph
   f2now_MERGED[m]<- density_f2(y=  Y,  .q0=q0[1,] , .Q=Q[1,], .mu=MU[1,])
   fDistMERGED[m]<-   abs( f2now_MERGED[m]-densTrue)
 
-  SteadyScore$K0[m]<-sum(table(Z[J,])>0)
-
   Finalq0[m,]<-q0[J,]
   FinalQ[m,]<-Q[J,]
   FinalMu[m,]<-MU[J,]
   FinalStates[m,]<-Z[J,]
-
+  SteadyScore$K0[m]<-sum(table(Z[J,])>0)
   } # end of iteration loop
+
   if (SuppressAll=="FALSE") close(pb)
 
   AnyMix<-0
@@ -182,10 +181,9 @@ gibbsHMM_PT_wDist_LYRAfinally<-function(YZ, M=2000, K=10 ,alphaMin=0.00001, alph
   #print(proc.time() - ptmZZZ)# REMOVE ME
 
 
+TrackResults<-data.frame("K0"=SteadyScore$K0,"f2Dist"=fDist, "f2Dist_Merged"=fDistMERGED, "WorstMixProp"=WorstMixProp )
 
-  TrackResults<-data.frame("K0"=SteadyScore$K0,"f2Dist"=fDist, "f2Dist_Merged"=fDistMERGED, "WorstMixProp"=WorstMixProp )
-
-  allResults<-list("Means"=FinalMu, "Trans"=FinalQ, "States"=FinalStates, "q0"=Finalq0, "YZ"=YZ, "MAP"=MAP, "K0"=SteadyScore$K0, "f2dens"=f2now, "f2Dist"=fDist,"TrackParallelTemp" =TrackParallelTemp, "Track"=TrackResults)
+allResults<-list("Means"=FinalMu, "Trans"=FinalQ, "States"=FinalStates, "q0"=Finalq0, "YZ"=YZ, "MAP"=MAP, "K0"=SteadyScore$K0, "f2dens"=f2now, "f2Dist"=fDist,"TrackParallelTemp" =TrackParallelTemp, "Track"=TrackResults)
   return(allResults)
   }
 
