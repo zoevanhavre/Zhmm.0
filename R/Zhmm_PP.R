@@ -12,7 +12,7 @@ Y<-run$YZ$Obs
 Grun<-TrimThin(run, burn, Thin=1)
 
 targetK0<-Grun$K0
-
+K<-dim(run$Means)[2]
 K0<-as.numeric(names(table(targetK0 )))
 	n<-length(Y)
 	#K0<-run$K0[burn:length(run$MAP)]
