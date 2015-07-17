@@ -32,10 +32,10 @@ Result.store<-data.frame("Replicate"=c(1:N), "SimID"=SimID, "n"=n,"AlphaMax"=AMA
 for (.rep in 1:N){
 My.Result<-gibbsHMM_PT_wDist_LYRAfinally(YZ=SIMS[[.rep]],K=Kfit, densTrue=SIM_DENSITY_TRUE[[.rep]],  M=ITERATIONS,  alphaMAX=AMAX, type= PRIOR_TYPE, alphaMin=0.001, J=PTchain, SuppressAll="TRUE")
 
-Result.store$ModeK0[.rep]<-as.numeric(names(sort(table(factor(My.Result$K0[-c(1:BURN)])),decreasing=TRUE)[1]))
-Result.store$MeanfDist[.rep]<-mean(My.Result$f2Dist[-c(1:BURN)])
-Result.store$MeanfDistMERGED[.rep]<-mean(My.Result$f2Dist_Merged[-c(1:BURN)])
-Result.store$WorstMixed[.rep]<-min(My.Result$WorstMixProp[-c(1:BURN)])
+Result.store$ModeK0[.rep]<-as.numeric(names(sort(table(factor(My.Result$Track$K0[-c(1:BURN)])),decreasing=TRUE)[1]))
+Result.store$MeanfDist[.rep]<-mean(My.Result$Track$f2Dist[-c(1:BURN)])
+Result.store$MeanfDistMERGED[.rep]<-mean(My.Result$Track$f2Dist_Merged[-c(1:BURN)])
+Result.store$WorstMixed[.rep]<-min(My.Result$Track$WorstMixProp[-c(1:BURN)])
 
 write.csv(Result.store[1:.rep,], file=paste( "RepResult_Sim" ,SimID,"n",n, "Prior", PRIOR_TYPE, "Alpha", AMAX,"Iters",ITERATIONS,".csv", sep=""))
 save(Result.store, file=paste( "RepResult_Sim" ,SimID,"n",n, "Prior", PRIOR_TYPE,"Alpha",round( AMAX,3) ,"Iters",ITERATIONS, ".RDATA", sep="_"))

@@ -4,8 +4,8 @@
 \alias{gibbsHMM_PT_wDist_LYRAfinally}
 \title{gibbsHMM_PT}
 \usage{
-gibbsHMM_PT_wDist_LYRAfinally(YZ, M = 2000, K = 10, alphaMAX = 1,
-  type = 1, alphaMin = 0.001, J = 20, densTrue, SuppressAll = "FALSE")
+gibbsHMM_PT_wDist_LYRAfinally(YZ, M = 2000, K = 10, alphaMin = 1e-05,
+  alphaMAX = 1, type = 1, J = 1, densTrue = 0, SuppressAll = FALSE)
 }
 \arguments{
 \item{x,}{alpha, log=False}

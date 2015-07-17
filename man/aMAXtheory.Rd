@@ -4,7 +4,7 @@
 \alias{aMAXtheory}
 \title{Function to compute stationary distribution of HMM}
 \usage{
-aMAXtheory(amin, K, ref = c("Rousseau", "Gassiat"))
+aMAXtheory(K, Amin = 1e-07)
 }
 \arguments{
 \item{x,}{alpha, log=False}

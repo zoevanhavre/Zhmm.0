@@ -115,7 +115,6 @@ q1[5,]<-c(    .225,.225,.225, .225, 0.1)
 SimHMM( Q=q1,  Mu= c(-1, 3,  5, 8, 20),q0=NA, n)  }
 
 
-
 #' Function to compute stationary distribution of HMM
 #'
 #' density of dirichlet
