@@ -10,7 +10,7 @@ ReplicateSimer2<-function(  N, n, Kfit=10, SimID, ITERATIONS, BURN,  AMAX,  PRIO
 		#  STORE SIMULATIONS in a list
 		simFunctionMorpher<-function(SimNumber){
 			if(	SimNumber==1){ 	return(FunkSim1)
-			}else if (SimNumber==2){	return(FunkSim3)
+			}else if (SimNumber==2){	return(FunkSim2)
 			}else if (SimNumber==3){	return(FunkSim4)
 			}	}
 		MorphingSIMULATE<-simFunctionMorpher(SimID)
@@ -18,7 +18,7 @@ ReplicateSimer2<-function(  N, n, Kfit=10, SimID, ITERATIONS, BURN,  AMAX,  PRIO
 		# Compute density for L1 norm and store in a list
 		simDensityMorpher<-function(SimNumber){
 			if(	SimNumber==1){ 	return( SimDensity1)
-			}else if (SimNumber==2){	return(SimDensity3)
+			}else if (SimNumber==2){	return(SimDensity2)
 			}else if (SimNumber==3){	return(SimDensity4)
 			}	}
 		MorphineDENSITY<-simDensityMorpher(SimID)

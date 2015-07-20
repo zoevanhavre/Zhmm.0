@@ -69,7 +69,18 @@ SimDensity1<-  function(x) { return(density_f2(  x$O, .Q= c(  0.2,0.3,0.5,   0.5
 #' @examples dDirichlet(c(.1, .9), c(0.1,0.1))
 
 
-FunkSim2<-function(n){   SimHMM( Q=matrix( c(  0.2,0.3,0.5,    0.5,0.25,0.25,    0.25, 0.65, 0.1), nrow=3, byrow=T),  Mu= c(-1,2,5),q0=NA, n)  }
+
+FunkSim2<-function(n){   SimHMM( Q=matrix( c(  0.8,0.1,0.1,    0.2,0.75,0.05,    0.1, 0.3, 0.6), nrow=3, byrow=T),  Mu= c(1,3,6),q0=NA, n)  }
+
+#' Function to compute stationary distribution of HMM
+#'
+#' density of dirichlet
+#' @param x, alpha, log=False
+#' @keywords dirichlet
+#' @export
+#' @examples dDirichlet(c(.1, .9), c(0.1,0.1))
+
+SimDensity2<-  function(x) { return(density_f2(  x$O, .Q= c( 0.8,0.1,0.1,    0.2,0.75,0.05,    0.1, 0.3, 0.6), .mu=c(1,3, 6), .q0=ALTERNATEq0(matrix(  c(0.8,0.1,0.1,    0.2,0.75,0.05,    0.1, 0.3, 0.6), nrow=3, byrow=T)) ) )}
 
 #' Function to compute stationary distribution of HMM
 #'
@@ -106,13 +117,8 @@ diag(q1)<-.6
 #' @export
 #' @examples dDirichlet(c(.1, .9), c(0.1,0.1))
 
-FunkSim4<-function(n){
-q1<-matrix(0.1, ncol=5, nrow=5)
-diag(q1)<-.6
-#q1[5,]<-c(    .225,.225,.225, .225, 0.1)
-q1[5,]<-c(    .225,.225,.225, .225, 0.1)
+FunkSim4<-function(n){ q1<-matrix(0.1, ncol=5, nrow=5) ; diag(q1)<-.6 ; q1[5,]<-c(    .225,.225,.225, .225, 0.1) ;   SimHMM( Q=q1,  Mu= c(-1, 3,  5, 8, 20),q0=NA, n)  }
 
-SimHMM( Q=q1,  Mu= c(-1, 3,  5, 8, 20),q0=NA, n)  }
 
 
 #' Function to compute stationary distribution of HMM
@@ -123,11 +129,8 @@ SimHMM( Q=q1,  Mu= c(-1, 3,  5, 8, 20),q0=NA, n)  }
 #' @export
 #' @examples dDirichlet(c(.1, .9), c(0.1,0.1))
 
-SimDensity4<-  function(x) {
-  q1<-matrix(0.1, ncol=5, nrow=5)
-diag(q1)<-.6
-q1[5,]<-c(    .225,.225,.225, .225, 0.1)
-  return(density_f2(  x$O, .Q= c(q1), .mu= c(-1, 3,  5, 8, 20), .q0=ALTERNATEq0(q1)))}
+SimDensity4<-  function(x) {  q1<-matrix(0.1, ncol=5, nrow=5) ; diag(q1)<-.6 ;q1[5,]<-c(    .225,.225,.225, .225, 0.1) ;  return(density_f2(  x$O, .Q= c(q1), .mu= c(-1, 3,  5, 8, 20), .q0=ALTERNATEq0(q1)))}
+
 
 
 #' Function to compute stationary distribution of HMM
