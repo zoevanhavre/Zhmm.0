@@ -15,22 +15,13 @@ ReplicateSimer2<-function(  N, n, Kfit=10, SimID, ITERATIONS, BURN,  AMAX, AMIN,
 			}	}
 		MorphingSIMULATE<-simFunctionMorpher(SimID)
 		SIMS<-lapply( rep(n,N),  MorphingSIMULATE )
-		# Compute density for L1 norm and store in a list
-		simDensityMorpher<-function(SimNumber){
-			if(	SimNumber==1){ 	return( SimDensity1)
-			}else if (SimNumber==2){	return(SimDensity2)
-			}else if (SimNumber==3){	return(SimDensity4)
-			}	}
-		MorphineDENSITY<-simDensityMorpher(SimID)
-
-		SIM_DENSITY_TRUE<-lapply(SIMS, 	MorphineDENSITY)
 
 		# Clean up Gibbs for lyra...
 
 Result.store<-data.frame("Replicate"=c(1:N), "SimID"=SimID, "n"=n,"AlphaMax"=AMAX, "Prior"=PRIOR_TYPE, "ModeK0"=0, "MeanfDist"=0, "MeanfDistMERGED"=0, "WorstMixed"=0)
 
 for (.rep in 1:N){
-My.Result<-gibbsHMM_PT_wDist_LYRAfinally(YZ=SIMS[[.rep]],K=Kfit, densTrue=SIM_DENSITY_TRUE[[.rep]],  M=ITERATIONS,  alphaMAX=AMAX, type= PRIOR_TYPE, alphaMin=AMIN, J=PTchain, SuppressAll="TRUE")
+My.Result<-gibbsHMM_Main(YZ=SIMS[[.rep]],K=Kfit, ,  M=ITERATIONS,  alphaMAX=AMAX, type= PRIOR_TYPE, alphaMin=AMIN, J=PTchain, SuppressAll="TRUE")
 
 Result.store$ModeK0[.rep]<-as.numeric(names(sort(table(factor(My.Result$Track$K0[-c(1:BURN)])),decreasing=TRUE)[1]))
 Result.store$MeanfDist[.rep]<-mean(My.Result$Track$f2Dist[-c(1:BURN)])
