@@ -6,7 +6,7 @@
 #' @export
 #' @examples dDirichlet(c(.1, .9), c(0.1,0.1))
 
-ReplicateSimer2<-function(  N, n, Kfit=10, SimID, ITERATIONS, BURN,  AMAX,  PRIOR_TYPE, PTchain=20){
+ReplicateSimer2<-function(  N, n, Kfit=10, SimID, ITERATIONS, BURN,  AMAX, AMIN, PRIOR_TYPE, PTchain=20){
 		#  STORE SIMULATIONS in a list
 		simFunctionMorpher<-function(SimNumber){
 			if(	SimNumber==1){ 	return(FunkSim1)
@@ -30,7 +30,7 @@ ReplicateSimer2<-function(  N, n, Kfit=10, SimID, ITERATIONS, BURN,  AMAX,  PRIO
 Result.store<-data.frame("Replicate"=c(1:N), "SimID"=SimID, "n"=n,"AlphaMax"=AMAX, "Prior"=PRIOR_TYPE, "ModeK0"=0, "MeanfDist"=0, "MeanfDistMERGED"=0, "WorstMixed"=0)
 
 for (.rep in 1:N){
-My.Result<-gibbsHMM_PT_wDist_LYRAfinally(YZ=SIMS[[.rep]],K=Kfit, densTrue=SIM_DENSITY_TRUE[[.rep]],  M=ITERATIONS,  alphaMAX=AMAX, type= PRIOR_TYPE, alphaMin=0.001, J=PTchain, SuppressAll="TRUE")
+My.Result<-gibbsHMM_PT_wDist_LYRAfinally(YZ=SIMS[[.rep]],K=Kfit, densTrue=SIM_DENSITY_TRUE[[.rep]],  M=ITERATIONS,  alphaMAX=AMAX, type= PRIOR_TYPE, alphaMin=AMIN, J=PTchain, SuppressAll="TRUE")
 
 Result.store$ModeK0[.rep]<-as.numeric(names(sort(table(factor(My.Result$Track$K0[-c(1:BURN)])),decreasing=TRUE)[1]))
 Result.store$MeanfDist[.rep]<-mean(My.Result$Track$f2Dist[-c(1:BURN)])

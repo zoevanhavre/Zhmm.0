@@ -4,8 +4,8 @@
 \alias{ReplicateSimer2}
 \title{ReplicateSimer2}
 \usage{
-ReplicateSimer2(N, n, Kfit = 10, SimID, ITERATIONS, BURN, AMAX, PRIOR_TYPE,
-  PTchain = 20)
+ReplicateSimer2(N, n, Kfit = 10, SimID, ITERATIONS, BURN, AMAX, AMIN,
+  PRIOR_TYPE, PTchain = 20)
 }
 \arguments{
 \item{x,}{alpha, log=False}

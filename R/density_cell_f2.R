@@ -9,5 +9,5 @@
 
 
 density_cell_f2<-function( y1, y2, q01, Q12, mu1, mu2  ){
-return(q01*Q12*dnorm(y1, mean=mu1 )*dnorm(y2, mean=mu2))
+return( q01*Q12*dnorm(y1, mean=mu1 )*dnorm(y2, mean=mu2))
 }

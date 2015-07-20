@@ -7,7 +7,7 @@
 #' @examples dDirichlet(c(.1, .9), c(0.1,0.1))
 
 
-gibbsHMM_PT_wDist_LYRAfinally<-function(YZ, M=2000, K=10 ,alphaMin=0.00001, alphaMAX=1,  type= 1, J=1,  SuppressAll=FALSE, TV=NULL, gridN=100 ){
+gibbsHMM_Main<-function(YZ, M=2000, K=10 ,alphaMin=0.00001, alphaMAX=1,  type= 1, J=1,  SuppressAll=FALSE, TV=NULL, gridN=100 ){
   #____SET UP_________________________________________
   ifelse(class(YZ)=='data.frame',    Y<-YZ$Observed, Y<-YZ)
   n=length(Y) # sample size
@@ -26,7 +26,6 @@ gibbsHMM_PT_wDist_LYRAfinally<-function(YZ, M=2000, K=10 ,alphaMin=0.00001, alph
   Finalq0<- matrix(nrow=M, ncol=K)
   FinalStates<- matrix(nrow=M, ncol=n+1)
   SteadyScore<-data.frame("Iteration"=c(1:M), "K0"=K)  #FIX
-
   #temp storage
   MU<- matrix(nrow=J, ncol=K)
   Q <- matrix(nrow=J, ncol=K*K)
@@ -35,12 +34,10 @@ gibbsHMM_PT_wDist_LYRAfinally<-function(YZ, M=2000, K=10 ,alphaMin=0.00001, alph
   Z  <- matrix(nrow=J, ncol=n+1) #include 0 for initial state to be estimated too?
 
   PTsuccess  <- data.frame("Chain"=c(1:J),"Tries"=0,"Success"=0, "Ratio"=NA) #include 0 for initial state to be estimated too?
-  MAP<-rep(0,M)  # KEEP TARGET ONLY
+  WorstMixProp<-vector(length=M)
+MAP<-rep(0,M)  # KEEP TARGET ONLY
   f2now<-vector(length=M)
   fDist<-vector(length=M)
-  f2now_MERGED<-vector(length=M)
-  fDistMERGED<-vector(length=M)
-
       # ALPHA
     # alphaMin<-max( 1/(100*n), 0.000001)
     # if( Theory==FALSE){alphaMAX=1
@@ -156,7 +153,7 @@ gibbsHMM_PT_wDist_LYRAfinally<-function(YZ, M=2000, K=10 ,alphaMin=0.00001, alph
   ## Compute density f2 at this iteration (L1 norm)
 if(is.null(TV)==FALSE){
 fDist[m]<-L1Norm(Y, TV ,NOW=list("z"=Z[J,],   "q0"=q0[J,], "Q"=Q[J,],  "mu"= MU[J,]) , gridN)
-} else {fDist<-"NA"}
+} else {fDist['m']<-"NA"}
 
 
 
@@ -169,18 +166,15 @@ fDist[m]<-L1Norm(Y, TV ,NOW=list("z"=Z[J,],   "q0"=q0[J,], "Q"=Q[J,],  "mu"= MU[
 
   if (SuppressAll=="FALSE") close(pb)
 
-  AnyMix<-0
-  if( sum(TrackParallelTemp$NumSuccess > 5) ==J) AnyMix<-1  # if all chains mix a bit
-
   #find worst mixed chain :
   ChainProportionSuccess<- TrackParallelTemp$NumSuccess/TrackParallelTemp$NumTries
-  WorstMixProp<-min(ChainProportionSuccess)
+  WorstMixProp[m]<-min(ChainProportionSuccess)
 
   #print(proc.time() - ptmZZZ)# REMOVE ME
 
 
 TrackResults<-data.frame("K0"=SteadyScore$K0,"f2Dist"=fDist, "WorstMixProp"=WorstMixProp )
-allResults<-list("Means"=FinalMu, "Trans"=FinalQ, "States"=FinalStates, "q0"=Finalq0, "YZ"=YZ, "MAP"=MAP, "K0"=SteadyScore$K0, "f2dens"=f2now, "f2Dist"=fDist,"TrackParallelTemp" =TrackParallelTemp, "Track"=TrackResults)
+allResults<-list("Means"=FinalMu, "Trans"=FinalQ, "States"=FinalStates, "q0"=Finalq0, "YZ"=YZ, "MAP"=MAP, "K0"=SteadyScore$K0, "f2Dist"=fDist,"TrackParallelTemp" =TrackParallelTemp, "Track"=TrackResults)
   return(allResults)
   }
 
