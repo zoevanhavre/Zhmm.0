@@ -7,7 +7,7 @@
 #' @examples
 #' #nope
 
-Zhmm_PP<-function( run , burn=1000, prep=1000, isSim=TRUE, minq4PLOT=0.05, simlabel="sim"){
+Zhmm_PP<-function( run , burn=1000, prep=1000, isSim=TRUE,  simlabel="sim"){
 Y<-run$YZ$Obs
 Grun<-TrimThin(run, burn, Thin=1)
 
@@ -32,16 +32,17 @@ K0<-as.numeric(names(table(targetK0 )))
 # PLOT 1
 slices <- prop.table(table((factor(emptyK, levels=c(1:K)))))
 Lab.palette <- colorRampPalette(rainbow(K*3, alpha=.3), space = "Lab")
-
-pdf(file=paste(simlabel, "_K0.pdf",sep='') ,width=4, height=3, pointsize=8)
+pdf(file=paste(simlabel, "_MCMC.pdf",sep='') ,width=4, height=6, pointsize=8)
+par(mfrow=c(2,1))
+#pdf(file=paste(simlabel, "_K0.pdf",sep='') ,width=4, height=3, pointsize=8)
 		barplot(slices, ylim=c(0,1), main="Distribution of number of occupied states", xlab="Number of occupied states", ylab="Proportion of iterations")
 	abline(h=seq(0, 1, .05), lwd=0.5, col='LightGrey')
 	#plot(both, col=trancol, xlim=minmaxMEANS, xlab="Mean", ylab="Stationary Distribution", bg='grey', main="Posterior Samples")
 	#if(is.na(trueValues)==FALSE){	points(trueValues, pch=7, cex=2)}
-dev.off()
+#dev.off()
 
 
-pdf(file=paste(simlabel, "_SURF.pdf",sep='') ,width=4, height=4, pointsize=8)
+#pdf(file=paste(simlabel, "_SURF.pdf",sep='') ,width=4, height=4, pointsize=8)
 	#smoothScatter(both, colramp = Lab.palette, main="", nrpoints = 0, xlab=expression(lambda), ylab=expression(mu[Q]))
 	smoothScatter(both, colramp = Lab.palette, main="Posterior density", nrpoints = 0, ylab="Stationary distribution", xlab="State means")
 	#plot(both, col=trancol, xlim=minmaxMEANS, xlab="Mean", ylab="Stationary Distribution", bg='grey', main="Posterior Samples")
@@ -66,7 +67,7 @@ for ( .K0 in 1:length(K0)){
 		grunK0$K0<-	Grun$K0[.iterK0]
 
 		## 2. unswitch
-		grunK0us<-Zswitch_hmm(grunK0, 0.01 )
+		grunK0us<-Zswitch_hmm(grunK0, 0.1 )
 		Zetc<-Zagg_HMM(grunK0us, Y)
 		K0estimates[[.K0]]<-cbind(Zetc$thetaCI, "K0"=K0[.K0])
 		Zestimates[[.K0]]<-Zetc$Zpred[-(n+1)]
@@ -97,16 +98,18 @@ for ( .K0 in 1:length(K0)){
 
 		# print plot
 		#pdf( file= paste(simlabel, "K_ ",K0[.K0] , ".pdf",sep='') ,width=10, height=5)
-	# if(p_vals$PropIters[.K0]==max(p_vals$PropIters)){
-	 if(p_vals$PropIters[.K0]>0.05){
+	 if(p_vals$PropIters[.K0]== max(p_vals$PropIters)){
+	# if(p_vals$PropIters[.K0]>0.05){
 
 	 	pdf( file= paste(simlabel, "K_ ",K0[.K0] , ".pdf",sep='') ,width=8, height=6, pointsize=8)
-	 		print( wq::layOut(	list(p1, 	1, 1:2),
+	 		print( wq::layOut(	
+	 				list(p1, 	1, 1:2),
 		        	list(p2, 	1, 3:4),
 		         	list(p3,	1,5:6),
 		         	list(p5, 	2,1:3),
 		          	list(p4, 	2,4:6)))
 		dev.off()
+
 	}
 		} # Close loop of >pmin
 		} # Close loop over each K0

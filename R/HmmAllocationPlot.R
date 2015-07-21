@@ -23,7 +23,7 @@ HmmAllocationPlot<-function( outZ, myY){
 			gp<-ggplot(grrTable, aes(x=myY, y=k, fill=Prob)) + 
 			geom_tile()+
 			theme(legend.position='right', plot.title=element_text(size=1,vjust=2))+
-			ggtitle("Posterior Allocation Probabilities")+ 
+			ggtitle("Allocation Probabilities")+ 
 			xlab("index of ordered y")+
 			scale_fill_gradientn(colours = c("#ffffcc","#a1dab4","#41b6c4","#2c7fb8","#253494" ))+
 			theme_bw()

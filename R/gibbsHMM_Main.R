@@ -153,7 +153,7 @@ MAP<-rep(0,M)  # KEEP TARGET ONLY
   ## Compute density f2 at this iteration (L1 norm)
 if(is.null(TV)==FALSE){
 fDist[m]<-L1Norm(Y, TV ,NOW=list("z"=Z[J,],   "q0"=q0[J,], "Q"=Q[J,],  "mu"= MU[J,]) , gridN)
-} else {fDist['m']<-"NA"}
+} else {fDist[m]<-"NA"}
 
 
 

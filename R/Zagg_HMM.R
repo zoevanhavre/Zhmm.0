@@ -14,8 +14,9 @@ theta <- aggregate(value ~  factor(k)+variable , mean, data = .par)
 		theta<-aggregate( value~factor(k)+variable, mean ,data=.par)
 		mu<-round(aggregate( value~factor(k)+variable, mean ,data=.par)[,3], 2)
 		ci<-round(aggregate( value~factor(k)+variable, quantile,c(0.025, 0.975) ,data=.par)[,3],2)
-		thetaCI<-cbind( theta[,c(1,2)] , "value"=paste( mu, "(", ci[,1] , "," ,ci[,2] ,")", sep=" " ))
-
+	#	thetaCI<-cbind( theta[,c(1,2)] , "value"=paste( mu, "(", ci[,1] , "," ,ci[,2] ,")", sep=" " ))
+		thetaCI<-cbind( theta[,c(1,2)] , "Mean"= mu, "CI.025"=ci[,1] , "CI.975"=ci[,2] )
+names(thetaCI)[1:2]<-c("k","Parameter")
 K <- max(.par$k)
 Zhat<- factor( apply(USout$Z, 2,maxZ))[-((length(.Y))+1)]
 Zemu <- as.numeric(Zhat)
