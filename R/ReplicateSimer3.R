@@ -53,7 +53,7 @@ BestModel[[.rep]]<- list("Parameters"=My.Result.PP[[2]][which.max(My.Result.PP[[
 
 
 Result.store$ModeK0[.rep]<-as.numeric(names(sort(table(factor(My.Result$Track$K0[-c(1:BURN)])),decreasing=TRUE)[1]))
-Result.store$MeanfDist[.rep]<-mean(My.Result$Track$f2Dist[-c(1:BURN)])
+Result.store$MeanfDist[.rep]<-mean(na.omit(My.Result$Track$f2Dist[-c(1:BURN)]))
 Result.store$WorstMixedMean[.rep]<-mean(My.Result$Track$WorstMixProp[-c(1:BURN)])
 Result.store$WorstMixedMin[.rep]<-min(My.Result$Track$WorstMixProp[-c(1:BURN)])
 
