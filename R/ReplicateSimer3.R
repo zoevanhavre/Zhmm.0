@@ -6,7 +6,7 @@
 #' @export
 #' @examples dDirichlet(c(.1, .9), c(0.1,0.1))
 
-ReplicateSimer3<-function(  N, n, Kfit=10, SimID, ITERATIONS, BURN,  AMAX, AMIN, PRIOR_TYPE,GridSize=50,  PTchain=30){
+ReplicateSimer3<-function(N=50, n, Kfit=10, SimID, ITERATIONS=25000, BURN=5000,  AMAX, AMIN, PRIOR_TYPE,GridSize=50,  PTchain=30){
 		#  STORE SIMULATIONS in a list
 		simFunctionMorpher<-function(SimNumber){
 			if(	SimNumber==1){ 	return(FunkSim1)
@@ -42,8 +42,11 @@ if(	SimID==1){
 			}
 
 My.Result<-gibbsHMM_Main(YZ=SIMS[[.rep]],K=Kfit,   M=ITERATIONS,  alphaMAX=AMAX, type= PRIOR_TYPE, alphaMin=AMIN, J=PTchain, SuppressAll="FALSE", TV=TVsim, gridN=GridSize)
-My.Result.PP<-Zhmm_PP( My.Result , burn=BURN, prep=100, isSim=TRUE, simlabel=paste( "Sim" ,SimID,"n",n, "Prior", PRIOR_TYPE, "Amax", AMAX,"Rep",.rep, "of", N, sep=""))
-
+if(.rep<6){
+My.Result.PP<-Zhmm_PP( My.Result , burn=BURN, prep=100, isSim=TRUE, simlabel=paste( "Sim" ,SimID,"n",n, "Rep",.rep, "of", N,"_P", PRIOR_TYPE, "A", AMAX,"a", AMIN, sep=""), MakePlots=TRUE)
+}else{
+My.Result.PP<-Zhmm_PP( My.Result , burn=BURN, prep=100, isSim=TRUE, simlabel=paste( "Sim" ,SimID,"n",n, "Rep",.rep, "of", N,"_P", PRIOR_TYPE, "A", AMAX,"a", AMIN, sep=""), MakePlots=FALSE)
+}
 # pars bext model 
 BestModel[[.rep]]<- list("Parameters"=My.Result.PP[[2]][which.max(My.Result.PP[[1]][,2])],
 "States"=My.Result.PP[[3]][which.max(My.Result.PP[[1]][,2])])
@@ -54,21 +57,21 @@ Result.store$MeanfDist[.rep]<-mean(My.Result$Track$f2Dist[-c(1:BURN)])
 Result.store$WorstMixedMean[.rep]<-mean(My.Result$Track$WorstMixProp[-c(1:BURN)])
 Result.store$WorstMixedMin[.rep]<-min(My.Result$Track$WorstMixProp[-c(1:BURN)])
 
-write.csv(Result.store[1:.rep,], file=paste( "Sim" ,SimID,"n",n, "Rep", N, "Prior", PRIOR_TYPE, "Amax", AMAX,"Amin", AMIN,".csv", sep=""))
-save(Result.store, file=paste( "Sim" ,SimID,"n",n, "Rep", N, "Prior", PRIOR_TYPE, "Amax", AMAX,"Amin", AMIN, ".RDATA", sep="_"))
-
-Sys.sleep(0.1)
-print(Result.store[1:.rep,])
-Sys.sleep(0.1)
-}
-
-pdf( file= paste( "Sim" ,SimID,"n",n, "Prior", PRIOR_TYPE, "MaxAlpha", AMAX,"Amin", AMIN,"Iters",ITERATIONS, ".pdf", sep="") ,width=6, height=3, pointsize=8)
+write.csv(Result.store[1:.rep,], file=paste( "Sim" ,SimID,"n",n, "Prior", PRIOR_TYPE, "Amax", AMAX,"Amin", AMIN,".csv", sep=""))
+save(Result.store, file=paste( "Sim" ,SimID,"n",n, "Prior", PRIOR_TYPE, "Amax", AMAX,"Amin", AMIN, ".RDATA", sep="_"))
+pdf(file= paste( "Sim" ,SimID,"n",n, "Prior", PRIOR_TYPE, "MaxAlpha", AMAX,"Amin", AMIN,"Iters",ITERATIONS, ".pdf", sep="") ,width=6, height=3, pointsize=8)
 	 		print( wq::layOut(
 	 		list(ggplot(data=Result.store, aes(x=ModeK0))+geom_histogram(binwidth=1)+theme_bw()+xlab("K_0")+
 	 			ggtitle(paste( "Sim" ,SimID ,"(n=" ,n, ") Prior", PRIOR_TYPE,  "Alpha", round( AMAX,3) , ": K_0"))  ,	1 ,	 1:2),
 		    list(ggplot(data=Result.store, aes(y=MeanfDist, x= factor(1)))+geom_boxplot()+theme_bw()+ylab("Distance") ,	1,	 3)  )    )
 
 dev.off()
+Sys.sleep(0.1)
+print(Result.store[1:.rep,])
+Sys.sleep(0.1)
+}
+
+
 
 	return(list(Result.store, BestModel))
 		}

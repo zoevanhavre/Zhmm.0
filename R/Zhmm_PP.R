@@ -7,7 +7,7 @@
 #' @examples
 #' #nope
 
-Zhmm_PP<-function( run , burn=1000, prep=1000, isSim=TRUE,  simlabel="sim"){
+Zhmm_PP<-function( run , burn=1000, prep=1000, isSim=TRUE,  simlabel="sim", MakePlots=TRUE){
 Y<-run$YZ$Obs
 Grun<-TrimThin(run, burn, Thin=1)
 
@@ -32,7 +32,8 @@ K0<-as.numeric(names(table(targetK0 )))
 # PLOT 1
 slices <- prop.table(table((factor(emptyK, levels=c(1:K)))))
 Lab.palette <- colorRampPalette(rainbow(K*3, alpha=.3), space = "Lab")
-pdf(file=paste(simlabel, "_MCMC.pdf",sep='') ,width=4, height=6, pointsize=8)
+if(MakePlots==TRUE){
+pdf(file=paste(simlabel, "_MCMC.pdf",sep="") ,width=4, height=6, pointsize=8)
 par(mfrow=c(2,1))
 #pdf(file=paste(simlabel, "_K0.pdf",sep='') ,width=4, height=3, pointsize=8)
 		barplot(slices, ylim=c(0,1), main="Distribution of number of occupied states", xlab="Number of occupied states", ylab="Proportion of iterations")
@@ -48,6 +49,7 @@ par(mfrow=c(2,1))
 	#plot(both, col=trancol, xlim=minmaxMEANS, xlab="Mean", ylab="Stationary Distribution", bg='grey', main="Posterior Samples")
 	#if(is.na(trueValues)==FALSE){	points(trueValues, pch=7, cex=2)}
 dev.off()
+}
 
 # unswitch seperate groups and make indi plots
 	p_vals<-data.frame("K0"=K0, "PropIters"=as.numeric(table(Grun$K0)/dim(Grun$q0)[1]), "RAND"=NA, "MAE"=NA, "MSE"=NA,"Pmin"=NA, "Pmax"=NA, "Concordance"=NA, "MAPE"=NA, "MSPE"=NA)
@@ -100,8 +102,9 @@ for ( .K0 in 1:length(K0)){
 		#pdf( file= paste(simlabel, "K_ ",K0[.K0] , ".pdf",sep='') ,width=10, height=5)
 	 if(p_vals$PropIters[.K0]== max(p_vals$PropIters)){
 	# if(p_vals$PropIters[.K0]>0.05){
+if(MakePlots==TRUE){
 
-	 	pdf( file= paste(simlabel, "K_ ",K0[.K0] , ".pdf",sep='') ,width=8, height=6, pointsize=8)
+	 	pdf( file= paste(simlabel, "K_",K0[.K0] , ".pdf",sep="") ,width=8, height=6, pointsize=8)
 	 		print( wq::layOut(	
 	 				list(p1, 	1, 1:2),
 		        	list(p2, 	1, 3:4),
@@ -109,7 +112,7 @@ for ( .K0 in 1:length(K0)){
 		         	list(p5, 	2,1:3),
 		          	list(p4, 	2,4:6)))
 		dev.off()
-
+}
 	}
 		} # Close loop of >pmin
 		} # Close loop over each K0

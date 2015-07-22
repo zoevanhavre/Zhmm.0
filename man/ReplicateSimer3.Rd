@@ -3,8 +3,8 @@
 \alias{ReplicateSimer3}
 \title{ReplicateSimer2}
 \usage{
-ReplicateSimer3(N, n, Kfit = 10, SimID, ITERATIONS, BURN, AMAX, AMIN,
-  PRIOR_TYPE, GridSize = 50, PTchain = 30)
+ReplicateSimer3(N = 50, n, Kfit = 10, SimID, ITERATIONS = 25000,
+  BURN = 5000, AMAX, AMIN, PRIOR_TYPE, GridSize = 50, PTchain = 30)
 }
 \arguments{
 \item{x,}{alpha, log=False}

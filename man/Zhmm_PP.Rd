@@ -3,7 +3,8 @@
 \alias{Zhmm_PP}
 \title{PostProcessing function univ}
 \usage{
-Zhmm_PP(run, burn = 1000, prep = 1000, isSim = TRUE, simlabel = "sim")
+Zhmm_PP(run, burn = 1000, prep = 1000, isSim = TRUE, simlabel = "sim",
+  MakePlots = TRUE)
 }
 \arguments{
 \item{v}{and s}
