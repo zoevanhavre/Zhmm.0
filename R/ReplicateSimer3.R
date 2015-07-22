@@ -6,7 +6,7 @@
 #' @export
 #' @examples dDirichlet(c(.1, .9), c(0.1,0.1))
 
-ReplicateSimer3<-function(  N, n, Kfit=10, SimID, ITERATIONS, BURN,  AMAX, AMIN, PRIOR_TYPE,GridSize=100,  PTchain=20){
+ReplicateSimer3<-function(  N, n, Kfit=10, SimID, ITERATIONS, BURN,  AMAX, AMIN, PRIOR_TYPE,GridSize=50,  PTchain=30){
 		#  STORE SIMULATIONS in a list
 		simFunctionMorpher<-function(SimNumber){
 			if(	SimNumber==1){ 	return(FunkSim1)
@@ -18,7 +18,7 @@ ReplicateSimer3<-function(  N, n, Kfit=10, SimID, ITERATIONS, BURN,  AMAX, AMIN,
 
 		# Clean up Gibbs for lyra...
 # TODO Update inputs to match
-Result.store<-data.frame("Replicate"=c(1:N), "SimID"=SimID, "n"=n,"AlphaMax"=AMAX, "Prior"=PRIOR_TYPE, "ModeK0"=0, "MeanfDist"=0,  "WorstMixedMean"=0, "WorstMixedMin"=0)
+Result.store<-data.frame("Replicate"=c(1:N), "SimID"=SimID, "n"=n,"AlphaMax"=AMAX,"alphaMin"=AMIN, "Prior"=PRIOR_TYPE, "ModeK0"=0, "MeanfDist"=0,  "WorstMixedMean"=0, "WorstMixedMin"=0)
 BestModel<-vector("list", N)
 for (.rep in 1:N){
 
@@ -54,15 +54,15 @@ Result.store$MeanfDist[.rep]<-mean(My.Result$Track$f2Dist[-c(1:BURN)])
 Result.store$WorstMixedMean[.rep]<-mean(My.Result$Track$WorstMixProp[-c(1:BURN)])
 Result.store$WorstMixedMin[.rep]<-min(My.Result$Track$WorstMixProp[-c(1:BURN)])
 
-write.csv(Result.store[1:.rep,], file=paste( "Sim" ,SimID,"n",n, "Rep", N, "Prior", PRIOR_TYPE, "Amax", AMAX,".csv", sep=""))
-save(Result.store, file=paste( "Sim" ,SimID,"n",n, "Rep", N, "Prior", PRIOR_TYPE, "Amax", AMAX, ".RDATA", sep="_"))
+write.csv(Result.store[1:.rep,], file=paste( "Sim" ,SimID,"n",n, "Rep", N, "Prior", PRIOR_TYPE, "Amax", AMAX,"Amin", AMIN,".csv", sep=""))
+save(Result.store, file=paste( "Sim" ,SimID,"n",n, "Rep", N, "Prior", PRIOR_TYPE, "Amax", AMAX,"Amin", AMIN, ".RDATA", sep="_"))
 
 Sys.sleep(0.1)
 print(Result.store[1:.rep,])
 Sys.sleep(0.1)
 }
 
-pdf( file= paste( "Sim" ,SimID,"n",n, "Prior", PRIOR_TYPE, "MaxAlpha", AMAX,"Iters",ITERATIONS, ".pdf", sep="") ,width=6, height=3, pointsize=8)
+pdf( file= paste( "Sim" ,SimID,"n",n, "Prior", PRIOR_TYPE, "MaxAlpha", AMAX,"Amin", AMIN,"Iters",ITERATIONS, ".pdf", sep="") ,width=6, height=3, pointsize=8)
 	 		print( wq::layOut(
 	 		list(ggplot(data=Result.store, aes(x=ModeK0))+geom_histogram(binwidth=1)+theme_bw()+xlab("K_0")+
 	 			ggtitle(paste( "Sim" ,SimID ,"(n=" ,n, ") Prior", PRIOR_TYPE,  "Alpha", round( AMAX,3) , ": K_0"))  ,	1 ,	 1:2),

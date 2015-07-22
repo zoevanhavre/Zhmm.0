@@ -4,7 +4,7 @@
 \title{ReplicateSimer2}
 \usage{
 ReplicateSimer3(N, n, Kfit = 10, SimID, ITERATIONS, BURN, AMAX, AMIN,
-  PRIOR_TYPE, GridSize = 100, PTchain = 20)
+  PRIOR_TYPE, GridSize = 50, PTchain = 30)
 }
 \arguments{
 \item{x,}{alpha, log=False}
