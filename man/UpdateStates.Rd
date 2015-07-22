@@ -3,7 +3,7 @@
 \alias{UpdateStates}
 \title{UpdateStates}
 \usage{
-UpdateStates(Y = Y, trans = qok, .mu, initS, m)
+UpdateStates(Y = Y, trans = qok, .mu, initS)
 }
 \arguments{
 \item{x,}{alpha, log=False}

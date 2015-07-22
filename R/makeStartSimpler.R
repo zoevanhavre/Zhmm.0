@@ -17,7 +17,8 @@ makeStartSimpler<-function(Y,k=K){
         states0<-as.factor(states0)
         levels(states0)<-sample(levels(states0), k)
         states0<-as.numeric(     as.character(states0))
-            initstates0<-sample(c(1:k), size=1, prob=rep(1/k,k))
-            states0<-c(initstates0, states0)
+            # initstates0<-sample(c(1:k), size=1, prob=rep(1/k,k))
+            # states0<-c(initstates0, states0)
+           
             return(states0)
           }

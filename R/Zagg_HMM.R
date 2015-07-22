@@ -18,7 +18,7 @@ theta <- aggregate(value ~  factor(k)+variable , mean, data = .par)
 		thetaCI<-cbind( theta[,c(1,2)] , "Mean"= mu, "CI.025"=ci[,1] , "CI.975"=ci[,2] )
 names(thetaCI)[1:2]<-c("k","Parameter")
 K <- max(.par$k)
-Zhat<- factor( apply(USout$Z, 2,maxZ))[-((length(.Y))+1)]
+Zhat<- factor( apply(USout$Z, 2,maxZ))#[-((length(.Y))+1)]
 Zemu <- as.numeric(Zhat)
 .Mus <- theta$value[theta$variable == "mu"]
 for (i in 1:length(Zemu)) { Zemu[i] <- .Mus[as.numeric(Zhat[i])]  }

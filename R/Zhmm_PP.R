@@ -67,10 +67,10 @@ for ( .K0 in 1:length(K0)){
 		grunK0$K0<-	Grun$K0[.iterK0]
 
 		## 2. unswitch
-		grunK0us<-Zswitch_hmm(grunK0, 0.1 )
+		grunK0us<-Zswitch_hmm(grunK0, 0.05 )
 		Zetc<-Zagg_HMM(grunK0us, Y)
 		K0estimates[[.K0]]<-cbind(Zetc$thetaCI, "K0"=K0[.K0])
-		Zestimates[[.K0]]<-Zetc$Zpred[-(n+1)]
+		Zestimates[[.K0]]<-Zetc$Zpred
 
 		q0.mean = aggregate(q0 ~ k, grunK0us$Pars, mean)
 		mu.mean = aggregate(mu ~ k, grunK0us$Pars, mean)
@@ -78,12 +78,12 @@ for ( .K0 in 1:length(K0)){
 		p1<-ggplot(data=grunK0us$Pars, aes(y=q0, x=factor(k))) + geom_boxplot(fill='lightblue',outlier.size=0.5)+ylab("Stationary dist.")+xlab("State")  +  theme(legend.position = "none")+theme_bw()+			ggtitle(bquote(atop(italic(paste( "p(K=", .(K0[.K0]), ")=", .(round(p_vals$PropIters[.K0],2)), sep="")), atop("Stationary distribution"))))+ geom_text(data =q0.mean, aes(label=signif(q0,4)),size=4,  col='red',vjust = 1)
 		p2<-ggplot(data=grunK0us$Pars, aes(y=mu, x=factor(k))) + geom_boxplot( fill='lightblue',outlier.size=0.5)+ylab("Mean")+xlab("State") +  theme(legend.position = "none")+theme_bw()+ggtitle( bquote(atop(italic(paste("Results for K=", .(K0[.K0]), sep="")), atop("Means"))))+geom_text(data =mu.mean, aes(label=signif(mu,4)),size=4,  col='red',vjust = 1)
 		#Allocations
-		p3<-HmmAllocationPlot(outZ=grunK0us$Z[,-(n+1)], myY=Y)
+		p3<-HmmAllocationPlot(outZ=grunK0us$Z, myY=Y)
 		## 4. Predict replicates
 		postPredTests<-PostPredFunk(grunK0us,Zetc, Y, prep, simlabel)
 		p4<-postPredTests$ggp
 		# clusters:
-		plotyz<-data.frame("X"=1:n, "Y"=Y, "Post_Z"=Zetc$Zpred[-(n+1)])
+		plotyz<-data.frame("X"=1:n, "Y"=Y, "Post_Z"=Zetc$Zpred)
 		p5<-ggplot(plotyz, aes(y=Y,x=X ))+geom_point(aes(colour=Post_Z),size=3)+ geom_line(alpha = 1/4)+theme_bw()+  theme(legend.position = "none")+ggtitle("Posterior Allocations")+xlab("Time")
 			#RAND
 		if (isSim==TRUE){ p_vals$RAND[.K0]<- sum(run$YZ$States==Zetc$Zpred)/length(Zetc$Zpred)}

@@ -18,7 +18,7 @@ ReplicateSimer3<-function(  N, n, Kfit=10, SimID, ITERATIONS, BURN,  AMAX, AMIN,
 
 		# Clean up Gibbs for lyra...
 # TODO Update inputs to match
-Result.store<-data.frame("Replicate"=c(1:N), "SimID"=SimID, "n"=n,"AlphaMax"=AMAX, "Prior"=PRIOR_TYPE, "ModeK0"=0, "MeanfDist"=0, "MeanfDistMERGED"=0, "WorstMixedMean"=0, "WorstMixedMin"=0)
+Result.store<-data.frame("Replicate"=c(1:N), "SimID"=SimID, "n"=n,"AlphaMax"=AMAX, "Prior"=PRIOR_TYPE, "ModeK0"=0, "MeanfDist"=0,  "WorstMixedMean"=0, "WorstMixedMin"=0)
 BestModel<-vector("list", N)
 for (.rep in 1:N){
 
