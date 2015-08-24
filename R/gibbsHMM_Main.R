@@ -133,7 +133,7 @@ TrackParallelTemp2[1,]<-c(1:J)
       TrackParallelTemp[TrackParallelTemp$Chain%in%as.numeric(chainset),2]<-TrackParallelTemp[TrackParallelTemp$Chain%in%as.numeric(chainset),2]+1
 
       if(class(chainset)=='numeric')chainset<-t(data.frame(chainset))
-      SwitchMe<-mapply( function(x,y) parallelAcceptHMM_QV2(Q[x,], Q[y,], AllAlphas[[x]] ,AllAlphas[[y]] , Z[x,1], Z[y,1]), chainset[,1], chainset[,2])
+      SwitchMe<-mapply( function(x,y) parallelAcceptHMM_Aug15(Q[x,], Q[y,], AllAlphas[[x]] ,AllAlphas[[y]] , Z[x,], Z[y,]), chainset[,1], chainset[,2])
       chainset<-chainset[SwitchMe==1,]
       if(class(chainset)=='numeric')chainset<-t(data.frame(chainset))
 
