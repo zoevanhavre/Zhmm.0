@@ -3,7 +3,7 @@
 \alias{parallelAcceptHMM_Aug15}
 \title{Prior Parallel Tempering acceptance ratio}
 \usage{
-parallelAcceptHMM_Aug15(Qchain1, Qchain2, Alpha1, Alpha2, X1all, X2all)
+parallelAcceptHMM_Aug15(Qchain1, Qchain2, Alpha1, Alpha2)
 }
 \arguments{
 \item{Qchain1,}{Qchain2, Alpha1, Alpha2,  X1all, X2all}
